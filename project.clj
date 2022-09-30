@@ -6,7 +6,7 @@
   :dependencies [[buddy/buddy-auth "3.0.323"]
                  [buddy/buddy-core "1.10.413"]
                  [buddy/buddy-hashers "1.8.158"]
-                 [buddy/buddy-sign "3.4.333"]
+                 #_[buddy/buddy-sign "3.4.333"]
                  [ch.qos.logback/logback-classic "1.4.1"]
                  [cljs-ajax "0.8.4"]
                  [clojure.java-time "1.1.0"]

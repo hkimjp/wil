@@ -7,7 +7,7 @@
     [ring.util.http-response :refer [content-type ok]]
     [ring.util.anti-forgery :refer [anti-forgery-field]]
     [ring.middleware.anti-forgery :refer [*anti-forgery-token*]]
-    [ring.util.response]))
+    #_[ring.util.response]))
 
 (parser/set-resource-path!  (clojure.java.io/resource "html"))
 (parser/add-tag! :csrf-field (fn [_ _] (anti-forgery-field)))
