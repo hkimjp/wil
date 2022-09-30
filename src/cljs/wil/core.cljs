@@ -23,7 +23,7 @@
   (r/with-let [expanded? (r/atom false)]
     [:nav.navbar.is-info>div.container
      [:div.navbar-brand
-      [:a.navbar-item {:href "/" :style {:font-weight :bold}} "wil"]
+      [:a.navbar-item {:href "/" :style {:font-weight :bold}} "WIL"]
       [:span.navbar-burger.burger
        {:data-target :nav-menu
         :on-click #(swap! expanded? not)
@@ -32,7 +32,9 @@
      [:div#nav-menu.navbar-menu
       {:class (when @expanded? :is-active)}
       [:div.navbar-start
-       [nav-link "#/" "Home" :home]
+       #_[nav-link "#/" "Home" :home]
+       [nav-link "https://py99.melt.kyutech.ac.jp" "Py99"]
+       [nav-link "https://qa.melt.kyutech.ac.jp" "QA"]
        [nav-link "#/about" "About" :about]
        [nav-link "/logout" "Logout"]]]]))
 
