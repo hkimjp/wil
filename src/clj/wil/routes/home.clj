@@ -8,7 +8,9 @@
    [wil.middleware :as middleware]))
 
 (defn home-page [request]
-  (layout/render request "home.html"))
+  (if (get-in request [:session :identity])
+    (layout/render request "home.html")
+    (response/found "/login")))
 
 (def api-user "https://l22.melt.kyutech.ac.jp/api/user/")
 (defn get-user
@@ -39,14 +41,14 @@
             (assoc :flash "login failure"))))))
 
 (defn logout [_]
-  (-> (response/found "/")
+  (-> (response/found "/login")
       (assoc :session {})))
 
 (defn home-routes []
   [""
    {:middleware [middleware/wrap-csrf
                  middleware/wrap-formats]}
-   ["/" {:get (fn [_] (response/ok {:status "under construction"}))}]
+   ["/" {:get home-page}]
    ["/login" {:get  login-page
               :post login-post}]
    ["/logout" {:get logout}]])

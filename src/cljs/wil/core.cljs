@@ -19,7 +19,7 @@
     :class (when (= page (:page @session)) "is-active")}
    title])
 
-(defn navbar [] 
+(defn navbar []
   (r/with-let [expanded? (r/atom false)]
     [:nav.navbar.is-info>div.container
      [:div.navbar-brand
@@ -33,7 +33,8 @@
       {:class (when @expanded? :is-active)}
       [:div.navbar-start
        [nav-link "#/" "Home" :home]
-       [nav-link "#/about" "About" :about]]]]))
+       [nav-link "#/about" "About" :about]
+       [nav-link "/logout" "Logout"]]]]))
 
 (defn about-page []
   [:section.section>div.container>div.content
@@ -87,6 +88,6 @@
 
 (defn init! []
   (ajax/load-interceptors!)
-  (fetch-docs!)
+  ;; (fetch-docs!)
   (hook-browser-navigation!)
   (mount-components))
