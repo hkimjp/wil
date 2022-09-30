@@ -1,29 +1,25 @@
-(ns wil.routes.home
+(ns wil.login
   (:require
+   [buddy.hashers :as hashers]
+   [clojure.tools.logging :as log]
    [hato.client :as hc]
-   [clojure.tools.loggins :as log]
-   [wil.layout :as layout]
-   #_[wil.db.core :as db]
-   #_[clojure.java.io :as io]
-   [wil.middleware :as middleware]
    [ring.util.response :refer [redirect]]
-   [ring.util.http-response :as response]))
+   [wil.layout :as layout]
+   [wil.middleware :as middleware]))
 
-(defn home-page [request]
-  (layout/render request "home.html"))
+(def ^:private l22 "https://l22.melt.kyutech.ac.jp")
 
-(def api-user "https://l22.melt.kyutech.ac.jp/api/user/")
 (defn get-user
   "retrieve str login's info from API.
    note: parameter is a string. cf. (db/get-user {:login login})"
   [login]
-  (let [ep   (str api-user login)
+  (let [ep (str l22 "/api/user/" login)
         resp (hc/get ep {:as :json})]
     (log/info "login" (get-in resp [:body :login]))
     ;; (log/debug "(:body resp)" (:body resp))
     (:body resp)))
 
-(defn login-page [request]
+(defn login [request]
   (layout/render request "login.html" {:flash (:flash request)}))
 
 (defn login-post [{{:keys [login password]} :params}]
@@ -43,17 +39,3 @@
 (defn logout [_]
   (-> (redirect "/")
       (assoc :session {})))
-
-(defn login-page
-  [request]
-  (layout/render request "login.html"))
-
-(defn home-routes []
-  [""
-   {:middleware [middleware/wrap-csrf
-                 middleware/wrap-formats]}
-   ["/" {:get (fn [_] (response/ok {:status "under construction"}))}]
-   ["/login" {:get  login-page
-              :post login-post}]
-   ["/logout" {:get logout}]])
-
