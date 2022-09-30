@@ -31,17 +31,6 @@
              (hashers/check password (:password user)))
       (do
         (log/info "login success" login)
-<<<<<<< HEAD
-        (-> (redirect "/")
-            (assoc-in [:session :identity] (keyword login))))
-      (do
-        (log/info "login faild" login)
-        (-> (redirect "/login")
-            (assoc :flash "login failure"))))))
-
-(defn logout [_]
-  (-> (redirect "/")
-=======
         (-> (response/found "/")
             (assoc-in [:session :identity] (keyword login))))
       (do
@@ -51,12 +40,7 @@
 
 (defn logout [_]
   (-> (response/found "/")
->>>>>>> e16d7084bc4ac77eb03eb17b32580a6920823095
       (assoc :session {})))
-
-(defn login-page
-  [request]
-  (layout/render request "login.html"))
 
 (defn home-routes []
   [""
