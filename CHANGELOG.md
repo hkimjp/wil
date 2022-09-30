@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.1.1-SNAPSHOT
+- .gitignore
+  - .calva/output-window
+  - .clj-kondo/cache/
+  - .lsp/cache/
+
 ## 0.1.0
 - lein new luminus will +auth +postgres +reagent の後、
   clj -Tantq outdated :upgrade true
