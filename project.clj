@@ -79,7 +79,7 @@
                                  [ring/ring-devel "1.9.6"]
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.25.0"]
-                                 [jonase/eastwood "1.2.4"]
+                                 [jonase/eastwood "1.3.0"]
                                  [cider/cider-nrepl "0.28.6"]] 
                   
                   
