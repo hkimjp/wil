@@ -15,8 +15,7 @@
             ]
         }
     },
-    "service": "clojure",
+    "service": "wil",
     "workspaceFolder": "/usr/src/app"
-
     // "remoteUser": "vscode"
 }
