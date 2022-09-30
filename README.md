@@ -1,8 +1,8 @@
 # wil
 
-generated using Luminus version "4.44"
+generated using Luminus version "4.44" by:
 
-FIXME
+    lein new luminus wil +auth +postgres +reagent
 
 ## Prerequisites
 
@@ -14,8 +14,8 @@ You will need [Leiningen][1] 2.0 or above installed.
 
 To start a web server for the application, run:
 
-    lein run 
+    lein run
 
 ## License
 
-Copyright © 2022 FIXME
+Copyright © 2022 Hirohi Kimura

@@ -1,7 +1,7 @@
 (defproject wil "0.1.0"
 
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description "for 2022 python classes"
+  :url "https://wil.kyutech.ac.jp"
 
   :dependencies [[buddy/buddy-auth "3.0.323"]
                  [buddy/buddy-core "1.10.413"]
@@ -47,21 +47,21 @@
                  [thheller/shadow-cljs "2.20.2" :scope "provided"]]
 
   :min-lein-version "2.0.0"
-  
+
   :source-paths ["src/clj" "src/cljs" "src/cljc"]
   :test-paths ["test/clj"]
   :resource-paths ["resources" "target/cljsbuild"]
   :target-path "target/%s/"
   :main ^:skip-aot wil.core
 
-  :plugins [] 
+  :plugins []
   :clean-targets ^{:protect false}
   [:target-path "target/cljsbuild"]
-  
+
 
   :profiles
   {:uberjar {:omit-source true
-             
+
              :prep-tasks ["compile" ["run" "-m" "shadow.cljs.devtools.cli" "release" "app"]]
              :aot :all
              :uberjar-name "wil.jar"
@@ -81,9 +81,9 @@
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.25.0"]
                                  [jonase/eastwood "1.3.0"]
-                                 [cider/cider-nrepl "0.28.6"]] 
-                  
-                  
+                                 [cider/cider-nrepl "0.28.6"]]
+
+
                   :source-paths ["env/dev/clj"  "env/dev/cljs" "test/cljs"]
                   :resource-paths ["env/dev/resources"]
                   :repl-options {:init-ns user
@@ -91,9 +91,9 @@
                   :injections [(require 'pjstadig.humane-test-output)
                                (pjstadig.humane-test-output/activate!)]}
    :project/test {:jvm-opts ["-Dconf=test-config.edn"]
-                  :resource-paths ["env/test/resources"]} 
-                  
-                  
-                  
+                  :resource-paths ["env/test/resources"]}
+
+
+
    :profiles/dev {}
    :profiles/test {}})
