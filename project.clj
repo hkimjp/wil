@@ -7,9 +7,9 @@
                  [buddy/buddy-core "1.10.413"]
                  [buddy/buddy-hashers "1.8.158"]
                  [buddy/buddy-sign "3.4.333"]
-                 [ch.qos.logback/logback-classic "1.2.11"]
+                 [ch.qos.logback/logback-classic "1.4.1"]
                  [cljs-ajax "0.8.4"]
-                 [clojure.java-time "0.3.3"]
+                 [clojure.java-time "1.1.0"]
                  [com.cognitect/transit-clj "1.0.329"]
                  [com.cognitect/transit-cljs "0.8.280"]
                  [com.google.javascript/closure-compiler-unshaded "v20220803"]
@@ -43,7 +43,7 @@
                  [ring/ring-core "1.9.6"]
                  [ring/ring-defaults "0.3.4"]
                  [selmer "1.12.55"]
-                 [thheller/shadow-cljs "2.19.9" :scope "provided"]]
+                 [thheller/shadow-cljs "2.20.2" :scope "provided"]]
 
   :min-lein-version "2.0.0"
   
