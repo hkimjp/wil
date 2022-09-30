@@ -1,13 +1,11 @@
 (ns wil.routes.home
   (:require
+   [buddy.hashers :as hashers]
+   [clojure.tools.logging :as log]
    [hato.client :as hc]
-   [clojure.tools.loggins :as log]
+   [ring.util.http-response :as response]
    [wil.layout :as layout]
-   #_[wil.db.core :as db]
-   #_[clojure.java.io :as io]
-   [wil.middleware :as middleware]
-   [ring.util.response :refer [redirect]]
-   [ring.util.http-response :as response]))
+   [wil.middleware :as middleware]))
 
 (defn home-page [request]
   (layout/render request "home.html"))
@@ -33,15 +31,15 @@
              (hashers/check password (:password user)))
       (do
         (log/info "login success" login)
-        (-> (redirect "/")
+        (-> (response/found "/")
             (assoc-in [:session :identity] (keyword login))))
       (do
         (log/info "login faild" login)
-        (-> (redirect "/login")
+        (-> (response/found "/login")
             (assoc :flash "login failure"))))))
 
 (defn logout [_]
-  (-> (redirect "/")
+  (-> (response/found "/")
       (assoc :session {})))
 
 (defn login-page
