@@ -5,6 +5,8 @@
 - how to hundle `time`?
 - 曜日を間違ってログインする人
 
+## 0.2.2 - 2022-10-01
+- clj/wil/routews/services.clj
 
 ## 0.2.1 - 2022-10-01
 - remote container
