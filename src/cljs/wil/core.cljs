@@ -11,7 +11,7 @@
    [clojure.string :as string])
   (:import goog.History))
 
-(def ^:private version "0.2.0")
+(def ^:private version "0.2.1")
 
 (defonce session (r/atom {:page :home}))
 
@@ -48,6 +48,7 @@
 (defn notes-component []
   [:div])
 
+;; FIXME: place holder
 (defn today-is-klass-day?
   [klass]
   true)

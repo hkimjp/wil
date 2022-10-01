@@ -1,5 +1,4 @@
 CREATE TABLE weeks (
   id    SERIAL PRIMARY KEY,
-  klass VARCHAR(10),
-  date  DATE
-);
+  wday  CHAR(3),
+  date  CHAR(10))
