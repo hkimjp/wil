@@ -1,9 +1,12 @@
 # WIL
 
 ## Unreleased
-- seed
-- how to hundle `time`?
 - 曜日を間違ってログインする人
+
+
+## 0.4.0 - 2022-10-02
+- wil.melt(150.69.90.85) で動かしてみた。
+  ノート送信の後の戻りがボタンがくっついたページなのはおかしい。
 
 ## 0.3.1 - 2022-10-02
 - new-note-page と new-note-compoment.

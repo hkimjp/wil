@@ -8,23 +8,35 @@
    [wil.ajax :as ajax]
    [ajax.core :refer [GET POST]]
    [reitit.core :as reitit]
-   [clojure.string :as string]
+   [clojure.string :as str]
    [cljs-time.core :refer [day-of-week]]
    [cljs-time.format :refer [formatter unparse]]
    [cljs-time.local :refer [local-now]])
   (:import goog.History))
 
-(def ^:private version "0.3.1")
+(def ^:private version "0.4.0")
 
 (defonce session (r/atom {:page :home}))
-(defonce note    (r/atom ""))
+
 (defonce notes   (r/atom nil))
+
+(defn get-notes
+  [login]
+  (GET (str "/api/notes/login/" login)
+    {:handler #(reset! notes %)
+     :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
 
 (defn today
   "returns yyyy-MM-dd"
   []
   (unparse (formatter "yyyy-MM-DD") (local-now)))
 
+(def ^:private wd
+  {"mon" 1, "tue" 2, "wed" 3, "thr" 4, "fri" 5, "sat" 6, "sun" 7})
+
+(defn today-is-klass-day?
+  [klass]
+  (= (day-of-week (local-now)) (wd klass)))
 
 (defn nav-link [uri title page]
   [:a.navbar-item
@@ -51,24 +63,31 @@
        [nav-link "#/about" "About" :about]
        [nav-link "/logout" "Logout"]]]]))
 
+;; -------------------------
+;; about page
+
 (defn about-page []
   [:section.section>div.container>div.content
    [:img {:src "/img/warning_clojure.png"}]
    [:p "version " version]])
+
+;; -------------------------
+;; 過去ノート一覧
 
 (defn notes-component []
   [:div
    [:h4 "過去ノート"]
    [:ul
     (for [[i note] (map-indexed vector @notes)]
-      [:li {:key i} (:date note) (:note note)])]])
+      [:li
+       {:key i}
+       (:date note)
+       (-> (:note note) str/split-lines first)])]])
 
-(def ^:private wd
-  {"mon" 1, "tue" 2, "wed" 3, "thr" 4, "fri" 5, "sat" 6, "sun" 7})
+;; -------------------------
+;; 今日のノート
 
-(defn today-is-klass-day?
-  [klass]
-  (= (day-of-week (local-now)) (wd klass)))
+(defonce note (r/atom ""))
 
 (defn send-note
   [login date note]
@@ -78,7 +97,28 @@
      :error-handler
      (fn [^js/Event e] (js/alert (str "送信失敗。" (.getMessage e))))}))
 
+(defn new-note-compoment []
+  [:div
+   [:div
+    [:textarea
+     {:id "note"
+      :value @note
+      :on-change #(reset! note (-> % .-target .-value))}]]
+   [:div
+    [:button
+     {:on-click (fn [_]
+                  (send-note js/login (today) @note)
+                  (get-notes js/login))
+      :class "button is-primary"}
+     "submit"]]])
 
+(defn new-note-page []
+  [:section.section>div.container>div.content
+   [:h3 js/login "markdown OK"]
+   [new-note-compoment]])
+
+;; -------------------------
+;; home page
 
 (defn done-todays?
   []
@@ -92,30 +132,12 @@
               (not (done-todays?)))
      [:button
       {:on-click #(swap! session assoc :page :new-note)}
-      "今日の内容メモ"])])
-
-(defn new-note-compoment []
-  [:div
-   [:div
-    [:textarea
-     {:id "note"
-      :value @note
-      :on-change #(reset! note (-> % .-target .-value))}]]
-   [:div
-    [:button
-     {:on-click #(send-note js/login (today) @note)
-      :class "button is-primary"}
-     "submit"]]])
-
-(defn new-note-page []
-  [:section.section>div.container>div.content
-   [:h3 js/login "markdown OK"]
-   [new-note-compoment]])
+      "今日の内容"])])
 
 (def pages
   {:home #'home-page
-   :new-note #'new-note-page
-   :about #'about-page})
+   :about #'about-page
+   :new-note #'new-note-page})
 
 (defn page []
   [(pages (:page @session))])
@@ -129,10 +151,11 @@
     ["/about" :about]]))
 
 (defn match-route [uri]
-  (->> (or (not-empty (string/replace uri #"^.*#" "")) "/")
+  (->> (or (not-empty (str/replace uri #"^.*#" "")) "/")
        (reitit/match-by-path router)
        :data
        :name))
+
 ;; -------------------------
 ;; History
 ;; must be called after routes have been defined
@@ -149,21 +172,6 @@
 (defn ^:dev/after-load mount-components []
   (rdom/render [#'navbar] (.getElementById js/document "navbar"))
   (rdom/render [#'page] (.getElementById js/document "app")))
-
-(defn get-notes
-  [login]
-  (GET (str "/api/notes/login/" login)
-    {:handler #(reset! notes %)
-     :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
-
-;; FIXME: rewrite using get-notes.
-
-;; (defn done-todays?
-;;   [login date]
-;;   (GET "/api/note"
-;;     {:params {:login login :date date}
-;;      :handler #(reset! submit? (seq %))
-;;      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
 
 (defn init! []
   (ajax/load-interceptors!)

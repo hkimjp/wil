@@ -4,7 +4,6 @@
    [java-time.api :as jt]
    [wil.db.core :as db]))
 
-
 (defn str->date [s]
   (->> (str/split s #"-")
        (map #(Integer/parseInt %))
@@ -21,19 +20,20 @@
        (filter wd?)
        (map str)))
 
-;; insert tuesdays
-(doseq [date (weekdays "2022-10-01" "2023-02-14" jt/tuesday?)]
-  (db/create-date! {:wday "tue" :date date}))
+(defn seed []
+  ;; insert tuesdays
+  (doseq [date (weekdays "2022-10-01" "2023-02-14" jt/tuesday?)]
+    (db/create-date! {:wday "tue" :date date}))
 
-;; thursdays
-(doseq [date (weekdays "2022-10-01" "2023-02-14" jt/thursday?)]
-  (db/create-date! {:wday "thr" :date date}))
+  ;; thursdays
+  (doseq [date (weekdays "2022-10-01" "2023-02-14" jt/thursday?)]
+    (db/create-date! {:wday "thr" :date date}))
 
-;; saturday
-(doseq [date (weekdays "2022-10-01" "2023-02-14" jt/saturday?)]
-  (db/create-date! {:wday "sat" :date date}))
+  ;; saturday
+  (doseq [date (weekdays "2022-10-01" "2023-02-14" jt/saturday?)]
+    (db/create-date! {:wday "sat" :date date}))
 
+  ;; sunday
+  (doseq [date (weekdays "2022-10-01" "2023-02-14" jt/sunday?)]
+    (db/create-date! {:wday "sun" :date date})))
 
-;; sunday
-(doseq [date (weekdays "2022-10-01" "2023-02-14" jt/sunday?)]
-  (db/create-date! {:wday "sun" :date date}))
