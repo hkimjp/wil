@@ -5,6 +5,10 @@
 - how to hundle `time`?
 
 
+## 0.2.1 - 2022-10-01
+- remote container
+- clj/wil/seed.clj
+
 ## 0.2.0 - 2022-10-01
 - session に login と klass を渡す(string)
 - cljs
