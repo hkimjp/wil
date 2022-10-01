@@ -48,6 +48,7 @@
 (defn notes-component []
   [:div])
 
+;; FIXME: place holder
 (defn today-is-klass-day?
   [klass]
   true)
