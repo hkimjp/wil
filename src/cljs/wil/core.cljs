@@ -14,7 +14,7 @@
    [cljs-time.local :refer [local-now]])
   (:import goog.History))
 
-(def ^:private version "0.3.0")
+(def ^:private version "0.3.1")
 
 (defonce session (r/atom {:page :home}))
 (defonce note    (r/atom ""))
