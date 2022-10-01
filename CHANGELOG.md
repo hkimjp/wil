@@ -3,6 +3,7 @@
 ## Unreleased
 - seed
 - how to hundle `time`?
+- 曜日を間違ってログインする人
 
 
 ## 0.2.1 - 2022-10-01

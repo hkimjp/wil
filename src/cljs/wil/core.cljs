@@ -55,10 +55,9 @@
 
 (defn send-note
   [login text]
-  (js/alert (str "send-note " login " "(subs text 0 10))))
+  (js/alert (str "send-note " login " " (subs text 0 10))))
 
 (defonce note (r/atom ""))
-
 (defn new-note-compoment []
   [:div
    [:div

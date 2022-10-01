@@ -25,5 +25,15 @@
 (doseq [date (weekdays "2022-10-01" "2023-02-14" jt/tuesday?)]
   (db/create-date! {:wday "tue" :date date}))
 
+;; thursdays
 (doseq [date (weekdays "2022-10-01" "2023-02-14" jt/thursday?)]
   (db/create-date! {:wday "thr" :date date}))
+
+;; saturday
+(doseq [date (weekdays "2022-10-01" "2023-02-14" jt/saturday?)]
+  (db/create-date! {:wday "sat" :date date}))
+
+
+;; sunday
+(doseq [date (weekdays "2022-10-01" "2023-02-14" jt/sunday?)]
+  (db/create-date! {:wday "sun" :date date}))
