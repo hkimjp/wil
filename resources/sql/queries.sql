@@ -25,3 +25,24 @@
 INSERT INTO weeks
 (wday, date)
 VALUES (:wday, :date)
+
+-- :name create-note! :! :n
+-- :doc  creates users new note
+INSERT INTO notes
+(login, date, note)
+VALUES (:login, :date, :note)
+
+-- :name user-notes :? :*
+-- :doc  retrieve login's notes
+SELECT * FROM notes
+WHERE login = :login
+
+-- :name date-notes :? :*
+-- :doc  retrieve date's notes
+SELECT * FROM notes
+WHERE date = :date
+
+-- :name find-note :? :*
+-- :doc find login's note on date
+SELECT * FROM notes
+WHERE login = :login and date = :date

@@ -9,12 +9,15 @@
             "settings": {
             },
             "extensions": [
-                "borkdude.clj-kondo",
                 "betterthantomorrow.calva",
-                "jsynowiec.vscode-insertdatestring"
-            ]
-        }
-    },
+                "borkdude.clj-kondo",
+                "eduarddyckman.vscode-parinfer",
+                "jsynowiec.vscode-insertdatestring",
+                "jsynowiec.vscode-insertdatestring",
+                "lfs.vscode-emacs-friendly",
+                "mosapride.zenkaku",
+                "ybaumes.highlight-trailing-white-spaces"
+            ]}},
     "service": "wil",
     "workspaceFolder": "/usr/src/app"
     // "remoteUser": "vscode"

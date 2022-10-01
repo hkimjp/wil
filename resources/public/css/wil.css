@@ -1,4 +1,5 @@
 textarea#note {
-  width: 400px;
-  height: 200px;
+  padding: 5px;
+  width:   400px;
+  height:  200px;
 }
