@@ -1,11 +1,11 @@
 (ns wil.routes.home
-  (:require
-   [buddy.hashers :as hashers]
-   [clojure.tools.logging :as log]
-   [hato.client :as hc]
-   [ring.util.http-response :as response]
-   [wil.layout :as layout]
-   [wil.middleware :as middleware]))
+ (:require
+  [buddy.hashers :as hashers]
+  [clojure.tools.logging :as log]
+  [hato.client :as hc]
+  [ring.util.http-response :as response]
+  [wil.layout :as layout]
+  [wil.middleware :as middleware]))
 
 (defn home-page
   [request]
@@ -20,7 +20,7 @@
   [login]
   (let [ep   (str api-user login)
         resp (hc/get ep {:as :json})]
-    (log/info "login" (get-in resp [:body :login]))
+    (log/info "get-user" (get-in resp [:body :login]))
     (:body resp)))
 
 (defn login-page [request]
@@ -32,7 +32,7 @@
              (= (:login user) login)
              (hashers/check password (:password user)))
       (do
-        (log/info "login success" login)
+        (log/info "login success" login "klass" klass)
         (-> (response/found "/")
             (assoc-in [:session :identity] login)
             (assoc-in [:session :klass] klass)))

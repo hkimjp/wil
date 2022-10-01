@@ -3,6 +3,7 @@
     [wil.middleware :as middleware]
     [wil.layout :refer [error-page]]
     [wil.routes.home :refer [home-routes]]
+    [wil.routes.services :refer [services-routes]]
     [reitit.ring :as ring]
     [ring.middleware.content-type :refer [wrap-content-type]]
     [ring.middleware.webjars :refer [wrap-webjars]]
@@ -17,7 +18,7 @@
   :start
   (ring/ring-handler
     (ring/router
-      [(home-routes)])
+      [(home-routes) (services-routes)])
     (ring/routes
       (ring/create-resource-handler
         {:path "/"})

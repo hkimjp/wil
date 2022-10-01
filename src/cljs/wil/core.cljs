@@ -11,7 +11,7 @@
    [clojure.string :as string])
   (:import goog.History))
 
-(def ^:private version "0.2.1")
+(def ^:private version "0.2.2")
 
 (defonce session (r/atom {:page :home}))
 
@@ -55,10 +55,9 @@
 
 (defn send-note
   [login text]
-  (js/alert (str "send-note " login " "(subs text 0 10))))
+  (js/alert (str "send-note " login " " (subs text 0 10))))
 
 (defonce note (r/atom ""))
-
 (defn new-note-compoment []
   [:div
    [:div
