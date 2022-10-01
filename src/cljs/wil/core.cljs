@@ -17,6 +17,9 @@
 (def ^:private version "0.2.2")
 
 (defonce session (r/atom {:page :home}))
+(defonce note    (r/atom ""))
+(defonce notes   (r/atom nil))
+(defonce submit? (r/atom false))
 
 (defn nav-link [uri title page]
   [:a.navbar-item
@@ -49,7 +52,12 @@
    [:p "version " version]])
 
 (defn notes-component []
-  [:div])
+  [:div
+   [:h4 "過去ノート"]
+   (js/alert (str @notes))
+   [:ul
+     (for [[i note] (map-indexed vector @notes)]
+       [:li {:key i} (:date note) (:note note)])]])
 
 (defn today
   "returns yyyy-MM-dd"
@@ -65,12 +73,6 @@
 (comment
   (today-is-klass-day? "mon"))
 
-;; FIXME:
-(defn already-submit?
-  [login date]
-  (GET (str)"/api/note/")
-  false)
-
 (defn send-note
   [login date note]
   (POST "/api/note"
@@ -78,8 +80,6 @@
      :handler #(swap! session assoc :page :home)
      :error-handler
      (fn [^js/Event e] (js/alert (str "送信失敗。" (.getMessage e))))}))
-
-(defonce note (r/atom ""))
 
 (defn new-note-compoment []
   [:div
@@ -99,7 +99,7 @@
    [:h3 js/login " (" js/klass ")"]
    [notes-component]
    (when (and (today-is-klass-day? (subs js/klass 0 3))
-              (not (already-submit? js/login (today))))
+              (not @submit?))
      [new-note-compoment])])
 
 (def pages
@@ -139,7 +139,22 @@
   (rdom/render [#'navbar] (.getElementById js/document "navbar"))
   (rdom/render [#'page] (.getElementById js/document "app")))
 
+(defn already-submit?
+  [login date]
+  (GET "/api/note"
+    {:params {:login login :date date}
+     :handler #(reset! submit? (seq %))
+     :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
+
+(defn get-notes
+  [login]
+  (GET (str "/api/notes/login/" login)
+    {:handler #(reset! notes %)
+     :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
+
 (defn init! []
   (ajax/load-interceptors!)
   (hook-browser-navigation!)
+  (already-submit? js/login (today))
+  (get-notes js/login)
   (mount-components))

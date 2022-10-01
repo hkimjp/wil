@@ -34,12 +34,12 @@ VALUES (:login, :date, :note)
 
 -- :name user-notes :? :*
 -- :doc  retrieve login's notes
-SELETCT * FROM notes
+SELECT * FROM notes
 WHERE login = :login
 
 -- :name date-notes :? :*
 -- :doc  retrieve date's notes
-SELETCT * FROM notes
+SELECT * FROM notes
 WHERE date = :date
 
 -- :name find-note :? :*

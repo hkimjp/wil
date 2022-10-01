@@ -13,8 +13,9 @@
    (catch Exception e (throw (.getMessage e)))))
 
 (defn find-note
- [{{:keys [login date]} :path-params}]
- (response/ok (db/find-note {:login login :date date})))
+  [{{:keys [login date]} :params}]
+  (let [ret (db/find-note {:login login :date date})]
+   (response/ok ret)))
 
 (defn user-notes
   [{{:keys [login]} :path-params}]
