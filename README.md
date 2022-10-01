@@ -1,21 +1,10 @@
-# wil
+# docker/lein-devcontainer
 
-generated using Luminus version "4.44" by:
+Add git sudo, and `vscode` user to official colojre:clojure image.
 
-    lein new luminus wil +auth +postgres +reagent
 
-## Prerequisites
+## npm install
+see package.json.
 
-You will need [Leiningen][1] 2.0 or above installed.
+    "xmlhttprequest": "^1.8.0"
 
-[1]: https://github.com/technomancy/leiningen
-
-## Running
-
-To start a web server for the application, run:
-
-    lein run
-
-## License
-
-Copyright © 2022 Hirohi Kimura

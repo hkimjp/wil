@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  wil:
+    image: hkim0331/clj-cljs
+    ports:
+      - "3020:3000"
+      - "9630:9630"
+    volumes:
+      - .:/usr/src/app:cached
+      - m2:/root/.m2
+    working_dir: /usr/src/app
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: wil
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_INITDB_ARGS: --encoding=UTF-8 --locale=C
+      TZ: Asia/Toky
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./initdb.d:/docker-entrypoint-initdb.d
+      - data:/var/lib/postgresql/data
+
+volumes:
+  data:
+    driver: local
+  m2:
+    external: true

@@ -1,0 +1,21 @@
+{
+  "name": "Existing Docker Compose (Extend)",
+    "dockerComposeFile": [
+        "../docker-compose.yml",
+    ],
+
+    "customizations": {
+        "vscode": {
+            "settings": {
+            },
+            "extensions": [
+                "borkdude.clj-kondo",
+                "betterthantomorrow.calva",
+                "jsynowiec.vscode-insertdatestring"
+            ]
+        }
+    },
+    "service": "wil",
+    "workspaceFolder": "/usr/src/app"
+    // "remoteUser": "vscode"
+}
