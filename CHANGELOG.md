@@ -2,11 +2,13 @@
 
 ## Unreleased
 
-## 0.1.1-SNAPSHOT
+
+## 0.1.1 - 2022-10-01
 - .gitignore
-  - .calva/output-window
-  - .clj-kondo/cache/
-  - .lsp/cache/
+  * .calva/output-window
+  * .clj-kondo/cache/
+  * .lsp/cache/
+- login.html `required`
 
 ## 0.1.0
 - lein new luminus will +auth +postgres +reagent の後、

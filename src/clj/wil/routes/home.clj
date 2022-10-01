@@ -7,7 +7,8 @@
    [wil.layout :as layout]
    [wil.middleware :as middleware]))
 
-(defn home-page [request]
+(defn home-page
+  [request]
   (if (get-in request [:session :identity])
     (layout/render request "home.html")
     (response/found "/login")))
@@ -20,7 +21,6 @@
   (let [ep   (str api-user login)
         resp (hc/get ep {:as :json})]
     (log/info "login" (get-in resp [:body :login]))
-    ;; (log/debug "(:body resp)" (:body resp))
     (:body resp)))
 
 (defn login-page [request]

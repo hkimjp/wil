@@ -6,15 +6,18 @@
     <div style="color:red;">{{flash}}</div>
     <form method='post'>
       {% csrf-field %}
-      <input name='login' placeholder='nobody'>
-      <input name='password' placeholder='nobody' type='password'>
+      <input name='login' required>
+      <input name='password' type='password' required>
+      <select name='klass'>
+        <option value='tue1'>tue1</option>
+        <option value='tue2'>tue2</option>
+        <option value='thr1'>thr1</option>
+        <option value='thr2'>thr2</option>
+      </select>
       <input type='submit' value='login'>
     </form>
     <br>
     <ul>
-      <li>アカウントの新規作成は授業時間中に
-        <a href='https://l22.melt.kyutech.ac.jp'>
-          l22.melt.kyutech.ac.jp</a>へ。</li>
       <li>invalid anti-forgery token が表示されたときは時間切れ。
         ページを再読み込みしてやり直し。</li>
     </ul>
