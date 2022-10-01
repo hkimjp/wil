@@ -14,12 +14,17 @@
    [cljs-time.local :refer [local-now]])
   (:import goog.History))
 
-(def ^:private version "0.3.0")
+(def ^:private version "0.3.1")
 
 (defonce session (r/atom {:page :home}))
 (defonce note    (r/atom ""))
 (defonce notes   (r/atom nil))
-(defonce submit? (r/atom false))
+
+(defn today
+  "returns yyyy-MM-dd"
+  []
+  (unparse (formatter "yyyy-MM-DD") (local-now)))
+
 
 (defn nav-link [uri title page]
   [:a.navbar-item
@@ -54,24 +59,16 @@
 (defn notes-component []
   [:div
    [:h4 "過去ノート"]
-   (js/alert (str @notes))
    [:ul
-     (for [[i note] (map-indexed vector @notes)]
-       [:li {:key i} (:date note) (:note note)])]])
-
-(defn today
-  "returns yyyy-MM-dd"
-  []
-  (unparse (formatter "yyyy-MM-DD") (local-now)))
+    (for [[i note] (map-indexed vector @notes)]
+      [:li {:key i} (:date note) (:note note)])]])
 
 (def ^:private wd
   {"mon" 1, "tue" 2, "wed" 3, "thr" 4, "fri" 5, "sat" 6, "sun" 7})
+
 (defn today-is-klass-day?
   [klass]
   (= (day-of-week (local-now)) (wd klass)))
-
-(comment
-  (today-is-klass-day? "mon"))
 
 (defn send-note
   [login date note]
@@ -80,6 +77,22 @@
      :handler #(swap! session assoc :page :home)
      :error-handler
      (fn [^js/Event e] (js/alert (str "送信失敗。" (.getMessage e))))}))
+
+
+
+(defn done-todays?
+  []
+  (seq (filter #(= (today) (:date %)) @notes)))
+
+(defn home-page []
+  [:section.section>div.container>div.content
+   [:h3 js/login " (" js/klass ")"]
+   [notes-component]
+   (when (and (today-is-klass-day? (subs js/klass 0 3))
+              (not (done-todays?)))
+     [:button
+      {:on-click #(swap! session assoc :page :new-note)}
+      "今日の内容メモ"])])
 
 (defn new-note-compoment []
   [:div
@@ -94,16 +107,14 @@
       :class "button is-primary"}
      "submit"]]])
 
-(defn home-page []
+(defn new-note-page []
   [:section.section>div.container>div.content
-   [:h3 js/login " (" js/klass ")"]
-   [notes-component]
-   (when (and (today-is-klass-day? (subs js/klass 0 3))
-              (not @submit?))
-     [new-note-compoment])])
+   [:h3 js/login "markdown OK"]
+   [new-note-compoment]])
 
 (def pages
   {:home #'home-page
+   :new-note #'new-note-page
    :about #'about-page})
 
 (defn page []
@@ -139,22 +150,23 @@
   (rdom/render [#'navbar] (.getElementById js/document "navbar"))
   (rdom/render [#'page] (.getElementById js/document "app")))
 
-(defn already-submit?
-  [login date]
-  (GET "/api/note"
-    {:params {:login login :date date}
-     :handler #(reset! submit? (seq %))
-     :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
-
 (defn get-notes
   [login]
   (GET (str "/api/notes/login/" login)
     {:handler #(reset! notes %)
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
 
+;; FIXME: rewrite using get-notes.
+
+;; (defn done-todays?
+;;   [login date]
+;;   (GET "/api/note"
+;;     {:params {:login login :date date}
+;;      :handler #(reset! submit? (seq %))
+;;      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
+
 (defn init! []
   (ajax/load-interceptors!)
   (hook-browser-navigation!)
-  (already-submit? js/login (today))
   (get-notes js/login)
   (mount-components))
