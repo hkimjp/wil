@@ -23,5 +23,5 @@
 -- :name create-date! :! :n
 -- :doc seed date in weeks table
 INSERT INTO weeks
-(klass, date)
-VALUES (:klass, :date)
+(wday, date)
+VALUES (:wday, :date)
