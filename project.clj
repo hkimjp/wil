@@ -46,6 +46,7 @@
                  [selmer "1.12.55"]
                  [thheller/shadow-cljs "2.20.2" :scope "provided"]
                  ;;
+                 [com.andrewmcveigh/cljs-time "0.5.2"]
                  [hato/hato "0.8.2"]]
 
   :min-lein-version "2.0.0"
