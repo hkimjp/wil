@@ -11,6 +11,8 @@
    [clojure.string :as string])
   (:import goog.History))
 
+(def ^:private version "0.2.0")
+
 (defonce session (r/atom {:page :home}))
 
 (defn nav-link [uri title page]
@@ -40,12 +42,42 @@
 
 (defn about-page []
   [:section.section>div.container>div.content
-   [:img {:src "/img/warning_clojure.png"}]])
+   [:img {:src "/img/warning_clojure.png"}]
+   [:p "version " version]])
+
+(defn notes-component []
+  [:div])
+
+(defn today-is-klass-day?
+  [klass]
+  true)
+
+(defn send-note
+  [login text]
+  (js/alert (str "send-note " login " "(subs text 0 10))))
+
+(defonce note (r/atom ""))
+
+(defn new-note-compoment []
+  [:div
+   [:div
+    [:textarea
+     {:id "note"
+      :value @note
+      :on-change #(reset! note (-> % .-target .-value))}]]
+   [:div
+    [:button
+     {:on-click #(send-note js/login @note)
+      :class "button is-primary"}
+     "submit"]]])
 
 (defn home-page []
   [:section.section>div.container>div.content
-   (when-let [docs (:docs @session)]
-     [:div {:dangerouslySetInnerHTML {:__html (md->html docs)}}])])
+   [:h3 js/login " (" js/klass ")"]
+   [notes-component]
+   ;; FIXME: 日付が今日で、まだサブミットしていない時に出す。
+   (when (today-is-klass-day? js/klass)
+     [new-note-compoment])])
 
 (def pages
   {:home #'home-page
@@ -80,15 +112,11 @@
 
 ;; -------------------------
 ;; Initialize app
-(defn fetch-docs! []
-  (GET "/docs" {:handler #(swap! session assoc :docs %)}))
-
 (defn ^:dev/after-load mount-components []
   (rdom/render [#'navbar] (.getElementById js/document "navbar"))
   (rdom/render [#'page] (.getElementById js/document "app")))
 
 (defn init! []
   (ajax/load-interceptors!)
-  ;; (fetch-docs!)
   (hook-browser-navigation!)
   (mount-components))

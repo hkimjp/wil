@@ -1,7 +1,14 @@
 # WIL
 
 ## Unreleased
+- seed
+- how to hundle `time`?
 
+
+## 0.2.0 - 2022-10-01
+- session に login と klass を渡す(string)
+- cljs
+- bump-version.sh
 
 ## 0.1.1 - 2022-10-01
 - .gitignore
