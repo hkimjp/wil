@@ -54,7 +54,7 @@
 (defn notes-component []
   [:div
    [:h4 "過去ノート"]
-   (js/alert (str @notes))
+   ;; (js/alert (str @notes))
    [:ul
      (for [[i note] (map-indexed vector @notes)]
        [:li {:key i} (:date note) (:note note)])]])
