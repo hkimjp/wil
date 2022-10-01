@@ -5,6 +5,8 @@
 - how to hundle `time`?
 - 曜日を間違ってログインする人
 
+## 0.3.0 - 2022-10-01
+- 過去ノートのリスト表示ができた。
 
 ## 0.2.3-SNAPSHOT
 - wrap-restricted
