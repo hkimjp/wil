@@ -1,14 +1,14 @@
 (ns wil.core
   (:require
-    [reagent.core :as r]
-    [reagent.dom :as rdom]
-    [goog.events :as events]
-    [goog.history.EventType :as HistoryEventType]
-    [markdown.core :refer [md->html]]
-    [wil.ajax :as ajax]
-    [ajax.core :refer [GET POST]]
-    [reitit.core :as reitit]
-    [clojure.string :as string])
+   [reagent.core :as r]
+   [reagent.dom :as rdom]
+   [goog.events :as events]
+   [goog.history.EventType :as HistoryEventType]
+   [markdown.core :refer [md->html]]
+   [wil.ajax :as ajax]
+   [ajax.core :refer [GET POST]]
+   [reitit.core :as reitit]
+   [clojure.string :as string])
   (:import goog.History))
 
 (defonce session (r/atom {:page :home}))
@@ -28,7 +28,7 @@
        {:data-target :nav-menu
         :on-click #(swap! expanded? not)
         :class (when @expanded? :is-active)}
-       [:span][:span][:span]]]
+       [:span] [:span] [:span]]]
      [:div#nav-menu.navbar-menu
       {:class (when @expanded? :is-active)}
       [:div.navbar-start
@@ -41,7 +41,6 @@
 (defn about-page []
   [:section.section>div.container>div.content
    [:img {:src "/img/warning_clojure.png"}]])
-
 
 (defn home-page []
   [:section.section>div.container>div.content
@@ -60,8 +59,8 @@
 
 (def router
   (reitit/router
-    [["/" :home]
-     ["/about" :about]]))
+   [["/" :home]
+    ["/about" :about]]))
 
 (defn match-route [uri]
   (->> (or (not-empty (string/replace uri #"^.*#" "")) "/")
@@ -74,9 +73,9 @@
 (defn hook-browser-navigation! []
   (doto (History.)
     (events/listen
-      HistoryEventType/NAVIGATE
-      (fn [^js/Event.token event]
-        (swap! session assoc :page (match-route (.-token event)))))
+     HistoryEventType/NAVIGATE
+     (fn [^js/Event.token event]
+       (swap! session assoc :page (match-route (.-token event)))))
     (.setEnabled true)))
 
 ;; -------------------------
