@@ -1,9 +1,8 @@
 # WIL
 
 ## Unreleased
-- seed
-- how to hundle `time`?
 - 曜日を間違ってログインする人
+
 
 ## 0.3.1 - 2022-10-02
 - new-note-page と new-note-compoment.

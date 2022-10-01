@@ -21,3 +21,4 @@ profiles.clj
 /.devcontainer/
 /initdb.d/
 /docker-compose.yml
+/db-dumps/*.sql
