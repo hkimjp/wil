@@ -49,8 +49,7 @@
   [""
    {:middleware [middleware/wrap-csrf
                  middleware/wrap-formats]}
-   ["/" {:get home-page}]
-   ["/login" {:get  login-page
-              :post login-post}]
+   ["/"       {:get home-page}]
+   ["/login"  {:get  login-page :post login-post}]
    ["/logout" {:get logout}]])
 

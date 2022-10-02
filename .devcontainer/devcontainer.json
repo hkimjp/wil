@@ -1,7 +1,7 @@
 {
   "name": "Existing Docker Compose (Extend)",
     "dockerComposeFile": [
-        "../docker-compose.yml",
+        "../docker-compose.yml"
     ],
 
     "customizations": {
@@ -18,7 +18,10 @@
                 "mosapride.zenkaku",
                 "ybaumes.highlight-trailing-white-spaces"
             ]}},
+
     "service": "wil",
+
     "workspaceFolder": "/usr/src/app"
+
     // "remoteUser": "vscode"
 }
