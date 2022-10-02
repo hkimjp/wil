@@ -14,16 +14,16 @@
    [cljs-time.local :refer [local-now]])
   (:import goog.History))
 
-(def ^:private version "0.4.0")
+(def ^:private version "0.4.1")
 
 (defonce session (r/atom {:page :home}))
 
 (defonce notes   (r/atom nil))
 
 (defn get-notes
-  [login]
-  (GET (str "/api/notes/login/" login)
-    {:handler #(reset! notes %)
+  []
+  (GET (str "/api/notes/login/" js/login)
+    {:handler  (fn [ret]  (reset! notes ret))
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
 
 (defn today
@@ -72,19 +72,6 @@
    [:p "version " version]])
 
 ;; -------------------------
-;; 過去ノート一覧
-
-(defn notes-component []
-  [:div
-   [:h4 "過去ノート"]
-   [:ul
-    (for [[i note] (map-indexed vector @notes)]
-      [:li
-       {:key i}
-       (:date note)
-       (-> (:note note) str/split-lines first)])]])
-
-;; -------------------------
 ;; 今日のノート
 
 (defonce note (r/atom ""))
@@ -93,9 +80,11 @@
   [login date note]
   (POST "/api/note"
     {:params {:login login :date date :note note}
-     :handler #(swap! session assoc :page :home)
+     :handler #(.log js/console "sent")
      :error-handler
      (fn [^js/Event e] (js/alert (str "送信失敗。" (.getMessage e))))}))
+
+;; (declare pages)
 
 (defn new-note-compoment []
   [:div
@@ -108,7 +97,7 @@
     [:button
      {:on-click (fn [_]
                   (send-note js/login (today) @note)
-                  (get-notes js/login))
+                  (swap! session assoc :page :home))
       :class "button is-primary"}
      "submit"]]])
 
@@ -120,6 +109,19 @@
 ;; -------------------------
 ;; home page
 
+;; 過去ノート一覧
+(defn notes-component []
+  (get-notes)
+  [:div
+   [:h4 "過去ノート"]
+   [:p "内容が更新されてない時は再読み込み。"]
+   [:ol
+    (for [[i note] (map-indexed vector @notes)]
+      [:li
+       {:key i}
+       (:date note)
+       " "
+       (-> (:note note) str/split-lines first)])]])
 (defn done-todays?
   []
   (seq (filter #(= (today) (:date %)) @notes)))
@@ -132,13 +134,17 @@
               (not (done-todays?)))
      [:button
       {:on-click #(swap! session assoc :page :new-note)}
-      "今日の内容"])])
+      "本日の内容を追加"])])
+
+;; -------------------------
+;; pages
 
 (def pages
   {:home #'home-page
    :about #'about-page
    :new-note #'new-note-page})
 
+;; この page の役割は？
 (defn page []
   [(pages (:page @session))])
 
@@ -176,5 +182,5 @@
 (defn init! []
   (ajax/load-interceptors!)
   (hook-browser-navigation!)
-  (get-notes js/login)
+  (get-notes)
   (mount-components))
