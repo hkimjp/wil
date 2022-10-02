@@ -20,23 +20,24 @@
 
 (defonce notes   (r/atom nil))
 
+;; -------------------------
+;; misc functions
+
 (defn get-notes
+  "get the notes list from `/api/notes/login/:login`,
+   set it in r/atom `notes`."
   []
   (GET (str "/api/notes/login/" js/login)
     {:handler  (fn [ret]  (reset! notes ret))
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
 
 (defn today
-  "returns yyyy-MM-dd"
+  "returns yyyy-MM-dd string."
   []
   (unparse (formatter "yyyy-MM-DD") (local-now)))
 
-(def ^:private wd
-  {"mon" 1, "tue" 2, "wed" 3, "thr" 4, "fri" 5, "sat" 6, "sun" 7})
-
-(defn today-is-klass-day?
-  [klass]
-  (= (day-of-week (local-now)) (wd klass)))
+;; -------------------------
+;; navbar
 
 (defn nav-link [uri title page]
   [:a.navbar-item
@@ -75,19 +76,17 @@
 ;; 今日のノート
 
 (defonce note (r/atom ""))
-
 (defn send-note
-  [login date note]
+  [note]
   (POST "/api/note"
-    {:params {:login login :date date :note note}
-     :handler #(.log js/console "sent")
+    {:params {:login js/login :date (today) :note note}
+     :handler #(constantly nil)
      :error-handler
      (fn [^js/Event e] (js/alert (str "送信失敗。" (.getMessage e))))}))
 
-;; (declare pages)
-
-(defn new-note-compoment []
-  [:div
+(defn new-note-page []
+  [:section.section>div.container>div.content
+   [:p "送信は１日一回です。マークダウン OK."]
    [:div
     [:textarea
      {:id "note"
@@ -96,24 +95,18 @@
    [:div
     [:button
      {:on-click (fn [_]
-                  (send-note js/login (today) @note)
+                  (send-note @note)
                   (swap! session assoc :page :home))
       :class "button is-primary"}
-     "submit"]]])
-
-(defn new-note-page []
-  [:section.section>div.container>div.content
-   [:h3 js/login "markdown OK"]
-   [new-note-compoment]])
+     "送信"]]])
 
 ;; -------------------------
 ;; home page
-
 ;; 過去ノート一覧
+
 (defn notes-component []
   (get-notes)
   [:div
-   [:h4 "過去ノート"]
    [:p "内容が更新されてない時は再読み込み。"]
    [:ol
     (for [[i note] (map-indexed vector @notes)]
@@ -122,18 +115,27 @@
        (:date note)
        " "
        (-> (:note note) str/split-lines first)])]])
+
 (defn done-todays?
   []
   (seq (filter #(= (today) (:date %)) @notes)))
 
+(def ^:private wd
+  {"mon" 1, "tue" 2, "wed" 3, "thr" 4, "fri" 5, "sat" 6, "sun" 7})
+
+(defn today-is-klass-day?
+  []
+  (= (day-of-week (local-now)) (wd (subs js/klass 0 3))))
+
 (defn home-page []
   [:section.section>div.container>div.content
-   [:h3 js/login " (" js/klass ")"]
+   [:h3 js/login "さんの What I Learned?"]
    [notes-component]
-   (when (and (today-is-klass-day? (subs js/klass 0 3))
-              (not (done-todays?)))
+   (when (and (today-is-klass-day?) (not (done-todays?)))
      [:button
-      {:on-click #(swap! session assoc :page :new-note)}
+      {:on-click (fn [_]
+                   (reset! note "")
+                   (swap! session assoc :page :new-note))}
       "本日の内容を追加"])])
 
 ;; -------------------------
