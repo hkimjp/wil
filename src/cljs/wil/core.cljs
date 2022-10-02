@@ -103,6 +103,8 @@
 ;; -------------------------
 ;; home page
 ;; 過去ノート一覧
+;; * 日付から他の人のノート(markdown, add good/bad)
+;; * 1st から自分のノート(markdown, view goods/bads)
 
 (defn notes-component []
   (get-notes)
