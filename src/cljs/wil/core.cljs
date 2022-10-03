@@ -14,7 +14,7 @@
    [cljs-time.local :refer [local-now]])
   (:import goog.History))
 
-(def ^:private version "0.5.4")
+(def ^:private version "0.5.5")
 
 (defonce session (r/atom {:page :home}))
 (defonce notes   (r/atom nil))
@@ -58,7 +58,7 @@
      [:div#nav-menu.navbar-menu
       {:class (when @expanded? :is-active)}
       [:div.navbar-start
-       #_[nav-link "#/" "Home" :home]
+       [nav-link "https://l22.melt.kyutech.ac.jp" "L22"]
        [nav-link "https://py99.melt.kyutech.ac.jp" "Py99"]
        [nav-link "https://qa.melt.kyutech.ac.jp" "QA"]
        [nav-link "#/about" "About" :about]
