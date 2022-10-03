@@ -8,6 +8,7 @@
    [wil.ajax :as ajax]
    [ajax.core :refer [GET POST]]
    [reitit.core :as reitit]
+   ;; [reitit.coercion.spec :as rss]
    [clojure.string :as str]
    [cljs-time.core :refer [day-of-week]]
    [cljs-time.format :refer [formatter unparse]]
@@ -17,8 +18,8 @@
 (def ^:private version "0.4.2")
 
 (defonce session (r/atom {:page :home}))
-
 (defonce notes   (r/atom nil))
+(defonce params  (r/atom nil))
 
 ;; -------------------------
 ;; misc functions
@@ -101,8 +102,20 @@
      "送信"]]])
 
 ;; -------------------------
+;; view note page
+
+(defn view-note-page
+  []
+  (.log js/console "view-note-page, params = " (str @params))
+  [:section.section>div.container>div.content
+   [:div "view-note-page"]
+   [:p (str "params:" @params)]])
+
+;; -------------------------
 ;; home page
 ;; 過去ノート一覧
+;; * 日付から他の人のノート(markdown, add good/bad)
+;; * 1st から自分のノート(markdown, view goods/bads)
 
 (defn notes-component []
   (get-notes)
@@ -112,7 +125,7 @@
     (for [[i note] (map-indexed vector @notes)]
       [:li
        {:key i}
-       (:date note)
+       [:a {:href (str "/#/view/" (:id note))} (:date note)]
        " "
        (-> (:note note) str/split-lines first)])]])
 
@@ -144,7 +157,8 @@
 (def pages
   {:home #'home-page
    :about #'about-page
-   :new-note #'new-note-page})
+   :new-note #'new-note-page
+   :view #'view-note-page})
 
 ;; この page の役割は？
 (defn page []
@@ -153,16 +167,27 @@
 ;; -------------------------
 ;; Routes
 
+;;
 (def router
   (reitit/router
    [["/" :home]
-    ["/about" :about]]))
+    ["/about" :about]
+    ["/view/:id" {:name :view
+                  :parameters {:path [:id]}}]]))
+
+(defn path-params [match]
+  (when-let [p (:path-params match)]
+    (when (seq p)
+      (reset! params p))
+   match))
 
 (defn match-route [uri]
   (->> (or (not-empty (str/replace uri #"^.*#" "")) "/")
        (reitit/match-by-path router)
+       path-params
        :data
        :name))
+
 
 ;; -------------------------
 ;; History
