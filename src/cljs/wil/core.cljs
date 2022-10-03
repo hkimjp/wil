@@ -15,7 +15,7 @@
    [cljs-time.local :refer [local-now]])
   (:import goog.History))
 
-(def ^:private version "0.5.0-SNAPSHOT")
+(def ^:private version "0.5.0")
 
 (defonce session (r/atom {:page :home}))
 (defonce notes   (r/atom nil))
@@ -109,12 +109,11 @@
   []
   ;; (js/alert (:id @params))
   ;; (.log js/console (str @notes))
-  [:section.section>div.container>div.content
-   [:div "markdown not yet"]
-   [:p (->> @notes
-            (filter #(= (:id @params) (str (:id %))))
-            first
-            :note)]])
+  (let [note (first (filter #(= (:id @params) (str (:id %))) @notes))]
+    [:section.section>div.container>div.content
+     [:h2 (:login note) ", " (:date note)]
+     [:div {:dangerouslySetInnerHTML
+            {:__html (md->html (:note note))}}]]))
 
 ;; -------------------------
 ;; home page
@@ -172,13 +171,13 @@
 ;; -------------------------
 ;; Routes
 
-;;
+
 (def router
   (reitit/router
    [["/" :home]
     ["/about" :about]
-    ["/view/:id" {:name :view
-                  :parameters {:path [:id]}}]]))
+    ;; FIXME: coerce to int
+    ["/view/:id" :view]]))
 
 (defn path-params [match]
   (when-let [p (:path-params match)]
