@@ -46,3 +46,8 @@ WHERE date = :date
 -- :doc find login's note on date
 SELECT * FROM notes
 WHERE login = :login and date = :date
+
+-- :name get-note :? :1
+-- :doc  get note id=:id
+SELECT * FROM notes
+WHERE id = :id
