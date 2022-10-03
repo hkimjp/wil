@@ -1,5 +1,11 @@
 DEST="ubuntu@app.melt.kyutech.ac.jp"
 
+all:
+	@echo make bulild
+	@echo make uberjar
+	@echo make deploy
+	@echo make clean
+
 build:
 	docker build -t hkim0331/wil .
 
