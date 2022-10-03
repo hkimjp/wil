@@ -26,16 +26,15 @@
 (defn login-page [request]
   (layout/render request "login.html" {:flash (:flash request)}))
 
-(defn login-post [{{:keys [login password klass]} :params}]
+(defn login-post [{{:keys [login password]} :params}]
   (let [user (get-user login)]
     (if (and (seq user)
              (= (:login user) login)
              (hashers/check password (:password user)))
       (do
-        (log/info "login success" login "klass" klass)
         (-> (response/found "/")
             (assoc-in [:session :identity] login)
-            (assoc-in [:session :klass] klass)))
+            (assoc-in [:session :klass] (:uhour user))))
       (do
         (log/info "login faild" login)
         (-> (response/found "/login")

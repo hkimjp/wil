@@ -8,17 +8,18 @@
    [wil.ajax :as ajax]
    [ajax.core :refer [GET POST]]
    [reitit.core :as reitit]
+   ;; [reitit.coercion.spec :as rss]
    [clojure.string :as str]
    [cljs-time.core :refer [day-of-week]]
    [cljs-time.format :refer [formatter unparse]]
    [cljs-time.local :refer [local-now]])
   (:import goog.History))
 
-(def ^:private version "0.4.2")
+(def ^:private version "0.5.1")
 
 (defonce session (r/atom {:page :home}))
-
 (defonce notes   (r/atom nil))
+(defonce params  (r/atom nil))
 
 ;; -------------------------
 ;; misc functions
@@ -101,6 +102,20 @@
      "送信"]]])
 
 ;; -------------------------
+;; view note page
+
+(defn view-note-page
+  "過去ノートは既に notes にある。"
+  []
+  ;; (js/alert (:id @params))
+  ;; (.log js/console (str @notes))
+  (let [note (first (filter #(= (:id @params) (str (:id %))) @notes))]
+    [:section.section>div.container>div.content
+     [:h2 (:login note) ", " (:date note)]
+     [:div {:dangerouslySetInnerHTML
+            {:__html (md->html (:note note))}}]]))
+
+;; -------------------------
 ;; home page
 ;; 過去ノート一覧
 ;; * 日付から他の人のノート(markdown, add good/bad)
@@ -114,7 +129,7 @@
     (for [[i note] (map-indexed vector @notes)]
       [:li
        {:key i}
-       (:date note)
+       [:a {:href (str "/#/view/" (:id note))} (:date note)]
        " "
        (-> (:note note) str/split-lines first)])]])
 
@@ -131,7 +146,7 @@
 
 (defn home-page []
   [:section.section>div.container>div.content
-   [:h3 js/login "さんの What I Learned?"]
+   [:h3 js/login "(" js/klass "), What I Learned?"]
    [notes-component]
    (when (and (today-is-klass-day?) (not (done-todays?)))
      [:button
@@ -146,7 +161,8 @@
 (def pages
   {:home #'home-page
    :about #'about-page
-   :new-note #'new-note-page})
+   :new-note #'new-note-page
+   :view #'view-note-page})
 
 ;; この page の役割は？
 (defn page []
@@ -155,14 +171,24 @@
 ;; -------------------------
 ;; Routes
 
+
 (def router
   (reitit/router
    [["/" :home]
-    ["/about" :about]]))
+    ["/about" :about]
+    ;; FIXME: coerce to int
+    ["/view/:id" :view]]))
+
+(defn path-params [match]
+  (when-let [p (:path-params match)]
+    (when (seq p)
+      (reset! params p))
+    match))
 
 (defn match-route [uri]
   (->> (or (not-empty (str/replace uri #"^.*#" "")) "/")
        (reitit/match-by-path router)
+       path-params
        :data
        :name))
 
