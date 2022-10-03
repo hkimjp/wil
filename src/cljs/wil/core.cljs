@@ -8,7 +8,6 @@
    [wil.ajax :as ajax]
    [ajax.core :refer [GET POST]]
    [reitit.core :as reitit]
-   ;; [reitit.coercion.spec :as rss]
    [clojure.string :as str]
    [cljs-time.core :refer [day-of-week]]
    [cljs-time.format :refer [formatter unparse]]
@@ -105,10 +104,8 @@
 ;; view note page
 
 (defn view-note-page
-  "過去ノートは既に notes にある。"
+  "r/atom notes から id を拾って表示。"
   []
-  ;; (js/alert (:id @params))
-  ;; (.log js/console (str @notes))
   (let [note (first (filter #(= (:id @params) (str (:id %))) @notes))]
     [:section.section>div.container>div.content
      [:h2 (:login note) ", " (:date note)]
@@ -142,7 +139,8 @@
 
 (defn today-is-klass-day?
   []
-  (= (day-of-week (local-now)) (wd (subs js/klass 0 3))))
+  (or (= js/klass "*")
+      (= (day-of-week (local-now)) (wd (subs js/klass 0 3)))))
 
 (defn home-page []
   [:section.section>div.container>div.content
@@ -164,13 +162,11 @@
    :new-note #'new-note-page
    :view #'view-note-page})
 
-;; この page の役割は？
 (defn page []
   [(pages (:page @session))])
 
 ;; -------------------------
 ;; Routes
-
 
 (def router
   (reitit/router
