@@ -15,7 +15,7 @@
    [cljs-time.local :refer [local-now]])
   (:import goog.History))
 
-(def ^:private version "0.4.2")
+(def ^:private version "0.5.0-SNAPSHOT")
 
 (defonce session (r/atom {:page :home}))
 (defonce notes   (r/atom nil))
@@ -104,12 +104,19 @@
 ;; -------------------------
 ;; view note page
 
-(defn view-note-page
-  []
-  (.log js/console "view-note-page, params = " (str @params))
+(defn view-markdown
+  [doc]
   [:section.section>div.container>div.content
-   [:div "view-note-page"]
-   [:p (str "params:" @params)]])
+   [:div "markdown not yet"]
+   [:p doc]])
+
+(defn view-note-page
+  "id の note を get /api/note/:id で引っ張ってきて、
+   markdown で表示する。"
+  []
+  (GET "/api/note/" (:id @params)
+    {:handler view-markdown
+     :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
 
 ;; -------------------------
 ;; home page
@@ -179,7 +186,7 @@
   (when-let [p (:path-params match)]
     (when (seq p)
       (reset! params p))
-   match))
+    match))
 
 (defn match-route [uri]
   (->> (or (not-empty (str/replace uri #"^.*#" "")) "/")
@@ -187,7 +194,6 @@
        path-params
        :data
        :name))
-
 
 ;; -------------------------
 ;; History
