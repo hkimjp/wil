@@ -104,19 +104,17 @@
 ;; -------------------------
 ;; view note page
 
-(defn view-markdown
-  [doc]
+(defn view-note-page
+  "過去ノートは既に notes にある。"
+  []
+  ;; (js/alert (:id @params))
+  ;; (.log js/console (str @notes))
   [:section.section>div.container>div.content
    [:div "markdown not yet"]
-   [:p doc]])
-
-(defn view-note-page
-  "id の note を get /api/note/:id で引っ張ってきて、
-   markdown で表示する。"
-  []
-  (GET "/api/note/" (:id @params)
-    {:handler view-markdown
-     :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
+   [:p (->> @notes
+            (filter #(= (:id @params) (str (:id %))))
+            first
+            :note)]])
 
 ;; -------------------------
 ;; home page
