@@ -23,13 +23,17 @@
 ;; -------------------------
 ;; misc functions
 
-(defn get-notes
-  "get the notes list from `/api/notes/login/:login`,
+(defn reset-notes!
+  "get the notes list from `/api/notes/:login`,
    set it in r/atom `notes`."
   []
-  (GET (str "/api/notes/login/" js/login)
+  (GET (str "/api/notes/" js/login)
     {:handler  (fn [ret]  (reset! notes ret))
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
+
+(defonce others (r/atom nil))
+
+
 
 (defn today
   "returns yyyy-MM-dd string."
@@ -76,11 +80,12 @@
 ;; 今日のノート
 
 (defonce note (r/atom ""))
+
 (defn send-note
   [note]
   (POST "/api/note"
     {:params {:login js/login :date (today) :note note}
-     :handler #(constantly nil)
+     :handler #(reset-notes!)
      :error-handler
      (fn [^js/Event e] (js/alert (str "送信失敗。" (.getMessage e))))}))
 
@@ -101,9 +106,9 @@
      "送信"]]])
 
 ;; -------------------------
-;; view note page
+;; view notes
 
-(defn view-note-page
+(defn my-note
   "r/atom notes から id を拾って表示。"
   []
   (let [note (first (filter #(= (:id @params) (str (:id %))) @notes))]
@@ -112,23 +117,46 @@
      [:div {:dangerouslySetInnerHTML
             {:__html (md->html (:note note))}}]]))
 
+(defn others-notes-page
+  "/api/notes/:date/:n から notes を取得。"
+  []
+  [:section.section>div.container>div.content
+   [:h2 "他の人のノートも参考にしましょう。"]
+   (for [[i note] (map-indexed vector @others)]
+     [:div {:key i}
+      [:div
+        {:dangerouslySetInnerHTML
+         {:__html (md->html (:note note))}}]
+      [:hr]])])
+
 ;; -------------------------
 ;; home page
 ;; 過去ノート一覧
 ;; * 日付から他の人のノート(markdown, add good/bad)
 ;; * 1st から自分のノート(markdown, view goods/bads)
 
+(defn reset-others!
+  [date]
+  (GET (str "/api/notes/" date "/5")
+    {:handler #(reset! others %)
+     :error-handler #(js/alert "get /api/notes error")}))
+
 (defn notes-component []
-  (get-notes)
-  [:div
-   [:p "内容が更新されてない時は再読み込み。"]
-   [:ol
-    (for [[i note] (map-indexed vector @notes)]
-      [:li
-       {:key i}
-       [:a {:href (str "/#/view/" (:id note))} (:date note)]
-       " "
-       (-> (:note note) str/split-lines first)])]])
+  (fn []
+    ;;(reset-notes!)
+    [:div
+     [:p "内容が更新されてない時は再読み込み。"]
+     [:ol
+      (for [[i note] (map-indexed vector @notes)]
+        [:li
+         {:key i}
+         [:button {:on-click (fn [_]
+                               (reset-others! (:date note))
+                               (swap! session assoc :page :others))}
+          (:date note)]
+         ", "
+         [:a {:href (str "/#/my/" (:id note))}
+          (-> (:note note) str/split-lines first)]])]]))
 
 (defn done-todays?
   []
@@ -143,16 +171,17 @@
       (= (day-of-week (local-now)) (wd (subs js/klass 0 3)))))
 
 (defn home-page []
-  [:section.section>div.container>div.content
-   [:h3 js/login "(" js/klass "), What I Learned?"]
-   [notes-component]
-   (when (or (= js/klass "*")
-             (and (today-is-klass-day?) (not (done-todays?))))
-      [:button
-       {:on-click (fn [_]
-                    (reset! note "")
-                    (swap! session assoc :page :new-note))}
-       "本日の内容を追加"])])
+  (fn []
+    [:section.section>div.container>div.content
+     [:h3 js/login "(" js/klass "), What I Learned?"]
+     [notes-component]
+     (when (or (= js/klass "*")
+               (and (today-is-klass-day?) (not (done-todays?))))
+       [:button
+        {:on-click (fn [_]
+                     (reset! note "")
+                     (swap! session assoc :page :new-note))}
+        "本日の内容を追加"])]))
 
 ;; -------------------------
 ;; pages
@@ -161,7 +190,8 @@
   {:home #'home-page
    :about #'about-page
    :new-note #'new-note-page
-   :view #'view-note-page})
+   :my #'my-note
+   :others #'others-notes-page})
 
 (defn page []
   [(pages (:page @session))])
@@ -174,7 +204,8 @@
    [["/" :home]
     ["/about" :about]
     ;; FIXME: coerce to int
-    ["/view/:id" :view]]))
+    ["/my/:id" :my]
+    ["/others/:date" :others]]))
 
 (defn path-params [match]
   (when-let [p (:path-params match)]
@@ -209,5 +240,5 @@
 (defn init! []
   (ajax/load-interceptors!)
   (hook-browser-navigation!)
-  (get-notes)
+  (reset-notes!)
   (mount-components))
