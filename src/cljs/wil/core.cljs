@@ -103,7 +103,7 @@
 ;; -------------------------
 ;; view note page
 
-(defn view-note-page
+(defn view-my-page
   "r/atom notes から id を拾って表示。"
   []
   (let [note (first (filter #(= (:id @params) (str (:id %))) @notes))]
@@ -126,9 +126,10 @@
     (for [[i note] (map-indexed vector @notes)]
       [:li
        {:key i}
-       [:a {:href (str "/#/view/" (:id note))} (:date note)]
-       " "
-       (-> (:note note) str/split-lines first)])]])
+       [:a {:href (str "/#/others/" (:date note))} (:date note)]
+       ", "
+       [:a {:href (str "/#/my/" (:id note))}
+        (-> (:note note) str/split-lines first)]])]])
 
 (defn done-todays?
   []
@@ -161,7 +162,7 @@
   {:home #'home-page
    :about #'about-page
    :new-note #'new-note-page
-   :view #'view-note-page})
+   :my #'view-my-page})
 
 (defn page []
   [(pages (:page @session))])
@@ -174,7 +175,8 @@
    [["/" :home]
     ["/about" :about]
     ;; FIXME: coerce to int
-    ["/view/:id" :view]]))
+    ["/my/:id" :my]
+    ["/others/:date" :others]]))
 
 (defn path-params [match]
   (when-let [p (:path-params match)]
