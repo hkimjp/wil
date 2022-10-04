@@ -32,22 +32,20 @@ INSERT INTO notes
 (login, date, note)
 VALUES (:login, :date, :note)
 
--- :name user-notes :? :*
+-- :name login-notes :? :*
 -- :doc  retrieve login's notes
 SELECT * FROM notes
 WHERE login = :login
+ORDER BY id
 
 -- :name date-notes :? :*
 -- :doc  retrieve date's notes
 SELECT * FROM notes
 WHERE date = :date
-
--- :name find-note :? :*
--- :doc find login's note on date
-SELECT * FROM notes
-WHERE login = :login and date = :date
+ORDER BY date
 
 -- :name get-note :? :1
 -- :doc  get note id=:id
 SELECT * FROM notes
 WHERE id = :id
+ORDER BY id
