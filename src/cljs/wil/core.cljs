@@ -14,7 +14,7 @@
    [cljs-time.local :refer [local-now]])
   (:import goog.History))
 
-(def ^:private version "0.5.5")
+(def ^:private version "0.5.6")
 
 (defonce session (r/atom {:page :home}))
 (defonce notes   (r/atom nil))
@@ -146,12 +146,13 @@
   [:section.section>div.container>div.content
    [:h3 js/login "(" js/klass "), What I Learned?"]
    [notes-component]
-   (when (and (today-is-klass-day?) (not (done-todays?)))
-     [:button
-      {:on-click (fn [_]
-                   (reset! note "")
-                   (swap! session assoc :page :new-note))}
-      "本日の内容を追加"])])
+   (when (or (= js/klass "*")
+             (and (today-is-klass-day?) (not (done-todays?))))
+      [:button
+       {:on-click (fn [_]
+                    (reset! note "")
+                    (swap! session assoc :page :new-note))}
+       "本日の内容を追加"])])
 
 ;; -------------------------
 ;; pages
