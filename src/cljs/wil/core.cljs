@@ -31,6 +31,10 @@
     {:handler  (fn [ret]  (reset! notes ret))
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
 
+(defonce others (r/atom nil))
+
+
+
 (defn today
   "returns yyyy-MM-dd string."
   []
@@ -76,11 +80,12 @@
 ;; 今日のノート
 
 (defonce note (r/atom ""))
+
 (defn send-note
   [note]
   (POST "/api/note"
     {:params {:login js/login :date (today) :note note}
-     :handler #(constantly nil)
+     :handler #(reset-notes!)
      :error-handler
      (fn [^js/Event e] (js/alert (str "送信失敗。" (.getMessage e))))}))
 
@@ -112,29 +117,17 @@
      [:div {:dangerouslySetInnerHTML
             {:__html (md->html (:note note))}}]]))
 
-(defonce others (r/atom nil))
-
-(defn reset-others!
-  []
-  (GET (str "/api/notes/" (:date @params) "/5")
-    {:handler #(reset! others %)
-     :error-handler #(js/alert "error")}))
-
-(defn others-component
-  []
-  (reset-others!)
-  [:div
-   (for [[i note] (map-indexed vector @others)]
-    [:p {:key i}
-      (str i)
-      (:note note)])])
-
 (defn others-notes-page
   "/api/notes/:date/:n から notes を取得。"
   []
   [:section.section>div.container>div.content
-   [:h2 "他の人のノートも参考に！"]
-   [others-component]])
+   [:h2 "他の人のノートも参考にしましょう。"]
+   (for [[i note] (map-indexed vector @others)]
+     [:div {:key i}
+      [:div
+        {:dangerouslySetInnerHTML
+         {:__html (md->html (:note note))}}]
+      [:hr]])])
 
 ;; -------------------------
 ;; home page
@@ -142,18 +135,28 @@
 ;; * 日付から他の人のノート(markdown, add good/bad)
 ;; * 1st から自分のノート(markdown, view goods/bads)
 
+(defn reset-others!
+  [date]
+  (GET (str "/api/notes/" date "/5")
+    {:handler #(reset! others %)
+     :error-handler #(js/alert "get /api/notes error")}))
+
 (defn notes-component []
-  (reset-notes!)
-  [:div
-   [:p "内容が更新されてない時は再読み込み。"]
-   [:ol
-    (for [[i note] (map-indexed vector @notes)]
-      [:li
-       {:key i}
-       [:a {:href (str "/#/others/" (:date note))} (:date note)]
-       ", "
-       [:a {:href (str "/#/my/" (:id note))}
-        (-> (:note note) str/split-lines first)]])]])
+  (fn []
+    ;;(reset-notes!)
+    [:div
+     [:p "内容が更新されてない時は再読み込み。"]
+     [:ol
+      (for [[i note] (map-indexed vector @notes)]
+        [:li
+         {:key i}
+         [:button {:on-click (fn [_]
+                               (reset-others! (:date note))
+                               (swap! session assoc :page :others))}
+          (:date note)]
+         ", "
+         [:a {:href (str "/#/my/" (:id note))}
+          (-> (:note note) str/split-lines first)]])]]))
 
 (defn done-todays?
   []
@@ -168,16 +171,17 @@
       (= (day-of-week (local-now)) (wd (subs js/klass 0 3)))))
 
 (defn home-page []
-  [:section.section>div.container>div.content
-   [:h3 js/login "(" js/klass "), What I Learned?"]
-   [notes-component]
-   (when (or (= js/klass "*")
-             (and (today-is-klass-day?) (not (done-todays?))))
-     [:button
-      {:on-click (fn [_]
-                   (reset! note "")
-                   (swap! session assoc :page :new-note))}
-      "本日の内容を追加"])])
+  (fn []
+    [:section.section>div.container>div.content
+     [:h3 js/login "(" js/klass "), What I Learned?"]
+     [notes-component]
+     (when (or (= js/klass "*")
+               (and (today-is-klass-day?) (not (done-todays?))))
+       [:button
+        {:on-click (fn [_]
+                     (reset! note "")
+                     (swap! session assoc :page :new-note))}
+        "本日の内容を追加"])]))
 
 ;; -------------------------
 ;; pages
