@@ -23,7 +23,7 @@
 ;; -------------------------
 ;; misc functions
 
-(defn get-notes
+(defn reset-notes!
   "get the notes list from `/api/notes/:login`,
    set it in r/atom `notes`."
   []
@@ -112,19 +112,29 @@
      [:div {:dangerouslySetInnerHTML
             {:__html (md->html (:note note))}}]]))
 
-(defn view-others-notes
- [notes]
- [:section.section>div.container>div.content
-  [:div {:dangerouslySetInnerHTML
-         {:__html (str "<h1>Under Construction"
-                       notes)}}]])
+(defonce others (r/atom nil))
 
-(defn others-notes
-  "/api/notes/:date/:n から notes を取得。"
+(defn reset-others!
   []
   (GET (str "/api/notes/" (:date @params) "/5")
-    {:handler (fn [ret] (view-others-notes ret))
+    {:handler #(reset! others %)
      :error-handler #(js/alert "error")}))
+
+(defn others-component
+  []
+  (reset-others!)
+  [:div
+   (for [[i note] (map-indexed vector @others)]
+    [:p {:key i}
+      (str i)
+      (:note note)])])
+
+(defn others-notes-page
+  "/api/notes/:date/:n から notes を取得。"
+  []
+  [:section.section>div.container>div.content
+   [:h2 "他の人のノートも参考に！"]
+   [others-component]])
 
 ;; -------------------------
 ;; home page
@@ -133,7 +143,7 @@
 ;; * 1st から自分のノート(markdown, view goods/bads)
 
 (defn notes-component []
-  (get-notes)
+  (reset-notes!)
   [:div
    [:p "内容が更新されてない時は再読み込み。"]
    [:ol
@@ -163,11 +173,11 @@
    [notes-component]
    (when (or (= js/klass "*")
              (and (today-is-klass-day?) (not (done-todays?))))
-      [:button
-       {:on-click (fn [_]
-                    (reset! note "")
-                    (swap! session assoc :page :new-note))}
-       "本日の内容を追加"])])
+     [:button
+      {:on-click (fn [_]
+                   (reset! note "")
+                   (swap! session assoc :page :new-note))}
+      "本日の内容を追加"])])
 
 ;; -------------------------
 ;; pages
@@ -177,7 +187,7 @@
    :about #'about-page
    :new-note #'new-note-page
    :my #'my-note
-   :others #'others-notes})
+   :others #'others-notes-page})
 
 (defn page []
   [(pages (:page @session))])
@@ -226,5 +236,5 @@
 (defn init! []
   (ajax/load-interceptors!)
   (hook-browser-navigation!)
-  (get-notes)
+  (reset-notes!)
   (mount-components))
