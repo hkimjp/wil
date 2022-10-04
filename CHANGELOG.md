@@ -5,6 +5,12 @@
 - みんなのノート
 - goods/bads
 
+
+## 0.5.6 - 2022-10-04
+### Refactor
+- remove find-note
+- order notes. by date, by id.
+
 ## 0.5.5 - 2022-10-03
 - textarea のサイズ
 
