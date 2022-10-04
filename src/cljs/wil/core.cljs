@@ -146,12 +146,13 @@
   [:section.section>div.container>div.content
    [:h3 js/login "(" js/klass "), What I Learned?"]
    [notes-component]
-   (when (and (today-is-klass-day?) (not (done-todays?)))
-     [:button
-      {:on-click (fn [_]
-                   (reset! note "")
-                   (swap! session assoc :page :new-note))}
-      "本日の内容を追加"])])
+   (when (or (= js/klass "*")
+             (and (today-is-klass-day?) (not (done-todays?))))
+      [:button
+       {:on-click (fn [_]
+                    (reset! note "")
+                    (swap! session assoc :page :new-note))}
+       "本日の内容を追加"])])
 
 ;; -------------------------
 ;; pages
