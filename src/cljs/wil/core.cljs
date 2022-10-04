@@ -101,9 +101,9 @@
      "送信"]]])
 
 ;; -------------------------
-;; view note page
+;; view notes
 
-(defn view-my-page
+(defn my-note
   "r/atom notes から id を拾って表示。"
   []
   (let [note (first (filter #(= (:id @params) (str (:id %))) @notes))]
@@ -111,6 +111,13 @@
      [:h2 (:login note) ", " (:date note)]
      [:div {:dangerouslySetInnerHTML
             {:__html (md->html (:note note))}}]]))
+
+(defn others-notes
+ []
+ [:section.section>div.container>div.content
+  [:div "params" (str @params)]
+  [:div {:dangerouslySetInnerHTML
+         {:__html "<h1>Under Construction"}}]])
 
 ;; -------------------------
 ;; home page
@@ -162,7 +169,8 @@
   {:home #'home-page
    :about #'about-page
    :new-note #'new-note-page
-   :my #'view-my-page})
+   :my #'my-note
+   :others #'others-notes})
 
 (defn page []
   [(pages (:page @session))])
