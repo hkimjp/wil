@@ -1,7 +1,7 @@
 (ns wil.routes.services
   (:require
    #_[clojure.tools.logging :as log]
-   [wil.notes :refer [create-note! login-notes date-notes get-note]]
+   [wil.notes :refer [create-note! login-notes get-note date-notes-randomly]]
    [wil.middleware :as middleware]))
 
 (defn services-routes []
@@ -11,5 +11,5 @@
                  middleware/wrap-formats]}
    ["/note" {:post create-note!}]
    ["/note/:id" {:get get-note}]
-   ["/notes/login/:login" {:get login-notes}]
-   ["/notes/date/:date"  {:get date-notes}]])
+   ["/notes/:login" {:get login-notes}]
+   ["/notes/:date/:n"  {:get date-notes-randomly}]])

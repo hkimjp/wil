@@ -24,10 +24,10 @@
 ;; misc functions
 
 (defn get-notes
-  "get the notes list from `/api/notes/login/:login`,
+  "get the notes list from `/api/notes/:login`,
    set it in r/atom `notes`."
   []
-  (GET (str "/api/notes/login/" js/login)
+  (GET (str "/api/notes/" js/login)
     {:handler  (fn [ret]  (reset! notes ret))
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
 
@@ -112,12 +112,19 @@
      [:div {:dangerouslySetInnerHTML
             {:__html (md->html (:note note))}}]]))
 
-(defn others-notes
- []
+(defn view-others-notes
+ [notes]
  [:section.section>div.container>div.content
-  [:div "params" (str @params)]
   [:div {:dangerouslySetInnerHTML
-         {:__html "<h1>Under Construction"}}]])
+         {:__html (str "<h1>Under Construction"
+                       notes)}}]])
+
+(defn others-notes
+  "/api/notes/:date/:n から notes を取得。"
+  []
+  (GET (str "/api/notes/" (:date @params) "/5")
+    {:handler (fn [ret] (view-others-notes ret))
+     :error-handler #(js/alert "error")}))
 
 ;; -------------------------
 ;; home page

@@ -38,11 +38,12 @@ SELECT * FROM notes
 WHERE login = :login
 ORDER BY id
 
--- :name date-notes :? :*
--- :doc  retrieve date's notes
+-- :name date-notes-randomly :? :*
+-- :doc retrieve n notes randomly
 SELECT * FROM notes
 WHERE date = :date
-ORDER BY date
+ORDER BY RANDOM()
+LIMIT :n
 
 -- :name get-note :? :1
 -- :doc  get note id=:id
