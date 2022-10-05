@@ -14,29 +14,24 @@
    [cljs-time.local :refer [local-now]])
   (:import goog.History))
 
-(def ^:private version "0.7.1")
+(def ^:private version "0.7.2")
+
+;; -------------------------
+;; r/atom
 
 (defonce session (r/atom {:page :home}))
 (defonce notes   (r/atom nil))
 (defonce params  (r/atom nil))
 (defonce others  (r/atom nil))
 (defonce note    (r/atom ""))
-;; -------------------------
-;; misc functions
 
 (defn reset-notes!
-  "get the notes list from `/api/notes/:login`,
-   set it in r/atom `notes`."
+  "get the notes from `/api/notes/:login`,
+   set it in `notes` r/atom."
   []
   (GET (str "/api/notes/" js/login)
     {:handler #(reset! notes %)
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
-
-(defn today
-  "returns yyyy-MM-dd string."
-  []
-  (unparse (formatter "yyyy-MM-DD") (local-now)))
-
 ;; -------------------------
 ;; navbar
 
@@ -66,6 +61,14 @@
        [nav-link "/logout" "Logout"]]]]))
 
 ;; -------------------------
+;; misc functions
+
+(defn today
+  "returns yyyy-MM-dd string."
+  []
+  (unparse (formatter "yyyy-MM-DD") (local-now)))
+
+;; -------------------------
 ;; about page
 
 (defn about-page []
@@ -76,7 +79,6 @@
 ;; -------------------------
 ;; 今日のノート
 
-
 (defn send-note
   [note]
   (POST "/api/note"
@@ -85,8 +87,14 @@
      :error-handler
      (fn [^js/Event e] (js/alert (str "送信失敗。" (.getMessage e))))}))
 
+(defonce count-key-up (r/atom 0))
+
 (defn new-note-page []
   [:section.section>div.container>div.content
+   [:p "WIL には自分が今日の授業で何を学んだか、その内容を具体的に書く。
+        授業項目の箇条書きや感想文じゃないぞ。"
+       [:br]
+       "コピペじゃなくてタイプで。"]
    [:p "送信は１日一回です。マークダウン OK. "
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
      "<https://github.com/yogthos/markdown-clj>"]]
@@ -94,43 +102,34 @@
     [:textarea
      {:id "note"
       :value @note
+      :on-key-up #(swap! count-key-up inc)
       :on-change #(reset! note (-> % .-target .-value))}]]
    [:div
     [:button.button.is-danger
-     {:on-click (fn [_]
-                  (send-note @note)
-                  (swap! session assoc :page :home))}
+     {:on-click
+      (fn [_]
+       (cond
+         (< (count (str/split-lines @note)) 7)
+         (js/alert "もうちょっと詳しく書いた方が良くないか？")
+         (or (< @count-key-up 10)
+             (< @count-key-up (count @note)))
+         (js/alert (str "コピペはだめだ。タイプしよう。"))
+         :else (do
+                 (send-note @note)
+                 (swap! session assoc :page :home))))}
      "送信"]]])
 
 ;; -------------------------
 ;; view notes
-(defonce gb (r/atom "goods and bads"))
-
-;; (defn goods-bads [id]
-;;   (GET "/api/good"
-;;     {:params {:id id}
-;;      :handler #(reset! gb %)
-;;      :error-handler #(js/alert "error: good-bads")}))
-
-;; (GET "/api/good"
-;;  {:params {:id 14}
-;;   :handler #(println %)})
-
-;; (for [n @notes]
-;;  (let [gb (GET "/api/good"
-;;            {:params {:id n}
-;;             :handler identity})]
-;;    (keys gb)))
 
 (defn good-bad
   [coll]
   (let [goods (-> (filter #(pos? (:kind %)) coll) count)
         bads  (-> (filter #(neg? (:kind %)) coll) count)]
-    (str "👍 " goods ", 👎 " bads)))
+    (str "you have 👍 " goods ", 👎 " bads ".")))
 
 (defn my-note
-  "r/atom notes から id を拾って表示。
-   good/bad をどうするか。"
+  "r/atom notes から id を拾って表示。good/bad は js/alert で。"
   []
   (let [note (first (filter #(= (:id @params) (str (:id %))) @notes))]
     ;; ここで呼んだらダメ。前もって reset! しとかなくちゃ。
@@ -141,16 +140,17 @@
             {:__html (md->html (:note note))}}]
      [:hr]
      [:div#goodbad
-      [:button.button.is-success.is-small
+      [:button.button.is-small
        {:on-click
         (fn [_]
           (GET "/api/good"
             {:params {:id (:id note)}
-             :handler #(js/alert (good-bad %))
-             :error-handler #(js/alert "ミスった。")}))}
-       "good/bad, 見る？"]]]))
+             :handler
+             #(js/alert (good-bad %))
+             :error-handler
+             (fn [^js/Event e] (js/alert (.getMessage e)))}))}
+       "👍｜👎 ?"]]]))
 
-;; FIXME: id str? int?
 (defn send-good-bad!
   [stat mark id]
   [:button {:on-click
@@ -166,9 +166,9 @@
   "/api/notes/:date/:n から notes を取得。"
   []
   [:section.section>div.container>div.content
-   [:h3 "他の人のノートも参考にしましょう。"]
-   [:p "wil は感想じゃない。授業項目の箇条書きじゃなく、
-        自分が今日の授業で何を学んだか、その内容を具体的に書く。"]
+   [:h3 "他の人のノートも参考にしよう。"]
+   [:p "真面目に取り組む人もいる。自分の取り組み方はどうか？
+        半年後には取り返しがつかない差がつくよ。"]
    [:hr]
    (for [[i note] (map-indexed vector @others)]
      [:div {:key i}
@@ -184,8 +184,6 @@
 ;; -------------------------
 ;; home page
 ;; 過去ノート一覧
-;; * 日付から他の人のノート(markdown, add good/bad)
-;; * 1st から自分のノート(markdown, view goods/bads)
 
 (defn reset-others!
   [date]
@@ -197,7 +195,7 @@
   (fn []
     [:div
      [:p "内容が更新されてない時は再読み込み。
-          日付をクリックは同日のノートをランダムに 5 件、
+          日付をクリックは同日のノートをランダムに 7 件、
           テキストのクリックは自分ノートを表示する。"]
      [:ol
       (for [[i note] (map-indexed vector @notes)]
@@ -224,6 +222,8 @@
   (or (= js/klass "*")
       (= (day-of-week (local-now)) (wd (subs js/klass 0 3)))))
 
+
+
 (defn home-page []
   (fn []
     [:section.section>div.container>div.content
@@ -232,11 +232,11 @@
      [:br]
      (when (or (= js/klass "*")
                (and (today-is-klass-day?) (not (done-todays?))))
-       [:button.button.is-primary.is-small
+       [:button.button.is-primary
         {:on-click (fn [_]
                      (reset! note "")
                      (swap! session assoc :page :new-note))}
-        "本日の内容を追加"])]))
+        "本日分を追加"])]))
 
 ;; -------------------------
 ;; pages
