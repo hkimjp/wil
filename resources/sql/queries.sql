@@ -51,3 +51,11 @@ SELECT * FROM notes
 WHERE date = :date
 ORDER BY RANDOM()
 LIMIT :n
+
+-------------------------------------
+-- goods table
+-- :name create-good-bad! :! :n
+-- :doc  create goods params from_, to_, kind
+INSERT INTO goods
+(from_, to_, kind)
+VALUES (:from_, :to_, :kind)
