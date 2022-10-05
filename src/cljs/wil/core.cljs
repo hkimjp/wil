@@ -19,7 +19,8 @@
 (defonce session (r/atom {:page :home}))
 (defonce notes   (r/atom nil))
 (defonce params  (r/atom nil))
-
+(defonce others  (r/atom nil))
+(defonce note    (r/atom ""))
 ;; -------------------------
 ;; misc functions
 
@@ -28,10 +29,8 @@
    set it in r/atom `notes`."
   []
   (GET (str "/api/notes/" js/login)
-    {:handler  (fn [ret]  (reset! notes ret))
+    {:handler #(reset! notes %)
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
-
-(defonce others (r/atom nil))
 
 (defn today
   "returns yyyy-MM-dd string."
@@ -77,7 +76,6 @@
 ;; -------------------------
 ;; 今日のノート
 
-(defonce note (r/atom ""))
 
 (defn send-note
   [note]
@@ -89,31 +87,68 @@
 
 (defn new-note-page []
   [:section.section>div.container>div.content
-   [:p "送信は１日一回です。マークダウン OK."]
+   [:p "送信は１日一回です。マークダウン OK. "
+    [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
+     "<https://github.com/yogthos/markdown-clj>"]]
    [:div
     [:textarea
      {:id "note"
       :value @note
       :on-change #(reset! note (-> % .-target .-value))}]]
    [:div
-    [:button
+    [:button.button.is-danger
      {:on-click (fn [_]
                   (send-note @note)
-                  (swap! session assoc :page :home))
-      :class "button is-primary"}
+                  (swap! session assoc :page :home))}
      "送信"]]])
 
 ;; -------------------------
 ;; view notes
+(defonce gb (r/atom "goods and bads"))
+
+;; (defn goods-bads [id]
+;;   (GET "/api/good"
+;;     {:params {:id id}
+;;      :handler #(reset! gb %)
+;;      :error-handler #(js/alert "error: good-bads")}))
+
+;; (GET "/api/good"
+;;  {:params {:id 14}
+;;   :handler #(println %)})
+
+;; (for [n @notes]
+;;  (let [gb (GET "/api/good"
+;;            {:params {:id n}
+;;             :handler identity})]
+;;    (keys gb)))
+
+(defn good-bad
+  [coll]
+  (let [goods (-> (filter #(pos? (:kind %)) coll) count)
+        bads  (-> (filter #(neg? (:kind %)) coll) count)]
+    (str "👍 " goods ", 👎 " bads)))
 
 (defn my-note
-  "r/atom notes から id を拾って表示。"
+  "r/atom notes から id を拾って表示。
+   good/bad をどうするか。"
   []
   (let [note (first (filter #(= (:id @params) (str (:id %))) @notes))]
+    ;; ここで呼んだらダメ。前もって reset! しとかなくちゃ。
+    ;; (goods-bads (:id note))
     [:section.section>div.container>div.content
      [:h2 (:login note) ", " (:date note)]
      [:div {:dangerouslySetInnerHTML
-            {:__html (md->html (:note note))}}]]))
+            {:__html (md->html (:note note))}}]
+     [:hr]
+     [:div#goodbad
+      [:button.button.is-success.is-small
+       {:on-click
+        (fn [_]
+          (GET "/api/good"
+            {:params {:id (:id note)}
+             :handler #(js/alert (good-bad %))
+             :error-handler #(js/alert "ミスった。")}))}
+       "good/bad, 見る？"]]]))
 
 ;; FIXME: id str? int?
 (defn send-good-bad!
@@ -122,9 +157,9 @@
             (fn [_]
               (POST "/api/good"
                 {:params {:from js/login :to id :condition stat}
-                 :handler (fn [_] (js/alert (str "sent " stat)))
-                 :error-handler (fn [^js/Event e]
-                                  (js/alert (.getMessage e)))}))}
+                 :handler #(js/alert (str "sent " stat "."))
+                 :error-handler
+                 (fn [^js/Event e] (js/alert (.getMessage e)))}))}
    mark])
 
 (defn others-notes-page
@@ -140,7 +175,7 @@
       [:div
        {:dangerouslySetInnerHTML
         {:__html (md->html (:note note))}}]
-      [br]
+      [:br]
       [send-good-bad! "good" "👍" (:id note)]
       " "
       [send-good-bad! "bad"  "👎" (:id note)]
@@ -154,22 +189,24 @@
 
 (defn reset-others!
   [date]
-  (GET (str "/api/notes/" date "/5")
+  (GET (str "/api/notes/" date "/7")
     {:handler #(reset! others %)
      :error-handler #(js/alert "get /api/notes error")}))
 
 (defn notes-component []
   (fn []
-    ;;(reset-notes!)
     [:div
-     [:p "内容が更新されてない時は再読み込み。"]
+     [:p "内容が更新されてない時は再読み込み。
+          日付をクリックは同日のノートをランダムに 5 件、
+          テキストのクリックは自分ノートを表示する。"]
      [:ol
       (for [[i note] (map-indexed vector @notes)]
         [:p
          {:key i}
-         [:button {:on-click (fn [_]
-                               (reset-others! (:date note))
-                               (swap! session assoc :page :others))}
+         [:button.button.is-warning.is-small
+          {:on-click (fn [_]
+                       (reset-others! (:date note))
+                       (swap! session assoc :page :others))}
           (:date note)]
          " "
          [:a {:href (str "/#/my/" (:id note))}
@@ -192,9 +229,10 @@
     [:section.section>div.container>div.content
      [:h3 js/login "(" js/klass "), What I Learned?"]
      [notes-component]
+     [:br]
      (when (or (= js/klass "*")
                (and (today-is-klass-day?) (not (done-todays?))))
-       [:button
+       [:button.button.is-primary.is-small
         {:on-click (fn [_]
                      (reset! note "")
                      (swap! session assoc :page :new-note))}

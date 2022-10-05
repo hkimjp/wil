@@ -12,3 +12,9 @@
        {:from_ from :to_ to :kind kind})
       (response/ok "inserted")
       (catch Exception e (throw (Exception. (.getMessage e)))))))
+
+(defn good-bad
+  [{{:keys [id]} :params}]
+  (log/info "good-bad" id)
+  (let [ret (db/good-bad {:id (Integer/parseInt id)})]
+    (response/ok ret)))
