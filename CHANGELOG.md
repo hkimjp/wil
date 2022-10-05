@@ -3,6 +3,10 @@
 ## Unreleased
 - コピペ検知
 
+
+## 0.7.1 - 2022-10-05
+- click して good/bad を見れる。
+
 ## 0.7.0 - 2022-10-05
 - can send good/bad
 

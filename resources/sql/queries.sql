@@ -59,3 +59,8 @@ LIMIT :n
 INSERT INTO goods
 (from_, to_, kind)
 VALUES (:from_, :to_, :kind)
+
+-- :name good-bad :? :*
+-- :doc retrieve goods and bads sent to id
+SELECT * from goods
+WHERE to_= :id
