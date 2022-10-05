@@ -32,22 +32,30 @@ INSERT INTO notes
 (login, date, note)
 VALUES (:login, :date, :note)
 
--- :name user-notes :? :*
+-- :name login-notes :? :*
 -- :doc  retrieve login's notes
 SELECT * FROM notes
 WHERE login = :login
+ORDER BY id
 
--- :name date-notes :? :*
--- :doc  retrieve date's notes
-SELECT * FROM notes
-WHERE date = :date
-
--- :name find-note :? :*
--- :doc find login's note on date
-SELECT * FROM notes
-WHERE login = :login and date = :date
 
 -- :name get-note :? :1
 -- :doc  get note id=:id
 SELECT * FROM notes
 WHERE id = :id
+ORDER BY id
+
+-- :name date-notes-randomly :? :*
+-- :doc retrieve n notes randomly
+SELECT * FROM notes
+WHERE date = :date
+ORDER BY RANDOM()
+LIMIT :n
+
+-------------------------------------
+-- goods table
+-- :name create-good-bad! :! :n
+-- :doc  create goods params from_, to_, kind
+INSERT INTO goods
+(from_, to_, kind)
+VALUES (:from_, :to_, :kind)

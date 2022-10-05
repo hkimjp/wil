@@ -12,19 +12,19 @@
     (response/ok {:ok "created"})
     (catch Exception e (throw (.getMessage e)))))
 
-(defn user-notes
+(defn login-notes
   [{{:keys [login]} :path-params}]
-  (response/ok (db/user-notes {:login login})))
-
-(defn date-notes
-  [{{:keys [date]} :path-params}]
-  (response/ok (db/date-notes {:date date})))
-
-;; use?
-(defn find-note
-  [{{:keys [login date]} :params}]
-  (let [ret (db/find-note {:login login :date date})]))
+  (log/info "login-notes")
+  (response/ok (db/login-notes {:login login})))
 
 (defn get-note
- [{{:keys [id]} :params}]
- (response/ok (db/get-note {:id id})))
+  [{{:keys [id]} :params}]
+  (log/info "get-note")
+  (response/ok (db/get-note {:id id})))
+
+;; retrieve `date` note randomly `n`
+(defn date-notes-randomly
+  [{{:keys [date n]} :path-params}]
+  (log/info "date-notes-randomly")
+  (response/ok (db/date-notes-randomly
+                {:date date :n (Integer/parseInt n)})))
