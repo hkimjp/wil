@@ -2,8 +2,9 @@
 
 ## Unreleased
 - コピペ検知
-- みんなのノート
 
+## 0.7.0 - 2022-10-05
+- can send good/bad
 
 ## 0.6.1 - 2022-10-05
 - alter table goods alter to_ type int USING to_::integer;
