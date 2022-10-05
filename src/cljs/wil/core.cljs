@@ -140,6 +140,7 @@
       [:div
        {:dangerouslySetInnerHTML
         {:__html (md->html (:note note))}}]
+      [br]
       [send-good-bad! "good" "👍" (:id note)]
       " "
       [send-good-bad! "bad"  "👎" (:id note)]
@@ -170,7 +171,7 @@
                                (reset-others! (:date note))
                                (swap! session assoc :page :others))}
           (:date note)]
-         ", "
+         " "
          [:a {:href (str "/#/my/" (:id note))}
           (-> (:note note) str/split-lines first)]])]]))
 
