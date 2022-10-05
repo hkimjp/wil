@@ -14,7 +14,7 @@
    [cljs-time.local :refer [local-now]])
   (:import goog.History))
 
-(def ^:private version "0.6.0")
+(def ^:private version "0.6.1")
 
 (defonce session (r/atom {:page :home}))
 (defonce notes   (r/atom nil))
@@ -117,16 +117,34 @@
      [:div {:dangerouslySetInnerHTML
             {:__html (md->html (:note note))}}]]))
 
+;; FIXME: id str? int?
+(defn send-good-bad
+  [stat mark id]
+  [:button {:on-click
+            (fn [_]
+              (POST (str "/api/" stat)
+                {:params {:from js/login :to id}
+                 :handler #(js/alert (str "sent " stat))
+                 :error-handler (fn [^js/Event e]
+                                  (js/alert (.getMessage e)))}))}
+           mark])
+
 (defn others-notes-page
   "/api/notes/:date/:n から notes を取得。"
   []
   [:section.section>div.container>div.content
-   [:h2 "他の人のノートも参考にしましょう。"]
+   [:h3 "他の人のノートも参考にしましょう。"]
+   [:p "wil は感想じゃない。項目を箇条書きにするんじゃなく、
+        自分が今日の授業で何を学んだか、その内容を具体的に書く。"]
+   [:hr]
    (for [[i note] (map-indexed vector @others)]
      [:div {:key i}
       [:div
-        {:dangerouslySetInnerHTML
-         {:__html (md->html (:note note))}}]
+       {:dangerouslySetInnerHTML
+        {:__html (md->html (:note note))}}]
+      [send-good-bad "good" "👍" (:id note)]
+      " "
+      [send-good-bad "bad"  "👎" (:id note)]
       [:hr]])])
 
 ;; -------------------------
@@ -148,7 +166,7 @@
      [:p "内容が更新されてない時は再読み込み。"]
      [:ol
       (for [[i note] (map-indexed vector @notes)]
-        [:li
+        [:p
          {:key i}
          [:button {:on-click (fn [_]
                                (reset-others! (:date note))
