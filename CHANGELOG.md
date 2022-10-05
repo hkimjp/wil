@@ -3,7 +3,10 @@
 ## Unreleased
 - コピペ検知
 - みんなのノート
-- goods/bads
+
+
+## 0.6.1 - 2022-10-05
+- alter table goods alter to_ type int USING to_::integer;
 
 ## 0.6.0 - 2022-10-05
 - ランダムに他の人の当日ノートを表示する

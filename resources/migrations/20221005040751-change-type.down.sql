@@ -1,0 +1,1 @@
+alter table goods alter to_ type VARCHAR(20);
