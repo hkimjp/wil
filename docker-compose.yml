@@ -5,8 +5,8 @@ services:
     image: hkim0331/clj-cljs
     ports:
       - "3020:3000"
-      # - "7002:7002"
-      # - "9630:9630"
+      - "7002:7002"
+      - "9630:9630"
     volumes:
       - .:/usr/src/app:cached
       - m2:/root/.m2
