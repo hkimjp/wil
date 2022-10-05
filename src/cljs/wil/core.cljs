@@ -14,7 +14,7 @@
    [cljs-time.local :refer [local-now]])
   (:import goog.History))
 
-(def ^:private version "0.7.1")
+(def ^:private version "0.7.2")
 
 ;; -------------------------
 ;; r/atom
