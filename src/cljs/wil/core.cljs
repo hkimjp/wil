@@ -91,10 +91,9 @@
 
 (defn new-note-page []
   [:section.section>div.container>div.content
-   [:p "WIL には自分が今日の授業で何を学んだか、その内容を具体的に書く。
-        授業項目の箇条書きや感想文じゃないぞ。"
+   [:p "WIL には自分が今日の授業で何を学んだか、その内容を具体的に書く。"
        [:br]
-       "コピペじゃなくてタイプで。"]
+       "授業項目の箇条書きや感想文じゃないぞ。コピペは良くない。"]
    [:p "送信は１日一回です。マークダウン OK. "
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
      "<https://github.com/yogthos/markdown-clj>"]]
