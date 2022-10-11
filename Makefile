@@ -6,8 +6,8 @@ all:
 	@echo make deploy
 	@echo make clean
 
-build:
-	docker build -t hkim0331/wil .
+# build:
+# 	docker build -t hkim0331/wil .
 
 uberjar:
 	lein uberjar

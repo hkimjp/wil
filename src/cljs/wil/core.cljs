@@ -14,7 +14,7 @@
    [cljs-time.local :refer [local-now]])
   (:import goog.History))
 
-(def ^:private version "0.7.2")
+(def ^:private version "0.7.3")
 
 ;; -------------------------
 ;; r/atom
@@ -91,10 +91,9 @@
 
 (defn new-note-page []
   [:section.section>div.container>div.content
-   [:p "WIL には自分が今日の授業で何を学んだか、その内容を具体的に書く。
-        授業項目の箇条書きや感想文じゃないぞ。"
+   [:p "WIL には自分が今日の授業で何を学んだか、その内容を具体的に書く。"
        [:br]
-       "コピペじゃなくてタイプで。"]
+       "授業項目の箇条書きや感想文じゃないぞ。コピペは良くない。"]
    [:p "送信は１日一回です。マークダウン OK. "
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
      "<https://github.com/yogthos/markdown-clj>"]]
@@ -194,9 +193,10 @@
 (defn notes-component []
   (fn []
     [:div
-     [:p "内容が更新されてない時は再読み込み。
-          日付をクリックは同日のノートをランダムに 7 件、
-          テキストのクリックは自分ノートを表示する。"]
+     [:p "日付をクリックは同日のノートをランダムに 7 件、
+          テキストのクリックは自分ノートを表示する。"
+          [:br]
+          "リストが更新されてない時は再読み込み。"]
      [:ol
       (for [[i note] (map-indexed vector @notes)]
         [:p
