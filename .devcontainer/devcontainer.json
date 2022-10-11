@@ -3,7 +3,6 @@
     "dockerComposeFile": [
         "../docker-compose.yml"
     ],
-
     "customizations": {
         "vscode": {
             "settings": {
@@ -18,10 +17,7 @@
                 "mosapride.zenkaku",
                 "ybaumes.highlight-trailing-white-spaces"
             ]}},
-
     "service": "wil",
-
     "workspaceFolder": "/usr/src/app"
-
     // "remoteUser": "vscode"
 }
