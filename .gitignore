@@ -22,3 +22,5 @@ profiles.clj
 /initdb.d/
 /docker-compose.yml
 /db-dumps/*.sql
+/db-dumps/old/
+
