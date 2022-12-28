@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 0.8.4 - 2022-12-28
+### Added
+- src/clj/wil/corona_absents.clj
+  resources/data/corona-absents.txt を読んで、
+  corona テーブルに sid, date, created_at を追加。
+  date コラムの型は wil テーブルの date コラムに合わせて char(10).
+  SQL での日付の扱いがまだ甘い。
+
 ## 0.7.3 - 2022-10-11
 - favicon.ico
 
@@ -90,4 +98,3 @@
   その後、javascrit と shadow-cljs を外してアップグレードのあと、
   javascript と shadow-cljs をアップグレード。
   そしたらエラーにならない。どうなってんだ？
-
