@@ -6,6 +6,6 @@ fi
 
 PSQL="psql -h localhost -U postgres -W"
 ${PSQL} -c "drop database wil"
-${PSQL} -c "create database wil owner wil"
+${PSQL} -c "create database wil owner postgres"
 ${PSQL} wil < $1
 
