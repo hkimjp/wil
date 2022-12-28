@@ -13,7 +13,7 @@
                  [com.cognitect/transit-clj "1.0.329"]
                  [com.cognitect/transit-cljs "0.8.280"]
                  [com.google.javascript/closure-compiler-unshaded "v20221102"]
-                 ;; [com.google.javascript/closure-compiler-unshaded "v20220905"]
+                 [com.hyperfiddle/rcf "20220926-202227"]
                  [conman "0.9.6"]
                  [cprop "0.1.19"]
                  [expound "0.9.0"]
