@@ -27,7 +27,7 @@
                  [metosin/muuntaja "0.6.8"]
                  [metosin/reitit "0.5.18"]
                  [metosin/ring-http-response "0.9.3"]
-                 [mount "0.1.16"]
+                 [mount "0.1.17"]
                  [nrepl "1.0.0"]
                  [org.clojure/clojure "1.11.1"]
                  [org.clojure/clojurescript "1.11.60" :scope "provided"]
@@ -44,7 +44,7 @@
                  [ring/ring-core "1.9.6"]
                  [ring/ring-defaults "0.3.4"]
                  [selmer "1.12.55"]
-                 [thheller/shadow-cljs "2.20.14" :scope "provided"]
+                 [thheller/shadow-cljs "2.20.16" :scope "provided"]
                  ;;
                  [com.andrewmcveigh/cljs-time "0.5.2"]
                  [hato/hato "0.9.0"]]
