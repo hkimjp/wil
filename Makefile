@@ -9,14 +9,18 @@ all:
 # build:
 # 	docker build -t hkim0331/wil .
 
+prep:
+	npm install
+
 uberjar:
 	lein uberjar
 
-target/default+uberjar/wil.jar:
+# reason of this entry?
+target/uberjar/wil.jar:
 	lein uberjar
 
-deploy: target/default+uberjar/wil.jar
-	scp target/default+uberjar/wil.jar ${DEST}:wil/wil.jar && \
+deploy: target/uberjar/wil.jar
+	scp target/uberjar/wil.jar ${DEST}:wil/wil.jar && \
 	ssh ${DEST} 'sudo systemctl restart wil' && \
 	ssh ${DEST} 'systemctl status wil'
 
