@@ -19,9 +19,9 @@
    note: parameter is a string. cf. (db/get-user {:login login})"
   [login]
   (let [ep   (str api-user login)
-        resp (hc/get ep {:as :json})]
-    (log/info "get-user" (get-in resp [:body :login]))
-    (:body resp)))
+        body (:body (hc/get ep {:as :json}))]
+    (log/info "api-user" body)
+    body))
 
 (defn login-page [request]
   (layout/render request "login.html" {:flash (:flash request)}))
@@ -51,4 +51,3 @@
    ["/"       {:get home-page}]
    ["/login"  {:get  login-page :post login-post}]
    ["/logout" {:get logout}]])
-

@@ -4,7 +4,7 @@
    [wil.goods :refer [create-good-bad! good-bad]]
    [wil.notes :refer [create-note! login-notes get-note date-notes-randomly]]
    [wil.middleware :as middleware]))
-
+()
 (defn services-routes []
   ["/api"
    {:middleware [;; middleware/wrap-restricted

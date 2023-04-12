@@ -222,9 +222,9 @@
   (or (= js/klass "*")
       (= (day-of-week (local-now)) (wd (subs js/klass 0 3)))))
 
-
-
-(defn home-page []
+(defn home-page
+  "js/klass はどこでセットしているか？"
+  []
   (fn []
     [:section.section>div.container>div.content
      [:h3 js/login "(" js/klass "), What I Learned?"]
