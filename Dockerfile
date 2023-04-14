@@ -1,4 +1,4 @@
-FROM hkim0331/clojure
+FROM hkim0331/clj-cljs
 
 ENV DEBIAN_FRONTEND=noninteractive
 
