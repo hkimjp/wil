@@ -14,6 +14,7 @@
     (response/found "/login")))
 
 (def api-user "https://l22.melt.kyutech.ac.jp/api/user/")
+
 (defn get-user
   "retrieve str login's info from API.
    note: parameter is a string. cf. (db/get-user {:login login})"
@@ -44,10 +45,19 @@
   (-> (response/found "/login")
       (assoc :session {})))
 
+(defn profile-page [request]
+  (if-let [login (get-in request [:session :identity])]
+    {:status 200
+     :headers {"content-type" "text/html"}
+     :body "under construction"}
+    (-> (response/found "/login")
+        (assoc :flash "please login"))))
+
 (defn home-routes []
   [""
    {:middleware [middleware/wrap-csrf
                  middleware/wrap-formats]}
    ["/"       {:get home-page}]
    ["/login"  {:get  login-page :post login-post}]
-   ["/logout" {:get logout}]])
+   ["/logout" {:get logout}]
+   ["/profile" {:get profile-page}]])
