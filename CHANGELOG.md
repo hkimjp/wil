@@ -1,6 +1,8 @@
 # WIL
 
 ## Unreleased
+- admin 用 /list/:days
+
 
 ## 0.8.4 - 2022-12-28
 ### Added
