@@ -4,6 +4,9 @@
 - admin 用 /list/:days
 - cljs の warning: luminus のコード navbar
 
+## 0.9.0 - 2023-05-04
+### Added
+- /list/:date admin(hkimura) only
 
 ## 0.8.4 - 2022-12-28
 ### Added
