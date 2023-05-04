@@ -1,8 +1,8 @@
-version: "3.9"
+version: "3.3"
 
 services:
   wil:
-    image: hkim0331/clj-cljs
+    image: hkim0331/luminus
     ports:
       - "3020:3000"
       - "7002:7002"
