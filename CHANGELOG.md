@@ -2,6 +2,7 @@
 
 ## Unreleased
 - admin 用 /list/:days
+- cljs の warning: luminus のコード navbar
 
 
 ## 0.8.4 - 2022-12-28
