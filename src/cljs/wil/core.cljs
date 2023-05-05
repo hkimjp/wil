@@ -166,8 +166,8 @@
   []
   [:section.section>div.container>div.content
    [:h3 "他の人のノートも参考にしよう。"]
-   [:p "真面目に取り組む人もいる。自分の取り組み方はどうか？
-        半年後には取り返しがつかない差がつくよ。"]
+   [:p "自分の取り組み方はどうか？
+        真面目に取り組む人とは取り返しがつかない差が半年後にはつくだろう。"]
    [:hr]
    (for [[i note] (map-indexed vector @others)]
      [:div {:key i}
