@@ -14,6 +14,7 @@ module of loader 'app')
 
 ## 0.9.1 - 2023-05-05
 - reverse order
+- hkimura can view all wils
 
 ## 0.9.0 - 2023-05-04
 ### Added
