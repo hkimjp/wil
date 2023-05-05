@@ -11,6 +11,8 @@ IFn (mount.core.DerefableState is in unnamed module of loader clojure.
 lang.DynamicClassLoader @cc239ba; clojure.lang.IFn is in unnamed 
 module of loader 'app')
 - skip auth in develop
+
+## 0.9.1 - 2023-05-05
 - reverse order
 
 ## 0.9.0 - 2023-05-04
