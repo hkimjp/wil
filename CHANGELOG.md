@@ -2,7 +2,12 @@
 
 ## Unreleased
 - admin 用 /list/:days
-- cljs の warning: luminus のコード navbar
+- cljs の warning: luminus のコード navbar\
+- hyperfiddle でコンパイルエラーになる
+Compiling wil.corona-absents
+✅Syntax error macroexpanding at (corona_absents.clj:34:1).
+Execution error (ClassCastException) at wil.db.core/fn (core.clj:14).
+class mount.core.DerefableState cannot be cast to class clojure.lang.IFn (mount.core.DerefableState is in unnamed module of loader clojure.lang.DynamicClassLoader @cc239ba; clojure.lang.IFn is in unnamed module of loader 'app')
 
 ## 0.9.0 - 2023-05-04
 ### Added
