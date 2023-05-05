@@ -14,7 +14,7 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.9.0")
+(def ^:private version "0.9.1")
 
 ;; -------------------------
 ;; r/atom
@@ -166,8 +166,8 @@
   []
   [:section.section>div.container>div.content
    [:h3 "他の人のノートも参考にしよう。"]
-   [:p "真面目に取り組む人もいる。自分の取り組み方はどうか？
-        半年後には取り返しがつかない差がつくよ。"]
+   [:p "自分の取り組み方はどうか？
+        真面目に取り組む人とは取り返しがつかない差が半年後にはつくだろう。"]
    [:hr]
    (for [[i note] (map-indexed vector @others)]
      [:div {:key i}
@@ -184,26 +184,26 @@
 ;; home page
 ;; 過去ノート一覧
 
-(defn reset-others!
+(defn fetch-others!
+  "/api/notes/:date/300 からノートをフェッチ、atom others を更新する。"
   [date]
-  (GET (str "/api/notes/" date "/7")
-    {:handler #(reset! others %)
+  (js/alert (str "user:" js/login))
+  (GET (str "/api/notes/" date "/300")
+    {:handler #(reset! others (if (= js/login "hkimura")
+                                %
+                                (take 7 %)))
      :error-handler #(js/alert "get /api/notes error")}))
 
 (defn notes-component []
   (fn []
     [:div
-     [:p "日付をクリックは同日のノートをランダムに 7 件、
-          テキストのクリックは自分ノートを表示する。"
-          [:br]
-          "リストが更新されてない時は再読み込み。"]
      [:ol
-      (for [[i note] (map-indexed vector @notes)]
+      (for [[i note] (reverse (map-indexed vector @notes))]
         [:p
          {:key i}
          [:button.button.is-warning.is-small
           {:on-click (fn [_]
-                       (reset-others! (:date note))
+                       (fetch-others! (:date note))
                        (swap! session assoc :page :others))}
           (:date note)]
          " "
@@ -228,15 +228,20 @@
   (fn []
     [:section.section>div.container>div.content
      [:h3 js/login "(" js/klass "), What I Learned?"]
-     [notes-component]
-     [:br]
+     [:p "日付をクリックは同日のノートをランダムに 7 件、
+          テキストのクリックは自分ノートを表示する。"
+      [:br]
+      "リストが更新されてない時は再読み込み。"]
      (when (or (= js/klass "*")
                (and (today-is-klass-day?) (not (done-todays?))))
        [:button.button.is-primary
         {:on-click (fn [_]
                      (reset! note "")
                      (swap! session assoc :page :new-note))}
-        "本日分を追加"])]))
+        "本日分を追加"])
+     [notes-component]
+     [:hr]
+     [:div "version " version]]))
 
 ;; -------------------------
 ;; pages
