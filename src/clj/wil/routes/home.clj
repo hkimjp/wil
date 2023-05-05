@@ -72,4 +72,5 @@
    ["/login"   {:get  login-page :post login-post}]
    ["/logout"  {:get logout}]
    ["/profile" {:get profile-page}]
+   ;; FIXME
    ["/list/:date" {:get list-notes}]])
