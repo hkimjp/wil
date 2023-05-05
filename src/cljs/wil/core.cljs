@@ -184,12 +184,14 @@
 ;; home page
 ;; 過去ノート一覧
 
-;; FIXME: hard coded 7
 (defn fetch-others!
-  "/api/notes/:date/7 からノートをフェッチ、atom others を更新する。"
+  "/api/notes/:date/300 からノートをフェッチ、atom others を更新する。"
   [date]
-  (GET (str "/api/notes/" date "/7")
-    {:handler #(reset! others %)
+  (js/alert (str "user:" js/login))
+  (GET (str "/api/notes/" date "/300")
+    {:handler #(reset! others (if (= js/login "hkimura")
+                                %
+                                (take 7 %)))
      :error-handler #(js/alert "get /api/notes error")}))
 
 (defn notes-component []
