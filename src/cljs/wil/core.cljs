@@ -1,20 +1,20 @@
 (ns wil.core
   (:require
-   [reagent.core :as r]
-   [reagent.dom :as rdom]
+   [ajax.core :refer [GET POST]]
+   [cljs-time.core :refer [day-of-week]]
+   [cljs-time.format :refer [formatter unparse]]
+   [cljs-time.local :refer [local-now]]
+   [clojure.string :as str]
    [goog.events :as events]
    [goog.history.EventType :as HistoryEventType]
    [markdown.core :refer [md->html]]
-   [wil.ajax :as ajax]
-   [ajax.core :refer [GET POST]]
+   [reagent.core :as r]
+   [reagent.dom :as rdom]
    [reitit.core :as reitit]
-   [clojure.string :as str]
-   [cljs-time.core :refer [day-of-week]]
-   [cljs-time.format :refer [formatter unparse]]
-   [cljs-time.local :refer [local-now]])
+   [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.8.4")
+(def ^:private version "0.9.0")
 
 ;; -------------------------
 ;; r/atom
@@ -222,9 +222,9 @@
   (or (= js/klass "*")
       (= (day-of-week (local-now)) (wd (subs js/klass 0 3)))))
 
-
-
-(defn home-page []
+(defn home-page
+  "js/klass はどこでセットしているか？"
+  []
   (fn []
     [:section.section>div.container>div.content
      [:h3 js/login "(" js/klass "), What I Learned?"]
@@ -242,11 +242,12 @@
 ;; pages
 
 (def pages
-  {:home #'home-page
-   :about #'about-page
+  {:home     #'home-page
+   :about    #'about-page
    :new-note #'new-note-page
-   :my #'my-note
-   :others #'others-notes-page})
+   :my       #'my-note
+   :others   #'others-notes-page
+   :list     #'list})
 
 (defn page []
   [(pages (:page @session))])
@@ -256,9 +257,8 @@
 
 (def router
   (reitit/router
-   [["/" :home]
-    ["/about" :about]
-    ;; FIXME: coerce to int
+   [["/"       :home]
+    ["/about"  :about]
     ["/my/:id" :my]
     ["/others/:date" :others]]))
 

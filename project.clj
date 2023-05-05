@@ -1,4 +1,4 @@
-(defproject wil "0.8.4"
+(defproject wil "0.9.0"
 
   :description "for 2022 python classes"
   :url "https://wil.kyutech.ac.jp"
@@ -9,10 +9,10 @@
                  #_[buddy/buddy-sign "3.4.333"]
                  [ch.qos.logback/logback-classic "1.4.5"]
                  [cljs-ajax "0.8.4"]
-                 [clojure.java-time "1.1.0"]
+                 [clojure.java-time "1.2.0"]
                  [com.cognitect/transit-clj "1.0.329"]
                  [com.cognitect/transit-cljs "0.8.280"]
-                 [com.google.javascript/closure-compiler-unshaded "v20221102"]
+                 [com.google.javascript/closure-compiler-unshaded "v20230103"]
                  [com.hyperfiddle/rcf "20220926-202227"]
                  [conman "0.9.6"]
                  [cprop "0.1.19"]
@@ -44,7 +44,7 @@
                  [ring/ring-core "1.9.6"]
                  [ring/ring-defaults "0.3.4"]
                  [selmer "1.12.55"]
-                 [thheller/shadow-cljs "2.20.16" :scope "provided"]
+                 [thheller/shadow-cljs "2.20.20" :scope "provided"]
                  ;;
                  [com.andrewmcveigh/cljs-time "0.5.2"]
                  [hato/hato "0.9.0"]]
