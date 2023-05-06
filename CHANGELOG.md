@@ -14,7 +14,13 @@ module of loader 'app')
 
 
 ## 0.9.3 - 2023-05-06
+- clean up Makefile
+### Added
 - skip auth in develop: wil.env/dev? を定義した
+### Changed
+- port 3020
+- does not staticly export 3020 and 7002 from docker-compose.yml
+  Calva does it.
 
 ## 0.9.2 - 2023-05-05
 ### Removed
