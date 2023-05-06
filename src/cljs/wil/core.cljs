@@ -187,7 +187,7 @@
 (defn fetch-others!
   "/api/notes/:date/300 からノートをフェッチ、atom others を更新する。"
   [date]
-  (js/alert (str "user:" js/login))
+  ;; (js/alert (str "user:" js/login))
   (GET (str "/api/notes/" date "/300")
     {:handler #(reset! others (if (= js/login "hkimura")
                                 %

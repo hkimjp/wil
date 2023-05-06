@@ -31,13 +31,13 @@
                 {:date date :n (Integer/parseInt n)})))
 
 ;; FIXME: admin only
-(defn list-notes
-  "can only see hkimura user"
-  [{{:keys [date]} :path-params :as req}]
-  (log/info "list-notes" (get-in req [:session :identity]))
-  (if (= "hkimura" (get-in req [:session :identity]))
-    {:status 200
-     :headers {"content-type" "text/html"}
-     :body (str/join (for [{:keys [login note]} (db/list-notes {:date date})]
-             (str "<p>" login "<br>" note "</p>")))}
-    {:status 404}))
+;; (defn list-notes
+;;   "can only see hkimura user"
+;;   [{{:keys [date]} :path-params :as req}]
+;;   (log/info "list-notes" (get-in req [:session :identity]))
+;;   (if (= "hkimura" (get-in req [:session :identity]))
+;;     {:status 200
+;;      :headers {"content-type" "text/html"}
+;;      :body (str/join (for [{:keys [login note]} (db/list-notes {:date date})]
+;;              (str "<p>" login "<br>" note "</p>")))}
+;;     {:status 404}))

@@ -6,7 +6,8 @@
   [ring.util.http-response :as response]
   [wil.layout :as layout]
   [wil.middleware :as middleware]
-  [wil.notes :refer [list-notes]]))
+  #_[wil.notes :refer [list-notes]]
+  ))
 
 (defn home-page
   [request]
@@ -24,10 +25,6 @@
     (log/info "api-user" body)
     body))
 
-(comment
-  (get-user "hkimura")
-  )
-
 (defn login-page [request]
   (layout/render request "login.html" {:flash (:flash request)}))
 
@@ -37,6 +34,7 @@
              (= (:login user) login)
              (hashers/check password (:password user)))
       (do
+        (log/info "login" login)
         (-> (response/found "/")
             (assoc-in [:session :identity] login)
             (assoc-in [:session :klass] (:uhour user))))
@@ -72,5 +70,6 @@
    ["/login"   {:get  login-page :post login-post}]
    ["/logout"  {:get logout}]
    ["/profile" {:get profile-page}]
-   ;; FIXME
-   ["/list/:date" {:get list-notes}]])
+   ;; no use
+   #_["/list/:date" {:get list-notes}]
+   ])
