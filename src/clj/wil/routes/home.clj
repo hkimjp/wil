@@ -4,6 +4,7 @@
   [clojure.tools.logging :as log]
   [hato.client :as hc]
   [ring.util.http-response :as response]
+  [wil.env]
   [wil.layout :as layout]
   [wil.middleware :as middleware]
   #_[wil.notes :refer [list-notes]]
@@ -28,20 +29,30 @@
 (defn login-page [request]
   (layout/render request "login.html" {:flash (:flash request)}))
 
+(comment
+  wil.env/dev?
+  )
+
 (defn login-post [{{:keys [login password]} :params}]
-  (let [user (get-user login)]
-    (if (and (seq user)
-             (= (:login user) login)
-             (hashers/check password (:password user)))
-      (do
-        (log/info "login" login)
-        (-> (response/found "/")
-            (assoc-in [:session :identity] login)
-            (assoc-in [:session :klass] (:uhour user))))
-      (do
-        (log/info "login faild" login)
-        (-> (response/found "/login")
-            (assoc :flash "login failure"))))))
+  (if wil.env/dev?
+    (do
+      (log/info "login-post dev")
+      (-> (response/found "/")
+          (assoc-in [:session :identity] login)
+          (assoc-in [:session :klass] "*")))
+    (let [user (get-user login)]
+      (if (and (seq user)
+               (= (:login user) login)
+               (hashers/check password (:password user)))
+        (do
+          (log/info "login" login)
+          (-> (response/found "/")
+              (assoc-in [:session :identity] login)
+              (assoc-in [:session :klass] (:uhour user))))
+        (do
+          (log/info "login faild" login)
+          (-> (response/found "/login")
+              (assoc :flash "login failure")))))))
 
 (defn logout [_]
   (-> (response/found "/login")

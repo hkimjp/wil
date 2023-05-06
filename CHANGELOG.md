@@ -10,8 +10,11 @@ class mount.core.DerefableState cannot be cast to class clojure.lang.
 IFn (mount.core.DerefableState is in unnamed module of loader clojure.
 lang.DynamicClassLoader @cc239ba; clojure.lang.IFn is in unnamed
 module of loader 'app')
-- skip auth in develop
 - admin? which replaces #(= "hkimura" %)
+
+
+## 0.9.3 - 2023-05-06
+- skip auth in develop: wil.env/dev? を定義した
 
 ## 0.9.2 - 2023-05-05
 ### Removed

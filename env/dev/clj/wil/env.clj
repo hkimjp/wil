@@ -13,3 +13,5 @@
    (fn []
      (log/info "\n-=[wil has shut down successfully]=-"))
    :middleware wrap-dev})
+
+(def dev? true)
