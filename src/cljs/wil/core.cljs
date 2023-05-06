@@ -14,7 +14,7 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.9.3")
+(def ^:private version "0.9.4")
 
 ;; -------------------------
 ;; r/atom
@@ -91,9 +91,9 @@
 
 (defn new-note-page []
   [:section.section>div.container>div.content
-   [:p "WIL には自分が今日の授業で何を学んだか、その内容を具体的に書く。"
+   [:p "WIL には今日の授業で何を学んだか、その内容を具体的に書く。単に感想文じゃないぞ。"
        [:br]
-       "授業項目の箇条書きや感想文じゃないぞ。コピペは良くない。"]
+       "コピペブロックの仕掛け作ってます。"]
    [:p "送信は１日一回です。マークダウン OK. "
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
      "<https://github.com/yogthos/markdown-clj>"]]
@@ -166,8 +166,8 @@
   []
   [:section.section>div.container>div.content
    [:h3 "他の人のノートも参考にしよう。"]
-   [:p "自分の取り組み方はどうか？
-        真面目に取り組む人とは取り返しがつかない差が半年後にはつくだろう。"]
+   [:p "自分の取り組みはどうか？
+        真面目に取り組むと点数以上の差が半年後にはつくだろう。"]
    [:hr]
    (for [[i note] (map-indexed vector @others)]
      [:div {:key i}
