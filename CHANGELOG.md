@@ -14,6 +14,7 @@ module of loader 'app')
 
 
 ## 0.9.3 - 2023-05-06
+- clean up Makefile
 ### Added
 - skip auth in develop: wil.env/dev? を定義した
 ### Changed
