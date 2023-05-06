@@ -1,8 +1,6 @@
-(defproject wil "0.9.1"
-
+(defproject wil "0.9.3"
   :description "for 2022 python classes"
   :url "https://wil.kyutech.ac.jp"
-
   :dependencies [[buddy/buddy-auth "3.0.323"]
                  [buddy/buddy-core "1.10.413"]
                  [buddy/buddy-hashers "1.8.158"]
@@ -50,30 +48,22 @@
                  [hato/hato "0.9.0"]]
 
   :min-lein-version "2.0.0"
-
   :source-paths ["src/clj" "src/cljs" "src/cljc"]
   :test-paths ["test/clj"]
   :resource-paths ["resources" "target/cljsbuild"]
   :target-path "target/%s/"
   :main ^:skip-aot wil.core
-
   :plugins []
-  :clean-targets ^{:protect false}
-  [:target-path "target/cljsbuild"]
-
-
+  :clean-targets ^{:protect false} [:target-path "target/cljsbuild"]
   :profiles
   {:uberjar {:omit-source true
-
              :prep-tasks ["compile" ["run" "-m" "shadow.cljs.devtools.cli" "release" "app"]]
              :aot :all
              :uberjar-name "wil.jar"
              :source-paths ["env/prod/clj"  "env/prod/cljs"]
              :resource-paths ["env/prod/resources"]}
-
-   :dev           [:project/dev :profiles/dev]
-   :test          [:project/dev :project/test :profiles/test]
-
+   :dev     [:project/dev :profiles/dev]
+   :test    [:project/dev :project/test :profiles/test]
    :project/dev  {:jvm-opts ["-Dconf=dev-config.edn"]
                   :dependencies [[binaryage/devtools "1.0.7"]
                                  [cider/piggieback "0.5.3"]
@@ -85,8 +75,6 @@
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.25.0"]
                                  [jonase/eastwood "1.3.0"]
                                  [cider/cider-nrepl "0.29.0"]]
-
-
                   :source-paths ["env/dev/clj"  "env/dev/cljs" "test/cljs"]
                   :resource-paths ["env/dev/resources"]
                   :repl-options {:init-ns user
@@ -95,8 +83,5 @@
                                (pjstadig.humane-test-output/activate!)]}
    :project/test {:jvm-opts ["-Dconf=test-config.edn"]
                   :resource-paths ["env/test/resources"]}
-
-
-
    :profiles/dev {}
    :profiles/test {}})

@@ -8,9 +8,23 @@ Compiling wil.corona-absents
 Execution error (ClassCastException) at wil.db.core/fn (core.clj:14).
 class mount.core.DerefableState cannot be cast to class clojure.lang.
 IFn (mount.core.DerefableState is in unnamed module of loader clojure.
-lang.DynamicClassLoader @cc239ba; clojure.lang.IFn is in unnamed 
+lang.DynamicClassLoader @cc239ba; clojure.lang.IFn is in unnamed
 module of loader 'app')
-- skip auth in develop
+- admin? which replaces #(= "hkimura" %)
+
+
+## 0.9.3 - 2023-05-06
+- clean up Makefile
+### Added
+- skip auth in develop: wil.env/dev? を定義した
+### Changed
+- port 3020
+- does not staticly export 3020 and 7002 from docker-compose.yml
+  Calva does it.
+
+## 0.9.2 - 2023-05-05
+### Removed
+- 0.9.0 matter, list-notes etc.
 
 ## 0.9.1 - 2023-05-05
 - reverse order
