@@ -1,6 +1,8 @@
 # WIL
 
 ## Unreleased
+- copy/paste allow/disallow mode
+
 
 ## 0.8.4 - 2022-12-28
 ### Added
