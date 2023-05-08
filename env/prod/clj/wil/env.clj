@@ -9,3 +9,6 @@
    (fn []
      (log/info "\n-=[wil has shut down successfully]=-"))
    :middleware identity})
+
+;; FIXME: no good...
+(def dev? false)
