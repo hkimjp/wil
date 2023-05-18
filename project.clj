@@ -1,4 +1,4 @@
-(defproject wil "0.9.4"
+(defproject wil "0.10.0"
   :description "for 2022 python classes"
   :url "https://wil.kyutech.ac.jp"
   :dependencies [[buddy/buddy-auth "3.0.323"]
@@ -74,7 +74,7 @@
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.25.0"]
                                  [jonase/eastwood "1.3.0"]
-                                 [cider/cider-nrepl "0.29.0"]]
+                                 [cider/cider-nrepl "0.30.0"]]
                   :source-paths ["env/dev/clj"  "env/dev/cljs" "test/cljs"]
                   :resource-paths ["env/dev/resources"]
                   :repl-options {:init-ns user

@@ -11,6 +11,15 @@ IFn (mount.core.DerefableState is in unnamed module of loader clojure.
 lang.DynamicClassLoader @cc239ba; clojure.lang.IFn is in unnamed
 module of loader 'app')
 - admin? which replaces #(= "hkimura" %)
+- Tagged Value
+```
+178 |       [:div "From: " [:b (:login note)] ", " (str (.-rep (:created_at note))) ","]
+---------------------------------------------------------^----------------------
+ Cannot infer target type in expression (. (:created_at note) -rep)
+```
+
+## 0.10.0 - 2023-05-19
+- display from who and when
 
 ## 0.9.4 - 2023-05-06
 - 文言の修正

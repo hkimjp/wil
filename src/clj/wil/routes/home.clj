@@ -31,7 +31,7 @@
 
 (comment
   wil.env/dev?
-  )
+  :rcf)
 
 (defn login-post [{{:keys [login password]} :params}]
   (if wil.env/dev?
