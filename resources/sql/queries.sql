@@ -49,7 +49,7 @@ ORDER BY id
 -- :doc retrieve n notes randomly
 SELECT * FROM notes
 WHERE date = :date
-qORDER BY RANDOM()
+ORDER BY RANDOM()
 LIMIT :n
 
 -- :name list-notes :? :*

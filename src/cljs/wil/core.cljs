@@ -32,6 +32,10 @@
   (GET (str "/api/notes/" js/login)
     {:handler #(reset! notes %)
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
+
+(comment
+  js/login
+  :rcf)
 ;; -------------------------
 ;; navbar
 
@@ -171,6 +175,8 @@
    [:hr]
    (for [[i note] (map-indexed vector @others)]
      [:div {:key i}
+      [:div "From: " [:b (:login note)] ", " (str (.-rep (:created_at note))) ","]
+      [:br]
       [:div
        {:dangerouslySetInnerHTML
         {:__html (md->html (:note note))}}]
