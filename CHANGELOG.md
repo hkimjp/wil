@@ -12,6 +12,9 @@ lang.DynamicClassLoader @cc239ba; clojure.lang.IFn is in unnamed
 module of loader 'app')
 - admin? which replaces #(= "hkimura" %)
 
+## 0.10.0 - 2023-05-19
+- display from who and when
+
 ## 0.9.4 - 2023-05-06
 - 文言の修正
 
