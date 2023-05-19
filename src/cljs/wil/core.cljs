@@ -34,6 +34,7 @@
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
 
 (comment
+  (+ 1 2 3)
   js/login
   :rcf)
 ;; -------------------------
@@ -200,6 +201,7 @@
                                 (take 7 %)))
      :error-handler #(js/alert "get /api/notes error")}))
 
+;; dummy links
 (defn notes-component []
   (fn []
     [:div
@@ -212,6 +214,12 @@
                        (fetch-others! (:date note))
                        (swap! session assoc :page :others))}
           (:date note)]
+         " "
+         [:a.button.button.is-success.is-small {:href (str "/#/good/3")}
+          "good 3"]
+         " "
+         [:a.button.button.is-danger.is-small {:href (str "/#/bad/3")}
+          "bad 3"]
          " "
          [:a {:href (str "/#/my/" (:id note))}
           (-> (:note note) str/split-lines first)]])]]))
@@ -249,12 +257,25 @@
      [:hr]
      [:div "version " version]]))
 
+(defn good-page
+  []
+  [:section.section>div.container>div.content
+  [:h3 "👍: under construction"]
+  [:p [:a {:href "/#/"} "back" ]]])
+
+(defn bad-page
+  []
+  [:section.section>div.container>div.content
+   [:h3 "👎: under construction"]
+   [:p [:a {:href "/#/"} "back"]]])
 ;; -------------------------
 ;; pages
 
 (def pages
   {:home     #'home-page
    :about    #'about-page
+   :bad      #'bad-page
+   :good     #'good-page
    :new-note #'new-note-page
    :my       #'my-note
    :others   #'others-notes-page
@@ -268,9 +289,11 @@
 
 (def router
   (reitit/router
-   [["/"       :home]
-    ["/about"  :about]
-    ["/my/:id" :my]
+   [["/"        :home]
+    ["/about"   :about]
+    ["/bad/:n"  :bad]
+    ["/good/:n" :good]
+    ["/my/:id"  :my]
     ["/others/:date" :others]]))
 
 (defn path-params [match]
