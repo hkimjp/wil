@@ -46,8 +46,10 @@
     :class (when (= page (:page @session)) "is-active")}
    title])
 
+(def expanded? (r/atom false))
+
 (defn navbar []
-  (r/with-let [expanded? (r/atom false)]
+;;  (r/with-let [expanded? (r/atom false)]
     [:nav.navbar.is-info>div.container
      [:div.navbar-brand
       [:a.navbar-item {:href "/" :style {:font-weight :bold}} "WIL"]
@@ -63,7 +65,8 @@
        [nav-link "https://py99.melt.kyutech.ac.jp" "Py99"]
        [nav-link "https://qa.melt.kyutech.ac.jp" "QA"]
        [nav-link "#/about" "About" :about]
-       [nav-link "/logout" "Logout"]]]]))
+       [nav-link "/logout" "Logout"]]]])
+;;)
 
 ;; -------------------------
 ;; misc functions
@@ -215,10 +218,10 @@
                        (swap! session assoc :page :others))}
           (:date note)]
          " "
-         [:a.button.button.is-success.is-small {:href (str "/#/good/3")}
+         [:a.button.button.is-success.is-small.is-rounded {:href (str "/#/good/3")}
           "good 3"]
          " "
-         [:a.button.button.is-danger.is-small {:href (str "/#/bad/3")}
+         [:a.button.button.is-danger.is-small.is-rounded {:href (str "/#/bad/3")}
           "bad 3"]
          " "
          [:a {:href (str "/#/my/" (:id note))}
@@ -243,6 +246,7 @@
     [:section.section>div.container>div.content
      [:h3 js/login "(" js/klass "), What I Learned?"]
      [:p "日付をクリックは同日のノートをランダムに 7 件、
+          good 3 と bad 3 は作成中（近日オープン）、
           テキストのクリックは自分ノートを表示する。"
       [:br]
       "リストが更新されてない時は再読み込み。"]
@@ -268,6 +272,7 @@
   [:section.section>div.container>div.content
    [:h3 "👎: under construction"]
    [:p [:a {:href "/#/"} "back"]]])
+
 ;; -------------------------
 ;; pages
 
