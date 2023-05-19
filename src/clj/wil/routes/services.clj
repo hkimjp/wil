@@ -7,12 +7,13 @@
 
 (defn services-routes []
   ["/api"
-   {:middleware [;; middleware/wrap-restricted
-                 ;; middleware/wrap-csrf
+   {:middleware [;; middleware/wrap-csrf
+                 middleware/wrap-restricted
                  middleware/wrap-formats]}
-   ["/note" {:post create-note!}]
+   ["/note"     {:post create-note!}]
    ["/note/:id" {:get get-note}]
-   ["/notes/:login" {:get login-notes}]
-   ["/notes/:date/:n"  {:get date-notes-randomly}]
+   ["/notes/:login"   {:get login-notes}]
+   ["/notes/:date/:n" {:get date-notes-randomly}]
+   #_["/list/:date"     {:get list-notes}]
    ["/good" {:post create-good-bad!
              :get good-bad}]])

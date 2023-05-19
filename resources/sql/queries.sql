@@ -52,6 +52,11 @@ WHERE date = :date
 ORDER BY RANDOM()
 LIMIT :n
 
+-- :name list-notes :? :*
+-- :doc retrieve date's all notes
+SELECT * FROM notes
+WHERE date = :date
+
 -------------------------------------
 -- goods table
 -- :name create-good-bad! :! :n

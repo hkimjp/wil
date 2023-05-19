@@ -1,6 +1,52 @@
 # WIL
 
 ## Unreleased
+- cljs の warning: luminus のコード navbar
+- hyperfiddle でコンパイルエラーになる
+Compiling wil.corona-absents
+✅Syntax error macroexpanding at (corona_absents.clj:34:1).
+Execution error (ClassCastException) at wil.db.core/fn (core.clj:14).
+class mount.core.DerefableState cannot be cast to class clojure.lang.
+IFn (mount.core.DerefableState is in unnamed module of loader clojure.
+lang.DynamicClassLoader @cc239ba; clojure.lang.IFn is in unnamed
+module of loader 'app')
+- admin? which replaces #(= "hkimura" %)
+- Tagged Value
+```
+178 |       [:div "From: " [:b (:login note)] ", " (str (.-rep (:created_at note))) ","]
+---------------------------------------------------------^----------------------
+ Cannot infer target type in expression (. (:created_at note) -rep)
+```
+
+## 0.11.0 - 2023-05-19
+- dummy links
+
+## 0.10.0 - 2023-05-19
+- display from who and when
+
+## 0.9.4 - 2023-05-06
+- 文言の修正
+
+## 0.9.3 - 2023-05-06
+- clean up Makefile
+### Added
+- skip auth in develop: wil.env/dev? を定義した
+### Changed
+- port 3020
+- does not staticly export 3020 and 7002 from docker-compose.yml
+  Calva does it.
+
+## 0.9.2 - 2023-05-05
+### Removed
+- 0.9.0 matter, list-notes etc.
+
+## 0.9.1 - 2023-05-05
+- reverse order
+- hkimura can view all wils
+
+## 0.9.0 - 2023-05-04
+### Added
+- /list/:date admin(hkimura) only
 
 ## 0.8.4 - 2022-12-28
 ### Added
