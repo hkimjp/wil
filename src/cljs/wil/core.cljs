@@ -249,7 +249,7 @@
           good 3 と bad 3 は作成中（近日オープン）、
           テキストのクリックは自分ノートを表示する。"
       [:br]
-      "リストが更新されてない時は再読み込み。"]
+      "自分が WIL 書いてない週は他の人のも見れないよ。"]
      (when (or (= js/klass "*")
                (and (today-is-klass-day?) (not (done-todays?))))
        [:button.button.is-primary
