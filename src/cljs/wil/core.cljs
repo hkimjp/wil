@@ -166,7 +166,8 @@
                 {:params {:from js/login :to id :condition stat}
                  :handler #(js/alert (str "sent " stat "."))
                  :error-handler
-                 (fn [^js/Event e] (js/alert (.getMessage e)))}))}
+                 (fn [^js/Event e] (js/alert (str "error: "
+                                                  (.getMessage e))))}))}
    mark])
 
 (defn others-notes-page
@@ -186,6 +187,8 @@
         {:__html (md->html (:note note))}}]
       [:br]
       [send-good-bad! "good" "👍" (:id note)]
+      " "
+      [send-good-bad! "so-so" "😐" (:id note)]
       " "
       [send-good-bad! "bad"  "👎" (:id note)]
       [:hr]])])
