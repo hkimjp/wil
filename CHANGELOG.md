@@ -19,6 +19,8 @@ module of loader 'app')
 ```
 return type?
 
+## 0.11.1 - 2023-05-21
+- added so-so button
 
 ## 0.11.0 - 2023-05-19
 - dummy links
