@@ -14,7 +14,7 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.10.0")
+(def ^:private version "0.11.1")
 
 ;; -------------------------
 ;; r/atom
@@ -34,6 +34,7 @@
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
 
 (comment
+  (+ 1 2 3)
   js/login
   :rcf)
 ;; -------------------------
@@ -45,8 +46,10 @@
     :class (when (= page (:page @session)) "is-active")}
    title])
 
+(def expanded? (r/atom false))
+
 (defn navbar []
-  (r/with-let [expanded? (r/atom false)]
+;;  (r/with-let [expanded? (r/atom false)]
     [:nav.navbar.is-info>div.container
      [:div.navbar-brand
       [:a.navbar-item {:href "/" :style {:font-weight :bold}} "WIL"]
@@ -62,7 +65,8 @@
        [nav-link "https://py99.melt.kyutech.ac.jp" "Py99"]
        [nav-link "https://qa.melt.kyutech.ac.jp" "QA"]
        [nav-link "#/about" "About" :about]
-       [nav-link "/logout" "Logout"]]]]))
+       [nav-link "/logout" "Logout"]]]])
+;;)
 
 ;; -------------------------
 ;; misc functions
@@ -162,7 +166,8 @@
                 {:params {:from js/login :to id :condition stat}
                  :handler #(js/alert (str "sent " stat "."))
                  :error-handler
-                 (fn [^js/Event e] (js/alert (.getMessage e)))}))}
+                 (fn [^js/Event e] (js/alert (str "error: "
+                                                  (.getMessage e))))}))}
    mark])
 
 (defn others-notes-page
@@ -183,6 +188,8 @@
       [:br]
       [send-good-bad! "good" "👍" (:id note)]
       " "
+      [send-good-bad! "so-so" "😐" (:id note)]
+      " "
       [send-good-bad! "bad"  "👎" (:id note)]
       [:hr]])])
 
@@ -200,6 +207,7 @@
                                 (take 7 %)))
      :error-handler #(js/alert "get /api/notes error")}))
 
+;; dummy links
 (defn notes-component []
   (fn []
     [:div
@@ -212,6 +220,12 @@
                        (fetch-others! (:date note))
                        (swap! session assoc :page :others))}
           (:date note)]
+         " "
+         [:a.button.button.is-success.is-small.is-rounded {:href (str "/#/good/3")}
+          "good 3"]
+         " "
+         [:a.button.button.is-danger.is-small.is-rounded {:href (str "/#/bad/3")}
+          "bad 3"]
          " "
          [:a {:href (str "/#/my/" (:id note))}
           (-> (:note note) str/split-lines first)]])]]))
@@ -235,9 +249,10 @@
     [:section.section>div.container>div.content
      [:h3 js/login "(" js/klass "), What I Learned?"]
      [:p "日付をクリックは同日のノートをランダムに 7 件、
+          good 3 と bad 3 は作成中（近日オープン）、
           テキストのクリックは自分ノートを表示する。"
       [:br]
-      "リストが更新されてない時は再読み込み。"]
+      "自分が WIL 書いてない週は他の人のも見れないよ。"]
      (when (or (= js/klass "*")
                (and (today-is-klass-day?) (not (done-todays?))))
        [:button.button.is-primary
@@ -249,12 +264,26 @@
      [:hr]
      [:div "version " version]]))
 
+(defn good-page
+  []
+  [:section.section>div.container>div.content
+  [:h3 "👍: under construction"]
+  [:p [:a {:href "/#/"} "back" ]]])
+
+(defn bad-page
+  []
+  [:section.section>div.container>div.content
+   [:h3 "👎: under construction"]
+   [:p [:a {:href "/#/"} "back"]]])
+
 ;; -------------------------
 ;; pages
 
 (def pages
   {:home     #'home-page
    :about    #'about-page
+   :bad      #'bad-page
+   :good     #'good-page
    :new-note #'new-note-page
    :my       #'my-note
    :others   #'others-notes-page
@@ -268,9 +297,11 @@
 
 (def router
   (reitit/router
-   [["/"       :home]
-    ["/about"  :about]
-    ["/my/:id" :my]
+   [["/"        :home]
+    ["/about"   :about]
+    ["/bad/:n"  :bad]
+    ["/good/:n" :good]
+    ["/my/:id"  :my]
     ["/others/:date" :others]]))
 
 (defn path-params [match]

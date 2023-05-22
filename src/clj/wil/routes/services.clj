@@ -8,7 +8,7 @@
 (defn services-routes []
   ["/api"
    {:middleware [;; middleware/wrap-csrf
-                 ;; middleware/wrap-restricted
+                 middleware/wrap-restricted
                  middleware/wrap-formats]}
    ["/note"     {:post create-note!}]
    ["/note/:id" {:get get-note}]

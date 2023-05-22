@@ -17,6 +17,13 @@ module of loader 'app')
 ---------------------------------------------------------^----------------------
  Cannot infer target type in expression (. (:created_at note) -rep)
 ```
+return type?
+
+## 0.11.1 - 2023-05-21
+- added so-so button
+
+## 0.11.0 - 2023-05-19
+- dummy links
 
 ## 0.10.0 - 2023-05-19
 - display from who and when
