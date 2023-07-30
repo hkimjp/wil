@@ -14,7 +14,7 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.11.1")
+(def ^:private version "0.12.0")
 
 ;; -------------------------
 ;; r/atom
