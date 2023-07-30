@@ -52,6 +52,11 @@ WHERE date = :date
 ORDER BY RANDOM()
 LIMIT :n
 
+-- :name list-notes :? :*
+-- :doc retrieve date's all notes
+SELECT * FROM notes
+WHERE date = :date
+
 -------------------------------------
 -- goods table
 -- :name create-good-bad! :! :n
@@ -64,3 +69,20 @@ VALUES (:from_, :to_, :kind)
 -- :doc retrieve goods and bads sent to id
 SELECT * from goods
 WHERE to_= :id
+
+-------------------------------------
+-- corona table
+-- :name clear-corona! :! :n
+-- :doc  clear corona table
+DELETE FROM corona
+
+-- :name insert-corona! :! :n
+-- :doc  insert into corona table sid, date
+INSERT INTO corona
+(sid, date)
+VALUES
+(:sid, :date)
+
+-- :name list-corona :? :*
+-- :doc  fetch all data from corona table
+SELECT * from corona

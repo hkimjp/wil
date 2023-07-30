@@ -1,5 +1,6 @@
 (ns wil.notes
   (:require
+   [clojure.string :as str]
    [clojure.tools.logging :as log]
    [wil.db.core :as db]
    [ring.util.http-response :as response]))
@@ -22,9 +23,21 @@
   (log/info "get-note")
   (response/ok (db/get-note {:id id})))
 
-;; retrieve `date` note randomly `n`
 (defn date-notes-randomly
+  "retrieve random n `date` note"
   [{{:keys [date n]} :path-params}]
   (log/info "date-notes-randomly")
   (response/ok (db/date-notes-randomly
                 {:date date :n (Integer/parseInt n)})))
+
+;; FIXME: admin only
+;; (defn list-notes
+;;   "can only see hkimura user"
+;;   [{{:keys [date]} :path-params :as req}]
+;;   (log/info "list-notes" (get-in req [:session :identity]))
+;;   (if (= "hkimura" (get-in req [:session :identity]))
+;;     {:status 200
+;;      :headers {"content-type" "text/html"}
+;;      :body (str/join (for [{:keys [login note]} (db/list-notes {:date date})]
+;;              (str "<p>" login "<br>" note "</p>")))}
+;;     {:status 404}))

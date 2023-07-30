@@ -1,20 +1,20 @@
 (ns wil.core
   (:require
-   [reagent.core :as r]
-   [reagent.dom :as rdom]
+   [ajax.core :refer [GET POST]]
+   [cljs-time.core :refer [day-of-week]]
+   [cljs-time.format :refer [formatter unparse]]
+   [cljs-time.local :refer [local-now]]
+   [clojure.string :as str]
    [goog.events :as events]
    [goog.history.EventType :as HistoryEventType]
    [markdown.core :refer [md->html]]
-   [wil.ajax :as ajax]
-   [ajax.core :refer [GET POST]]
+   [reagent.core :as r]
+   [reagent.dom :as rdom]
    [reitit.core :as reitit]
-   [clojure.string :as str]
-   [cljs-time.core :refer [day-of-week]]
-   [cljs-time.format :refer [formatter unparse]]
-   [cljs-time.local :refer [local-now]])
+   [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.7.2")
+(def ^:private version "0.11.1")
 
 ;; -------------------------
 ;; r/atom
@@ -32,6 +32,11 @@
   (GET (str "/api/notes/" js/login)
     {:handler #(reset! notes %)
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
+
+(comment
+  (+ 1 2 3)
+  js/login
+  :rcf)
 ;; -------------------------
 ;; navbar
 
@@ -41,8 +46,10 @@
     :class (when (= page (:page @session)) "is-active")}
    title])
 
+(def expanded? (r/atom false))
+
 (defn navbar []
-  (r/with-let [expanded? (r/atom false)]
+;;  (r/with-let [expanded? (r/atom false)]
     [:nav.navbar.is-info>div.container
      [:div.navbar-brand
       [:a.navbar-item {:href "/" :style {:font-weight :bold}} "WIL"]
@@ -58,7 +65,8 @@
        [nav-link "https://py99.melt.kyutech.ac.jp" "Py99"]
        [nav-link "https://qa.melt.kyutech.ac.jp" "QA"]
        [nav-link "#/about" "About" :about]
-       [nav-link "/logout" "Logout"]]]]))
+       [nav-link "/logout" "Logout"]]]])
+;;)
 
 ;; -------------------------
 ;; misc functions
@@ -91,9 +99,9 @@
 
 (defn new-note-page []
   [:section.section>div.container>div.content
-   [:p "WIL には自分が今日の授業で何を学んだか、その内容を具体的に書く。"
+   [:p "WIL には今日の授業で何を学んだか、その内容を具体的に書く。単に感想文じゃないぞ。"
        [:br]
-       "授業項目の箇条書きや感想文じゃないぞ。コピペは良くない。"]
+       "コピペブロックの仕掛け作ってます。"]
    [:p "送信は１日一回です。マークダウン OK. "
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
      "<https://github.com/yogthos/markdown-clj>"]]
@@ -158,7 +166,8 @@
                 {:params {:from js/login :to id :condition stat}
                  :handler #(js/alert (str "sent " stat "."))
                  :error-handler
-                 (fn [^js/Event e] (js/alert (.getMessage e)))}))}
+                 (fn [^js/Event e] (js/alert (str "error: "
+                                                  (.getMessage e))))}))}
    mark])
 
 (defn others-notes-page
@@ -166,16 +175,20 @@
   []
   [:section.section>div.container>div.content
    [:h3 "他の人のノートも参考にしよう。"]
-   [:p "真面目に取り組む人もいる。自分の取り組み方はどうか？
-        半年後には取り返しがつかない差がつくよ。"]
+   [:p "自分の取り組みはどうか？
+        真面目に取り組むと点数以上の差が半年後にはつくだろう。"]
    [:hr]
    (for [[i note] (map-indexed vector @others)]
      [:div {:key i}
+      [:div "From: " [:b (:login note)] ", " (str (.-rep (:created_at note))) ","]
+      [:br]
       [:div
        {:dangerouslySetInnerHTML
         {:__html (md->html (:note note))}}]
       [:br]
       [send-good-bad! "good" "👍" (:id note)]
+      " "
+      [send-good-bad! "so-so" "😐" (:id note)]
       " "
       [send-good-bad! "bad"  "👎" (:id note)]
       [:hr]])])
@@ -184,28 +197,35 @@
 ;; home page
 ;; 過去ノート一覧
 
-(defn reset-others!
+(defn fetch-others!
+  "/api/notes/:date/300 からノートをフェッチ、atom others を更新する。"
   [date]
-  (GET (str "/api/notes/" date "/7")
-    {:handler #(reset! others %)
+  ;; (js/alert (str "user:" js/login))
+  (GET (str "/api/notes/" date "/300")
+    {:handler #(reset! others (if (= js/login "hkimura")
+                                %
+                                (take 7 %)))
      :error-handler #(js/alert "get /api/notes error")}))
 
+;; dummy links
 (defn notes-component []
   (fn []
     [:div
-     [:p "日付をクリックは同日のノートをランダムに 7 件、
-          テキストのクリックは自分ノートを表示する。"
-          [:br]
-          "リストが更新されてない時は再読み込み。"]
      [:ol
-      (for [[i note] (map-indexed vector @notes)]
+      (for [[i note] (reverse (map-indexed vector @notes))]
         [:p
          {:key i}
          [:button.button.is-warning.is-small
           {:on-click (fn [_]
-                       (reset-others! (:date note))
+                       (fetch-others! (:date note))
                        (swap! session assoc :page :others))}
           (:date note)]
+         " "
+         [:a.button.button.is-success.is-small.is-rounded {:href (str "/#/good/3")}
+          "good 3"]
+         " "
+         [:a.button.button.is-danger.is-small.is-rounded {:href (str "/#/bad/3")}
+          "bad 3"]
          " "
          [:a {:href (str "/#/my/" (:id note))}
           (-> (:note note) str/split-lines first)]])]]))
@@ -222,31 +242,52 @@
   (or (= js/klass "*")
       (= (day-of-week (local-now)) (wd (subs js/klass 0 3)))))
 
-
-
-(defn home-page []
+(defn home-page
+  "js/klass はどこでセットしているか？"
+  []
   (fn []
     [:section.section>div.container>div.content
      [:h3 js/login "(" js/klass "), What I Learned?"]
-     [notes-component]
-     [:br]
+     [:p "日付をクリックは同日のノートをランダムに 7 件、
+          good 3 と bad 3 は作成中（近日オープン）、
+          テキストのクリックは自分ノートを表示する。"
+      [:br]
+      "自分が WIL 書いてない週は他の人のも見れないよ。"]
      (when (or (= js/klass "*")
                (and (today-is-klass-day?) (not (done-todays?))))
        [:button.button.is-primary
         {:on-click (fn [_]
                      (reset! note "")
                      (swap! session assoc :page :new-note))}
-        "本日分を追加"])]))
+        "本日分を追加"])
+     [notes-component]
+     [:hr]
+     [:div "version " version]]))
+
+(defn good-page
+  []
+  [:section.section>div.container>div.content
+  [:h3 "👍: under construction"]
+  [:p [:a {:href "/#/"} "back" ]]])
+
+(defn bad-page
+  []
+  [:section.section>div.container>div.content
+   [:h3 "👎: under construction"]
+   [:p [:a {:href "/#/"} "back"]]])
 
 ;; -------------------------
 ;; pages
 
 (def pages
-  {:home #'home-page
-   :about #'about-page
+  {:home     #'home-page
+   :about    #'about-page
+   :bad      #'bad-page
+   :good     #'good-page
    :new-note #'new-note-page
-   :my #'my-note
-   :others #'others-notes-page})
+   :my       #'my-note
+   :others   #'others-notes-page
+   :list     #'list})
 
 (defn page []
   [(pages (:page @session))])
@@ -256,10 +297,11 @@
 
 (def router
   (reitit/router
-   [["/" :home]
-    ["/about" :about]
-    ;; FIXME: coerce to int
-    ["/my/:id" :my]
+   [["/"        :home]
+    ["/about"   :about]
+    ["/bad/:n"  :bad]
+    ["/good/:n" :good]
+    ["/my/:id"  :my]
     ["/others/:date" :others]]))
 
 (defn path-params [match]
