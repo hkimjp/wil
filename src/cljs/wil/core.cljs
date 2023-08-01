@@ -170,6 +170,10 @@
                                                   (.getMessage e))))}))}
    mark])
 
+(comment
+  (+ 1 2 3)
+  :rcf)
+
 (defn others-notes-page
   "/api/notes/:date/:n から notes を取得。"
   []
@@ -180,7 +184,9 @@
    [:hr]
    (for [[i note] (map-indexed vector @others)]
      [:div {:key i}
-      [:div "From: " [:b (:login note)] ", " (str (.-rep (:created_at note))) ","]
+      [:div
+       "From: " [:b (:login note)] ", "
+       (.-rep (str (:created_at note))) ","]
       [:br]
       [:div
        {:dangerouslySetInnerHTML
