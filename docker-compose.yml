@@ -4,9 +4,9 @@ services:
   wil:
     image: hkim0331/luminus
     ports:
-      # - "3020:3000"
-      # - "7002:7002"
-      # - "9630:9630"
+      - "3020:3000"
+      - "7002:7002"
+      - "9630:9630"
     volumes:
       - .:/usr/src/app:cached
       - m2:/root/.m2
@@ -14,7 +14,7 @@ services:
     command: /bin/sh -c "while sleep 1000; do :; done"
 
   db:
-    image: postgres
+    image: postgres:14.8
     restart: always
     environment:
       POSTGRES_DB: postgres
