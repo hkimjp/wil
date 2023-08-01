@@ -18,6 +18,12 @@
   (log/info "login-notes")
   (response/ok (db/login-notes {:login login})))
 
+;; NO GOOD.
+(defn notes-all
+  [_params]
+  (log/info "notes-all")
+  (response/ok (db/notes-all)))
+
 (defn get-note
   [{{:keys [id]} :params}]
   (log/info "get-note")

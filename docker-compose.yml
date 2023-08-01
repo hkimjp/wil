@@ -3,10 +3,10 @@ version: "3.3"
 services:
   wil:
     image: hkim0331/luminus
-    # ports:
-      # - "3020:3000"
-      # - "7002:7002"
-      # - "9630:9630"
+    ports:
+      - "3020:3000"
+      - "7002:7002"
+      - "9630:9630"
     volumes:
       - .:/usr/src/app:cached
       - m2:/root/.m2

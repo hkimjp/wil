@@ -11,10 +11,11 @@ IFn (mount.core.DerefableState is in unnamed module of loader clojure.
 lang.DynamicClassLoader @cc239ba; clojure.lang.IFn is in unnamed
 module of loader 'app')
 - admin? which replaces #(= "hkimura" %)
-
 - record IP(check VPN connections)
+- WIL を書いてない日も表示しようとして notes-all を定義したが、日にちでまとまらず、
+  一通ずつ表示になってしまう。
 
-## 0.12.1
+## 0.12.1 - 2023-08-01
 - fixed
 ```
 178 |       [:div "From: " [:b (:login note)] ", " (str (.-rep (:created_at note))) ","]

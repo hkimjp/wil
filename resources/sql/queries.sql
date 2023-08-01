@@ -38,6 +38,10 @@ SELECT * FROM notes
 WHERE login = :login
 ORDER BY id
 
+-- :name notes-all :? :*
+-- :doc retrieve all notes
+SELECT * FROM notes
+ORDER BY id
 
 -- :name get-note :? :1
 -- :doc  get note id=:id

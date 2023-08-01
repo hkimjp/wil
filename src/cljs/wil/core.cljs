@@ -14,7 +14,7 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.11.1")
+(def ^:private version "0.12.0")
 
 ;; -------------------------
 ;; r/atom
@@ -33,10 +33,12 @@
     {:handler #(reset! notes %)
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
 
-(comment
-  (+ 1 2 3)
-  js/login
-  :rcf)
+;; NO GOOD. does not display day-by-day.
+;; (defn reset-notes! []
+;;   (GET "/api/notes-all"
+;;     {:handler #(reset! notes %)
+;;      :error-hander (fn [^js/Event e] (js/alert (.getMessage e)))}))
+
 ;; -------------------------
 ;; navbar
 
@@ -169,10 +171,6 @@
                  (fn [^js/Event e] (js/alert (str "error: "
                                                   (.getMessage e))))}))}
    mark])
-
-(comment
-  (+ 1 2 3)
-  :rcf)
 
 (defn others-notes-page
   "/api/notes/:date/:n から notes を取得。"
