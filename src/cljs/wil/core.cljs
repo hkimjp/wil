@@ -1,20 +1,23 @@
 (ns wil.core
   (:require
-   [reagent.core :as r]
-   [reagent.dom :as rdom]
+   [ajax.core :refer [GET POST]]
+   [cljs-time.core :refer [day-of-week]]
+   [cljs-time.format :refer [formatter unparse]]
+   [cljs-time.local :refer [local-now]]
+   [clojure.string :as str]
    [goog.events :as events]
    [goog.history.EventType :as HistoryEventType]
    [markdown.core :refer [md->html]]
-   [wil.ajax :as ajax]
-   [ajax.core :refer [GET POST]]
+   [reagent.core :as r]
+   [reagent.dom :as rdom]
    [reitit.core :as reitit]
-   [clojure.string :as str]
-   [cljs-time.core :refer [day-of-week]]
-   [cljs-time.format :refer [formatter unparse]]
-   [cljs-time.local :refer [local-now]])
+   [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.8.4")
+(def ^:private version "0.13.3")
+
+(def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
+(def how-many-wil "ランダムに拾う WIL の数" 7)
 
 ;; -------------------------
 ;; r/atom
@@ -32,6 +35,13 @@
   (GET (str "/api/notes/" js/login)
     {:handler #(reset! notes %)
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
+
+;; NO GOOD. does not display day-by-day.
+;; (defn reset-notes! []
+;;   (GET "/api/notes-all"
+;;     {:handler #(reset! notes %)
+;;      :error-hander (fn [^js/Event e] (js/alert (.getMessage e)))}))
+
 ;; -------------------------
 ;; navbar
 
@@ -41,8 +51,10 @@
     :class (when (= page (:page @session)) "is-active")}
    title])
 
+(def expanded? (r/atom false))
+
 (defn navbar []
-  (r/with-let [expanded? (r/atom false)]
+;;  (r/with-let [expanded? (r/atom false)]
     [:nav.navbar.is-info>div.container
      [:div.navbar-brand
       [:a.navbar-item {:href "/" :style {:font-weight :bold}} "WIL"]
@@ -58,7 +70,8 @@
        [nav-link "https://py99.melt.kyutech.ac.jp" "Py99"]
        [nav-link "https://qa.melt.kyutech.ac.jp" "QA"]
        [nav-link "#/about" "About" :about]
-       [nav-link "/logout" "Logout"]]]]))
+       [nav-link "/logout" "Logout"]]]])
+
 
 ;; -------------------------
 ;; misc functions
@@ -85,16 +98,17 @@
     {:params {:login js/login :date (today) :note note}
      :handler #(reset-notes!)
      :error-handler
-     (fn [^js/Event e] (js/alert (str "送信失敗。" (.getMessage e))))}))
+     (fn [^js/Event e] (js/alert (str "送信失敗。もう一度。" (.getMessage e))))}))
 
 (defonce count-key-up (r/atom 0))
 
 (defn new-note-page []
+  ;; section.section じゃないとナビバートのマージンが狭すぎになる。
   [:section.section>div.container>div.content
-   [:p "WIL には自分が今日の授業で何を学んだか、その内容を具体的に書く。"
+   [:p "WIL には今日の授業で何を学んだか、その内容を具体的に書く。単に感想文じゃないぞ。"
        [:br]
-       "授業項目の箇条書きや感想文じゃないぞ。コピペは良くない。"]
-   [:p "送信は１日一回です。マークダウン OK. "
+       "コピペはブロックする。"]
+   [:p "送信は１日一回です。マークダウン OK."
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
      "<https://github.com/yogthos/markdown-clj>"]]
    [:div
@@ -108,11 +122,11 @@
      {:on-click
       (fn [_]
        (cond
-         (< (count (str/split-lines @note)) 7)
-         (js/alert "もうちょっと詳しく書いた方が良くないか？")
+         (< (count (str/split-lines @note)) shortest-wil)
+         (js/alert "もうちょっと授業の内容書けないと。今日は何した？")
          (or (< @count-key-up 10)
              (< @count-key-up (count @note)))
-         (js/alert (str "コピペはだめだ。タイプしよう。"))
+         (js/alert (str "コピペは不可。学んでないの？"))
          :else (do
                  (send-note @note)
                  (swap! session assoc :page :home))))}
@@ -158,7 +172,8 @@
                 {:params {:from js/login :to id :condition stat}
                  :handler #(js/alert (str "sent " stat "."))
                  :error-handler
-                 (fn [^js/Event e] (js/alert (.getMessage e)))}))}
+                 (fn [^js/Event e]
+                   (js/alert (str "error: " (.getMessage e))))}))}
    mark])
 
 (defn others-notes-page
@@ -166,16 +181,21 @@
   []
   [:section.section>div.container>div.content
    [:h3 "他の人のノートも参考にしよう。"]
-   [:p "真面目に取り組む人もいる。自分の取り組み方はどうか？
-        半年後には取り返しがつかない差がつくよ。"]
+   [:p "自分の取り組みはどうか？取り組み次第で半年後には点数以上の差が。"]
    [:hr]
    (for [[i note] (map-indexed vector @others)]
      [:div {:key i}
+      [:div
+       "From: " [:b (:login note)] ", "
+       (.-rep (str (:created_at note))) ","]
+      [:br]
       [:div
        {:dangerouslySetInnerHTML
         {:__html (md->html (:note note))}}]
       [:br]
       [send-good-bad! "good" "👍" (:id note)]
+      " "
+      [send-good-bad! "so-so" "😐" (:id note)]
       " "
       [send-good-bad! "bad"  "👎" (:id note)]
       [:hr]])])
@@ -184,28 +204,41 @@
 ;; home page
 ;; 過去ノート一覧
 
-(defn reset-others!
+(defn- admin? []
+  (= js/login "hkimura"))
+
+(defn fetch-others!
+  "/api/notes/:date/300 からノートをフェッチ、atom others を更新する。"
   [date]
-  (GET (str "/api/notes/" date "/7")
-    {:handler #(reset! others %)
+  (GET (str "/api/notes/" date "/300")
+    {:handler #(reset! others (if (admin?)
+                                %
+                                (take how-many-wil %)))
      :error-handler #(js/alert "get /api/notes error")}))
 
+;; FIXME: 0.11.0 では note は自分の WIL のみ。
+;;        [i note]　で自分の WIL とそのインデックスが取得できる。
+;;        日付をキーにしないと、自分が WIL 書いてない週が出てこない。
 (defn notes-component []
   (fn []
     [:div
-     [:p "日付をクリックは同日のノートをランダムに 7 件、
-          テキストのクリックは自分ノートを表示する。"
-          [:br]
-          "リストが更新されてない時は再読み込み。"]
      [:ol
-      (for [[i note] (map-indexed vector @notes)]
+      (for [[i note] (reverse (map-indexed vector @notes))]
         [:p
          {:key i}
          [:button.button.is-warning.is-small
           {:on-click (fn [_]
-                       (reset-others! (:date note))
+                       (fetch-others! (:date note))
                        (swap! session assoc :page :others))}
           (:date note)]
+         " "
+         [:a.button.button.is-success.is-small.is-rounded
+          {:href (str "/#/good/3")}
+          "good 3"]
+         " "
+         [:a.button.button.is-danger.is-small.is-rounded
+          {:href (str "/#/bad/3")}
+          "bad 3"]
          " "
          [:a {:href (str "/#/my/" (:id note))}
           (-> (:note note) str/split-lines first)]])]]))
@@ -222,31 +255,52 @@
   (or (= js/klass "*")
       (= (day-of-week (local-now)) (wd (subs js/klass 0 3)))))
 
-
-
-(defn home-page []
+(defn home-page
+  "js/klass はどこでセットしているか？"
+  []
   (fn []
     [:section.section>div.container>div.content
      [:h3 js/login "(" js/klass "), What I Learned?"]
-     [notes-component]
-     [:br]
-     (when (or (= js/klass "*")
-               (and (today-is-klass-day?) (not (done-todays?))))
+     [:p "出席の記録。"]
+     [:p "日付をクリックは同日の他人ノートをランダムに表示、
+          good 3 と bad 3 は作成中（近日オープン）、
+          テキストは自分ノートの1行目。クリックで自分ノートを表示"
+      [:br]
+      "自分が WIL 書いてない週は他の人の WIL は見れないよ。"]
+     (when (and (today-is-klass-day?) (not (done-todays?)))
        [:button.button.is-primary
         {:on-click (fn [_]
                      (reset! note "")
                      (swap! session assoc :page :new-note))}
-        "本日分を追加"])]))
+        "本日分を追加"])
+     [notes-component]
+     [:hr]
+     [:div "version " version]]))
+
+(defn good-page
+  []
+  [:section.section>div.container>div.content
+  [:h3 "👍: under construction"]
+  [:p [:a {:href "/#/"} "back" ]]])
+
+(defn bad-page
+  []
+  [:section.section>div.container>div.content
+   [:h3 "👎: under construction"]
+   [:p [:a {:href "/#/"} "back"]]])
 
 ;; -------------------------
 ;; pages
 
 (def pages
-  {:home #'home-page
-   :about #'about-page
+  {:home     #'home-page
+   :about    #'about-page
+   :bad      #'bad-page
+   :good     #'good-page
    :new-note #'new-note-page
-   :my #'my-note
-   :others #'others-notes-page})
+   :my       #'my-note
+   :others   #'others-notes-page
+   :list     #'list})
 
 (defn page []
   [(pages (:page @session))])
@@ -256,10 +310,11 @@
 
 (def router
   (reitit/router
-   [["/" :home]
-    ["/about" :about]
-    ;; FIXME: coerce to int
-    ["/my/:id" :my]
+   [["/"        :home]
+    ["/about"   :about]
+    ["/bad/:n"  :bad]
+    ["/good/:n" :good]
+    ["/my/:id"  :my]
     ["/others/:date" :others]]))
 
 (defn path-params [match]

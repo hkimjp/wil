@@ -32,12 +32,16 @@ INSERT INTO notes
 (login, date, note)
 VALUES (:login, :date, :note)
 
--- :name login-notes :? :*
+-- :name notes-login :? :*
 -- :doc  retrieve login's notes
 SELECT * FROM notes
 WHERE login = :login
 ORDER BY id
 
+-- :name notes-all :? :*
+-- :doc retrieve all notes
+SELECT * FROM notes
+ORDER BY id
 
 -- :name get-note :? :1
 -- :doc  get note id=:id
@@ -51,6 +55,11 @@ SELECT * FROM notes
 WHERE date = :date
 ORDER BY RANDOM()
 LIMIT :n
+
+-- :name list-notes :? :*
+-- :doc retrieve date's all notes
+SELECT * FROM notes
+WHERE date = :date
 
 -------------------------------------
 -- goods table

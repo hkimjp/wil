@@ -8,3 +8,20 @@ see package.json.
 
     "xmlhttprequest": "^1.8.0"
 
+## start
+### VScode Calva
+Use vscode.
+
+1. cd to this folder.
+2. start vscode by `code .`
+3. start REPL
+4. choose start your REPL(a.k.a. jack-in)
+4. choose 'wil Server + Client' menu.
+5. open http://localhost:3020
+
+### emacs cider
+
+1. shadow-cljs watch :app
+2. emacs -x cider-jack-in
+3. choose [lein]
+4. user> (start)

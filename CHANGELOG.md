@@ -1,6 +1,72 @@
 # WIL
 
 ## Unreleased
+- good3/bad3
+
+## 0.13.3 - 2023-09-13
+deployed to tiger.melt
+
+## 0.13.2 - 2023-09-13
+### Added
+- systemd/ copy from app.melt:wil
+- middleware/wrap-ip
+  ban ip connection from VPN.
+
+## 0.13.1 - 2023-09-13
+### Changed
+- wil.env/dev を見るではく、dev-config.edn を参照する
+  (wil.config/env :dev)
+- admin? which replaces #(= "hkimura" %)
+
+## 0.13.0 - 2023-09-13
+2023 cycle started.
+
+## 0.12.1 - 2023-08-01
+- fixed
+```
+178 |       [:div "From: " [:b (:login note)] ", " (str (.-rep (:created_at note))) ","]
+---------------------------------------------------------^----------------------
+ Cannot infer target type in expression (. (:created_at note) -rep)
+```
+
+by letting `-rep` know that the type of argument is String.
+
+```
+(.-rep (str (:created_at note)))
+```
+
+## 0.11.1 - 2023-05-21
+- added so-so button
+
+## 0.11.0 - 2023-05-19
+- dummy links
+
+## 0.10.0 - 2023-05-19
+- display from who and when
+
+## 0.9.4 - 2023-05-06
+- 文言の修正
+
+## 0.9.3 - 2023-05-06
+- clean up Makefile
+### Added
+- skip auth in develop: wil.env/dev? を定義した
+### Changed
+- port 3020
+- does not staticly export 3020 and 7002 from docker-compose.yml
+  Calva does it.
+
+## 0.9.2 - 2023-05-05
+### Removed
+- 0.9.0 matter, list-notes etc.
+
+## 0.9.1 - 2023-05-05
+- reverse order
+- hkimura can view all wils
+
+## 0.9.0 - 2023-05-04
+### Added
+- /list/:date admin(hkimura) only
 
 ## 0.8.4 - 2022-12-28
 ### Added

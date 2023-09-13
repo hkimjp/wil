@@ -1,4 +1,4 @@
-DEST="ubuntu@app.melt.kyutech.ac.jp"
+DEST="ubuntu@tiger.melt.kyutech.ac.jp"
 
 all:
 	@echo make build
@@ -12,14 +12,10 @@ all:
 prep:
 	npm install
 
-uberjar:
+uberjar: clean
 	lein uberjar
 
-# reason of this entry?
-target/uberjar/wil.jar:
-	lein uberjar
-
-deploy: target/uberjar/wil.jar
+deploy: uberjar
 	scp target/uberjar/wil.jar ${DEST}:wil/wil.jar && \
 	ssh ${DEST} 'sudo systemctl restart wil' && \
 	ssh ${DEST} 'systemctl status wil'
