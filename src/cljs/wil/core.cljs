@@ -16,6 +16,9 @@
 
 (def ^:private version "0.13.0")
 
+(def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
+(def how-many-wil "ランダムに拾う WIL の数" 7)
+
 ;; -------------------------
 ;; r/atom
 
@@ -68,7 +71,7 @@
        [nav-link "https://qa.melt.kyutech.ac.jp" "QA"]
        [nav-link "#/about" "About" :about]
        [nav-link "/logout" "Logout"]]]])
-;;)
+
 
 ;; -------------------------
 ;; misc functions
@@ -95,16 +98,17 @@
     {:params {:login js/login :date (today) :note note}
      :handler #(reset-notes!)
      :error-handler
-     (fn [^js/Event e] (js/alert (str "送信失敗。" (.getMessage e))))}))
+     (fn [^js/Event e] (js/alert (str "送信失敗。もう一度。" (.getMessage e))))}))
 
 (defonce count-key-up (r/atom 0))
 
 (defn new-note-page []
+  ;; section.section じゃないとナビバートのマージンが狭すぎになる。
   [:section.section>div.container>div.content
    [:p "WIL には今日の授業で何を学んだか、その内容を具体的に書く。単に感想文じゃないぞ。"
        [:br]
-       "コピペブロックの仕掛け作ってます。"]
-   [:p "送信は１日一回です。マークダウン OK. "
+       "コピペはブロックする。"]
+   [:p "送信は１日一回です。マークダウン OK."
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
      "<https://github.com/yogthos/markdown-clj>"]]
    [:div
@@ -118,11 +122,11 @@
      {:on-click
       (fn [_]
        (cond
-         (< (count (str/split-lines @note)) 7)
-         (js/alert "もうちょっと詳しく書いた方が良くないか？")
+         (< (count (str/split-lines @note)) shortest-wil)
+         (js/alert "もうちょっと授業の内容書けないと。今日は何した？")
          (or (< @count-key-up 10)
              (< @count-key-up (count @note)))
-         (js/alert (str "コピペはだめだ。タイプしよう。"))
+         (js/alert (str "コピペは不可。学んでないの？"))
          :else (do
                  (send-note @note)
                  (swap! session assoc :page :home))))}
@@ -168,8 +172,8 @@
                 {:params {:from js/login :to id :condition stat}
                  :handler #(js/alert (str "sent " stat "."))
                  :error-handler
-                 (fn [^js/Event e] (js/alert (str "error: "
-                                                  (.getMessage e))))}))}
+                 (fn [^js/Event e]
+                   (js/alert (str "error: " (.getMessage e))))}))}
    mark])
 
 (defn others-notes-page
@@ -177,8 +181,7 @@
   []
   [:section.section>div.container>div.content
    [:h3 "他の人のノートも参考にしよう。"]
-   [:p "自分の取り組みはどうか？
-        真面目に取り組むと点数以上の差が半年後にはつくだろう。"]
+   [:p "自分の取り組みはどうか？取り組み次第で半年後には点数以上の差が。"]
    [:hr]
    (for [[i note] (map-indexed vector @others)]
      [:div {:key i}
@@ -201,14 +204,16 @@
 ;; home page
 ;; 過去ノート一覧
 
+(defn- admin? []
+  (= js/login "hkimura"))
+
 (defn fetch-others!
   "/api/notes/:date/300 からノートをフェッチ、atom others を更新する。"
   [date]
-  ;; (js/alert (str "user:" js/login))
   (GET (str "/api/notes/" date "/300")
-    {:handler #(reset! others (if (= js/login "hkimura")
+    {:handler #(reset! others (if (admin?)
                                 %
-                                (take 7 %)))
+                                (take how-many-wil %)))
      :error-handler #(js/alert "get /api/notes error")}))
 
 ;; FIXME: 0.11.0 では note は自分の WIL のみ。
@@ -227,10 +232,12 @@
                        (swap! session assoc :page :others))}
           (:date note)]
          " "
-         [:a.button.button.is-success.is-small.is-rounded {:href (str "/#/good/3")}
+         [:a.button.button.is-success.is-small.is-rounded
+          {:href (str "/#/good/3")}
           "good 3"]
          " "
-         [:a.button.button.is-danger.is-small.is-rounded {:href (str "/#/bad/3")}
+         [:a.button.button.is-danger.is-small.is-rounded
+          {:href (str "/#/bad/3")}
           "bad 3"]
          " "
          [:a {:href (str "/#/my/" (:id note))}
@@ -254,13 +261,13 @@
   (fn []
     [:section.section>div.container>div.content
      [:h3 js/login "(" js/klass "), What I Learned?"]
-     [:p "日付をクリックは同日のノートをランダムに 7 件、
+     [:p "出席の記録。"]
+     [:p "日付をクリックは同日の他人ノートをランダムに表示、
           good 3 と bad 3 は作成中（近日オープン）、
-          テキストのクリックは自分ノートを表示する。"
+          テキストは自分ノートの1行目。クリックで自分ノートを表示"
       [:br]
       "自分が WIL 書いてない週は他の人の WIL は見れないよ。"]
-     (when (or (= js/klass "*")
-               (and (today-is-klass-day?) (not (done-todays?))))
+     (when (and (today-is-klass-day?) (not (done-todays?)))
        [:button.button.is-primary
         {:on-click (fn [_]
                      (reset! note "")

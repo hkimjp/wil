@@ -4,10 +4,11 @@
   [clojure.tools.logging :as log]
   [hato.client :as hc]
   [ring.util.http-response :as response]
-  [wil.env]
+  ;; [wil.env]
+  [wil.config]
   [wil.layout :as layout]
   [wil.middleware :as middleware]
-  #_[wil.notes :refer [list-notes]]
+  ;; [wil.notes :refer [list-notes]]
   ))
 
 (defn home-page
@@ -30,11 +31,13 @@
   (layout/render request "login.html" {:flash (:flash request)}))
 
 (comment
-  wil.env/dev?
+  ;; use wil.config/env instead.
+  ;; wil.env/dev?
+  (wil.config/env :dev)
   :rcf)
 
 (defn login-post [{{:keys [login password]} :params}]
-  (if wil.env/dev?
+  (if (wil.config/env :dev)
     (do
       (log/info "login-post dev")
       (-> (response/found "/")
@@ -78,7 +81,7 @@
    {:middleware [middleware/wrap-csrf
                  middleware/wrap-formats]}
    ["/"        {:get home-page}]
-   ["/login"   {:get  login-page :post login-post}]
+   ["/login"   {:get login-page :post login-post}]
    ["/logout"  {:get logout}]
    ["/profile" {:get profile-page}]
    ;; no use
