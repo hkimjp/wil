@@ -1,7 +1,12 @@
 # WIL
 
+What you learned In this Lecture?
+
 ## Unreleased
 - good3/bad3
+
+## 0.13.4 - 2023-09-13
+clojure -Tantq outdated :upgrade true
 
 ## 0.13.3 - 2023-09-13
 deployed to tiger.melt

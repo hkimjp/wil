@@ -1,23 +1,27 @@
-version: "3.3"
+version: "3"
 
 services:
   wil:
-    image: hkim0331/luminus
-    ports:
-      - "3020:3020"
-      - "7002:7002"
-      - "9630:9630"
+    image: hkim0331/luminus:0.1
+    user: vscode
+    # ports:
+    #   - "3020:3020"
+    #   - "7002:7002"
+    #   - "9630:9630"
     volumes:
       - .:/usr/src/app:cached
-      - m2:/root/.m2
+      - m2:/home/vscode/.m2
+      - gitlibs:/home/vscode/.gitlibs
     working_dir: /usr/src/app
-    command: /bin/sh -c "while sleep 1000; do :; done"
+    command:
+      - sleep
+      - infinity
 
   db:
-    image: postgres:14.8
-    restart: always
+    image: postgres:14.9
+    # restart: always
     environment:
-      POSTGRES_DB: postgres
+      POSTGRES_DB: wil
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_INITDB_ARGS: --encoding=UTF-8 --locale=C
       TZ: Asia/Toky
@@ -31,4 +35,6 @@ volumes:
   data:
     driver: local
   m2:
+    external: true
+  gitlibs:
     external: true
