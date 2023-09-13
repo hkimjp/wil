@@ -24,3 +24,8 @@
   (log/info "good-bad" id)
   (let [ret (db/good-bad {:id (Integer/parseInt id)})]
     (response/ok ret)))
+
+(defn goods-bads
+  [{{:keys [date]} :path-params}]
+  (log/info "goods-bads" date)
+  (response/ok {:date date :goods "n" :bads "n"}))
