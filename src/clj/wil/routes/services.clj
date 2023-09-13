@@ -1,7 +1,7 @@
 (ns wil.routes.services
   (:require
    #_[clojure.tools.logging :as log]
-   [wil.goods :refer [create-good-bad! good-bad]]
+   [wil.goods :refer [create-good-bad! good-bad goods-bads]]
    [wil.notes :refer [create-note! notes-login get-note date-notes-randomly
                       notes-all]]
    [wil.middleware :as middleware]))
@@ -18,4 +18,5 @@
    ["/notes/:date/:n" {:get date-notes-randomly}]
    #_["/list/:date"     {:get list-notes}]
    ["/good" {:post create-good-bad!
-             :get good-bad}]])
+             :get good-bad}]
+   ["/goods-bads/:date" {:get goods-bads}]])

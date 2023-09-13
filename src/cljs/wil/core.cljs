@@ -25,8 +25,12 @@
 (defonce session (r/atom {:page :home}))
 (defonce notes   (r/atom nil))
 (defonce params  (r/atom nil))
-(defonce others  (r/atom nil))
+(defonce others  (r/atom nil)) ;; 必要か？
 (defonce note    (r/atom ""))
+
+;; async
+(defonce ans (r/atom nil))
+(defonce goods-bads (r/atom ""))
 
 (defn reset-notes!
   "get the notes from `/api/notes/:login`,
@@ -216,6 +220,16 @@
                                 (take how-many-wil %)))
      :error-handler #(js/alert "get /api/notes error")}))
 
+(defn fetch-goods-bads!
+  "/api/goods-bads/:date から goods-bads を取得、atom ans を更新する。"
+  [date]
+  (let [uri (str "/api/goods-bads/" date)]
+  (GET uri
+    {:handler #(reset! goods-bads %)
+     :error-handler #(js/alert (str "error: get " uri))}))
+  @goods-bads)
+
+
 ;; FIXME: 0.11.0 では note は自分の WIL のみ。
 ;;        [i note]　で自分の WIL とそのインデックスが取得できる。
 ;;        日付をキーにしないと、自分が WIL 書いてない週が出てこない。
@@ -226,19 +240,25 @@
       (for [[i note] (reverse (map-indexed vector @notes))]
         [:p
          {:key i}
+         ;; これでページが切り替わるわけは？
+         ;; => (defn page [] [(pages (:page @session))])
          [:button.button.is-warning.is-small
           {:on-click (fn [_]
                        (fetch-others! (:date note))
                        (swap! session assoc :page :others))}
           (:date note)]
          " "
-         [:a.button.button.is-success.is-small.is-rounded
-          {:href (str "/#/good/3")}
-          "good 3"]
-         " "
-         [:a.button.button.is-danger.is-small.is-rounded
-          {:href (str "/#/bad/3")}
-          "bad 3"]
+
+         ;; FIXME: async!
+         ;;        fetch が終了する前に、js/alert がよばれてしまう。
+         [:button.button.is-small
+          {:on-click (fn [_]
+                       ;; ng
+                       ;; (fetch-goods-bads! (:date note))
+                       ;; (reset! goods-bads @ans)
+                       ;; (js/alert @goods-bads)
+                       (js/alert (fetch-goods-bads! (:date note))))}
+          "👍 😐 👎"]
          " "
          [:a {:href (str "/#/my/" (:id note))}
           (-> (:note note) str/split-lines first)]])]]))
@@ -262,9 +282,9 @@
     [:section.section>div.container>div.content
      [:h3 js/login "(" js/klass "), What I Learned?"]
      [:p "出席の記録。"]
-     [:p "日付をクリックは同日の他人ノートをランダムに表示、
-          good 3 と bad 3 は作成中（近日オープン）、
-          テキストは自分ノートの1行目。クリックで自分ノートを表示"
+     [:p "日付をクリックは同日の他人ノートをランダムに表示する、
+          👍 😐 👎 は作成中、
+          テキストは自分ノートの1行目。クリックで自分ノートを表示する。"
       [:br]
       "自分が WIL 書いてない週は他の人の WIL は見れないよ。"]
      (when (and (today-is-klass-day?) (not (done-todays?)))
