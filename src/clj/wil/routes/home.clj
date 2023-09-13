@@ -30,16 +30,10 @@
 (defn login-page [request]
   (layout/render request "login.html" {:flash (:flash request)}))
 
-(comment
-  ;; use wil.config/env instead.
-  ;; wil.env/dev?
-  (wil.config/env :dev)
-  :rcf)
-
-(defn login-post [{{:keys [login password]} :params}]
+(defn login-post! [{{:keys [login password]} :params}]
   (if (wil.config/env :dev)
     (do
-      (log/info "login-post dev")
+      (log/info "login-post! dev mode")
       (-> (response/found "/")
           (assoc-in [:session :identity] login)
           (assoc-in [:session :klass] "*")))
@@ -48,7 +42,7 @@
                (= (:login user) login)
                (hashers/check password (:password user)))
         (do
-          (log/info "login" login)
+          (log/info "login success" login)
           (-> (response/found "/")
               (assoc-in [:session :identity] login)
               (assoc-in [:session :klass] (:uhour user))))
@@ -69,21 +63,12 @@
     (-> (response/found "/login")
         (assoc :flash "please login"))))
 
-;; (defn list-texts
-;;   "admin 専用メソッド。引数 date の wil 一覧"
-;;   [{{:keys [date]} :path-params}]
-;;   (let [body (:body (hc/get (str "/api/list/" date) {:as :json}))]
-;;     (for [b body]
-;;       (:text b))))
-
 (defn home-routes []
   [""
    {:middleware [middleware/wrap-csrf
                  middleware/wrap-formats]}
    ["/"        {:get home-page}]
-   ["/login"   {:get login-page :post login-post}]
+   ["/login"   {:get login-page :post login-post!}]
    ["/logout"  {:get logout}]
    ["/profile" {:get profile-page}]
-   ;; no use
-   #_["/list/:date" {:get list-notes}]
    ])

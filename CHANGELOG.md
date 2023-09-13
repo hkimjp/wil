@@ -2,9 +2,9 @@
 
 ## Unreleased
 - record IP(check VPN connections)
-- WIL を書いてない日も表示しようとして notes-all を定義したが、日にちでまとまらず、
-  一通ずつ表示になってしまう。
 - good3/bad3
+
+## 0.13.2-snapshot
 
 ## 0.13.1 - 2023-09-13
 ### Changed
