@@ -65,3 +65,22 @@
            (assoc-in [:security :anti-forgery] false)
            (dissoc :session)))
       wrap-internal-error))
+
+(defn- remote-ip [req]
+  (or
+   (when-let [cf-connecting-ip (get-in req [:headers "cf-connecting-ip"])]
+     cf-connecting-ip)
+   (when-let [x-real-ip (get-in req [:headers "x-real-ip"])]
+     x-real-ip)
+   (:remote-addr req)))
+
+(defn wrap-ip [handler]
+  (fn [request]
+    ;; (log/info :ban-ip (env :ban-ip))
+    ;; (log/info "remote-ip" (remote-ip request))
+    (if (re-matches  (re-pattern (env :ban-ip))
+                     (remote-ip request))
+      (error-page
+       {:status 403
+        :title (str "Access to " (:uri request) " is restricted.")})
+      (handler request))))

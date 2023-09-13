@@ -1,0 +1,13 @@
+[Unit]
+Description=What I Learned todays Lecture?
+
+[Service]
+WorkingDirectory=/home/ubuntu/wil
+ExecStart=/bin/sh start.sh
+ExecStop=/bin/sh stop.sh
+TimeoutSec=300
+User=ubuntu
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

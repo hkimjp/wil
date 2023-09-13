@@ -24,7 +24,7 @@
    note: parameter is a string. cf. (db/get-user {:login login})"
   [login]
   (let [body (:body (hc/get (str api-user login) {:as :json}))]
-    (log/info "api-user" body)
+    ;; (log/info "api-user" body)
     body))
 
 (defn login-page [request]
@@ -65,7 +65,8 @@
 
 (defn home-routes []
   [""
-   {:middleware [middleware/wrap-csrf
+   {:middleware [middleware/wrap-ip
+                 middleware/wrap-csrf
                  middleware/wrap-formats]}
    ["/"        {:get home-page}]
    ["/login"   {:get login-page :post login-post!}]

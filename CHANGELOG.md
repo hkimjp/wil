@@ -1,10 +1,14 @@
 # WIL
 
 ## Unreleased
-- record IP(check VPN connections)
+
 - good3/bad3
 
 ## 0.13.2-snapshot
+### Added
+- systemd/ copy from app.melt:wil
+- record IP(check VPN connections)
+  can not filter correctly for nginx reverse proxy
 
 ## 0.13.1 - 2023-09-13
 ### Changed
