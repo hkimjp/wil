@@ -4,11 +4,11 @@
 
 - good3/bad3
 
-## 0.13.2-snapshot
+## 0.13.2 - 2023-09-13
 ### Added
 - systemd/ copy from app.melt:wil
-- record IP(check VPN connections)
-  can not filter correctly for nginx reverse proxy
+- middleware/wrap-ip
+  ban ip connection from VPN.
 
 ## 0.13.1 - 2023-09-13
 ### Changed
