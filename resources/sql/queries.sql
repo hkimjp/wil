@@ -32,7 +32,7 @@ INSERT INTO notes
 (login, date, note)
 VALUES (:login, :date, :note)
 
--- :name login-notes :? :*
+-- :name notes-login :? :*
 -- :doc  retrieve login's notes
 SELECT * FROM notes
 WHERE login = :login

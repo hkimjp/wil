@@ -1,19 +1,14 @@
 # WIL
 
 ## Unreleased
-- cljs の warning: luminus のコード navbar
-- hyperfiddle でコンパイルエラーになる
-Compiling wil.corona-absents
-✅Syntax error macroexpanding at (corona_absents.clj:34:1).
-Execution error (ClassCastException) at wil.db.core/fn (core.clj:14).
-class mount.core.DerefableState cannot be cast to class clojure.lang.
-IFn (mount.core.DerefableState is in unnamed module of loader clojure.
-lang.DynamicClassLoader @cc239ba; clojure.lang.IFn is in unnamed
-module of loader 'app')
 - admin? which replaces #(= "hkimura" %)
 - record IP(check VPN connections)
 - WIL を書いてない日も表示しようとして notes-all を定義したが、日にちでまとまらず、
   一通ずつ表示になってしまう。
+- dev では
+
+## 0.13.0 - 2023-09-13
+2023 cycle started.
 
 ## 0.12.1 - 2023-08-01
 - fixed

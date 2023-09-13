@@ -4,7 +4,7 @@ services:
   wil:
     image: hkim0331/luminus
     ports:
-      - "3020:3000"
+      - "3020:3020"
       - "7002:7002"
       - "9630:9630"
     volumes:
