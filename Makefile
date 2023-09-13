@@ -1,4 +1,4 @@
-DEST="ubuntu@app.melt.kyutech.ac.jp"
+DEST="ubuntu@tiger.melt.kyutech.ac.jp"
 
 all:
 	@echo make build
