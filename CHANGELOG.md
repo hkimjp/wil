@@ -1,15 +1,16 @@
 # WIL
 
 ## Unreleased
-- admin? which replaces #(= "hkimura" %)
 - record IP(check VPN connections)
 - WIL を書いてない日も表示しようとして notes-all を定義したが、日にちでまとまらず、
   一通ずつ表示になってしまう。
+- good3/bad3
 
-## 0.13.1-snapshot
+## 0.13.1 - 2023-09-13
 ### Changed
 - wil.env/dev を見るではく、dev-config.edn を参照する
   (wil.config/env :dev)
+- admin? which replaces #(= "hkimura" %)
 
 ## 0.13.0 - 2023-09-13
 2023 cycle started.
