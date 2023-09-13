@@ -1,4 +1,4 @@
-(defproject wil "0.13.2"
+(defproject wil "0.13.3"
   :description "for 2023 python classes"
   :url "https://wil.kyutech.ac.jp"
   :dependencies [[buddy/buddy-auth "3.0.323"]
