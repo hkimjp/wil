@@ -13,10 +13,10 @@
     (response/ok {:ok "created"})
     (catch Exception e (throw (.getMessage e)))))
 
-(defn login-notes
+(defn notes-login
   [{{:keys [login]} :path-params}]
-  (log/info "login-notes")
-  (response/ok (db/login-notes {:login login})))
+  (log/info "notes-login" login)
+  (response/ok (db/notes-login {:login login})))
 
 ;; NO GOOD.
 (defn notes-all
