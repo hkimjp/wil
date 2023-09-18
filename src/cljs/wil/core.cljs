@@ -127,10 +127,10 @@
       (fn [_]
        (cond
          (< (count (str/split-lines @note)) shortest-wil)
-         (js/alert "もうちょっと授業の内容書けないと。今日は何した？")
+         (js/alert "もうちょっと授業の内容書けないと。今日は何したっけ？")
          (or (< @count-key-up 10)
              (< @count-key-up (count @note)))
-         (js/alert (str "コピペは不可。学んでないの？"))
+         (js/alert (str "コピペは不可。学んでないの裏返し。"))
          :else (do
                  (send-note @note)
                  (swap! session assoc :page :home))))}
@@ -225,7 +225,7 @@
   [date]
   (let [uri (str "/api/goods-bads/" date)]
   (GET uri
-    {:handler #(reset! goods-bads %)
+    {:handler #(js/alert (str "goods-bads: " %))
      :error-handler #(js/alert (str "error: get " uri))}))
   @goods-bads)
 
@@ -257,7 +257,9 @@
                        ;; (fetch-goods-bads! (:date note))
                        ;; (reset! goods-bads @ans)
                        ;; (js/alert @goods-bads)
-                       (js/alert (fetch-goods-bads! (:date note))))}
+                       ;;(js/alert (fetch-goods-bads! (:date note)))
+                       (fetch-goods-bads! (:date note))
+                       )}
           "👍 😐 👎"]
          " "
          [:a {:href (str "/#/my/" (:id note))}
