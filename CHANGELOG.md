@@ -4,6 +4,16 @@ What you learned In this Lecture?
 
 ## Unreleased
 
+## 0.13.7 - 2023-09-19
+Cannot infer target type in expression
+
+```clojure
+;; before
+(.-rep (:created_at note))
+;; fixed
+(.-rep ^js/LocalDateTime (:created_at note)) 0 19)
+```
+
 ## 0.13.6 - 2023-09-19
 - 文言の修正
 

@@ -1,8 +1,10 @@
-(defproject wil "0.13.6"
+(defproject wil "0.13.7"
   :description "for 2023 python classes"
   :url "https://wil.kyutech.ac.jp"
   :dependencies
-  [[buddy/buddy-auth "3.0.323"]
+  [
+   [com.andrewmcveigh/cljs-time "0.5.2"]
+   [buddy/buddy-auth "3.0.323"]
    [buddy/buddy-core "1.11.423"]
    [buddy/buddy-hashers "2.0.167"]
    #_[buddy/buddy-sign "3.4.333"]
