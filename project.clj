@@ -45,7 +45,7 @@
    [ring/ring-core "1.10.0"]
    [ring/ring-defaults "0.4.0"]
    [selmer "1.12.59"]
-   [thheller/shadow-cljs "2.25.4" :scope "provided"]
+   [thheller/shadow-cljs "2.25.5" :scope "provided"]
    ;;
    [com.andrewmcveigh/cljs-time "0.5.2"]
    [hato/hato "0.9.0"]]
