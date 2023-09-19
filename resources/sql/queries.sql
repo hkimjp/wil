@@ -74,6 +74,11 @@ VALUES (:from_, :to_, :kind)
 SELECT * from goods
 WHERE to_= :id
 
+-- :name goods-bads :? :1
+-- :doc retrieve goods/so-so/bads count for date
+SELECT count(*) from goods
+WHERE date(created_at) = date(:date) and kind=:kind;
+
 -------------------------------------
 -- corona table
 -- :name clear-corona! :! :n
