@@ -3,9 +3,11 @@
 What you learned In this Lecture?
 
 ## Unreleased
-- good3/bad3
 
-## 0.13.5 2023-09-19
+## 0.13.6 - 2023-09-19
+- 文言の修正
+
+## 0.13.5 - 2023-09-19
 - GET の内側で js/alert
 
 date(create_at)=date(:date) の箇所でつまづいた。

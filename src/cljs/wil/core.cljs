@@ -14,7 +14,7 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.13.5")
+(def ^:private version "0.13.6")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7)
@@ -29,8 +29,8 @@
 (defonce note    (r/atom ""))
 
 ;; async
-(defonce ans (r/atom nil))
-(defonce goods-bads (r/atom ""))
+;; (defonce ans (r/atom nil))
+;; (defonce goods-bads (r/atom ""))
 
 (defn reset-notes!
   "get the notes from `/api/notes/:login`,
@@ -39,12 +39,6 @@
   (GET (str "/api/notes/" js/login)
     {:handler #(reset! notes %)
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
-
-;; NO GOOD. does not display day-by-day.
-;; (defn reset-notes! []
-;;   (GET "/api/notes-all"
-;;     {:handler #(reset! notes %)
-;;      :error-hander (fn [^js/Event e] (js/alert (.getMessage e)))}))
 
 ;; -------------------------
 ;; navbar
@@ -109,9 +103,9 @@
 (defn new-note-page []
   ;; section.section じゃないとナビバートのマージンが狭すぎになる。
   [:section.section>div.container>div.content
-   [:p "WIL には今日の授業で何を学んだか、その内容を具体的に書く。単に感想文じゃないぞ。"
+   [:p "WIL には今日の授業で何を学んだ内容を具体的に書く。単に感想文じゃない。"
     [:br]
-    "コピペはブロックする。"]
+    "コピペはブロック。"]
    [:p "送信は１日一回です。マークダウン OK."
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
      "<https://github.com/yogthos/markdown-clj>"]]
@@ -142,8 +136,9 @@
 (defn good-bad
   [coll]
   (let [goods (-> (filter #(pos? (:kind %)) coll) count)
+        soso  (-> (filter #(zero? (:kind %)) coll) count)
         bads  (-> (filter #(neg? (:kind %)) coll) count)]
-    (str "you have 👍 " goods ", 👎 " bads ".")))
+    (str "you have 👍 " goods " 😐 " soso " 👎 " bads ".")))
 
 (defn my-note
   "r/atom notes から id を拾って表示。good/bad は js/alert で。"
@@ -166,7 +161,7 @@
              #(js/alert (good-bad %))
              :error-handler
              (fn [^js/Event e] (js/alert (.getMessage e)))}))}
-       "👍｜👎 ?"]]]))
+       "👍 😐 👎 ?"]]]))
 
 (defn send-good-bad!
   [stat mark id]
@@ -185,7 +180,7 @@
   []
   [:section.section>div.container>div.content
    [:h3 "他の人のノートも参考にしよう。"]
-   [:p "自分の取り組みはどうか？取り組み次第で半年後には点数以上の差が。"]
+   [:p "自分の取り組みはどうか？取り組み次第で半年後には点数以上の差がつくよ。"]
    [:hr]
    (for [[i note] (map-indexed vector @others)]
      [:div {:key i}
@@ -238,146 +233,136 @@
       {:handler #(js/alert (format-goods-bads %))
        :error-handler #(js/alert (str "error: get " uri))})))
 
-;; FIXME: 0.11.0 では note は自分の WIL のみ。
-;;        [i note]　で自分の WIL とそのインデックスが取得できる。
-;;        日付をキーにしないと、自分が WIL 書いてない週が出てこない。
-    (defn notes-component []
-      (fn []
-        [:div
-         [:ol
-          (for [[i note] (reverse (map-indexed vector @notes))]
-            [:p
-             {:key i}
+(defn notes-component []
+  (fn []
+    [:div
+     [:ol
+      (for [[i note] (reverse (map-indexed vector @notes))]
+        [:p
+         {:key i}
          ;; これでページが切り替わるわけは？
          ;; => (defn page [] [(pages (:page @session))])
-             [:button.button.is-warning.is-small
-              {:on-click (fn [_]
-                           (fetch-others! (:date note))
-                           (swap! session assoc :page :others))}
-              (:date note)]
-             " "
+         [:button.button.is-warning.is-small
+          {:on-click (fn [_]
+                       (fetch-others! (:date note))
+                       (swap! session assoc :page :others))}
+          (:date note)]
+         " "
+         [:button.button.is-small
+          {:on-click (fn [_]
+                       (fetch-goods-bads! (:date note)))}
+          "👍 😐 👎"]
+         " "
+         [:a {:href (str "/#/my/" (:id note))}
+          (-> (:note note) str/split-lines first)]])]]))
 
-         ;; FIXME: async!
-         ;;        fetch が終了する前に、js/alert がよばれてしまう。
-             [:button.button.is-small
-              {:on-click (fn [_]
-                       ;; ng
-                       ;; (fetch-goods-bads! (:date note))
-                       ;; (reset! goods-bads @ans)
-                       ;; (js/alert @goods-bads)
-                       ;;(js/alert (fetch-goods-bads! (:date note)))
-                           (fetch-goods-bads! (:date note)))}
-              "👍 😐 👎"]
-             " "
-             [:a {:href (str "/#/my/" (:id note))}
-              (-> (:note note) str/split-lines first)]])]]))
+(defn done-todays?
+  []
+  (seq (filter #(= (today) (:date %)) @notes)))
 
-    (defn done-todays?
-      []
-      (seq (filter #(= (today) (:date %)) @notes)))
+(def ^:private wd
+  {"mon" 1, "tue" 2, "wed" 3, "thr" 4, "fri" 5, "sat" 6, "sun" 7})
 
-    (def ^:private wd
-      {"mon" 1, "tue" 2, "wed" 3, "thr" 4, "fri" 5, "sat" 6, "sun" 7})
+(defn today-is-klass-day?
+  []
+  (or (= js/klass "*")
+      (= (day-of-week (local-now)) (wd (subs js/klass 0 3)))))
 
-    (defn today-is-klass-day?
-      []
-      (or (= js/klass "*")
-          (= (day-of-week (local-now)) (wd (subs js/klass 0 3)))))
+(defn home-page
+  "js/klass はどこでセットしているか？"
+  []
+  (fn []
+    [:section.section>div.container>div.content
+     [:h3 js/login "(" js/klass "), What I Learned?"]
+     [:p "出席の記録。"]
+     [:p "日付をクリックは同日の他人ノートをランダムに表示する。"
+          "👍 😐 👎 は当日のいいね、まあまあ、悪いね総数。"
+          "表示テキストは自分ノートの1行目。クリックで当日自分ノートを表示する。
+           自分についた 👍 😐 👎 もそのページから。"
+      [:br]
+      "自分が WIL 書いてない週は他の人の WIL は見れないよ。"]
+     (when (and (today-is-klass-day?) (not (done-todays?)))
+       [:button.button.is-primary
+        {:on-click (fn [_]
+                     (reset! note "")
+                     (swap! session assoc :page :new-note))}
+        "本日分を追加"])
+     [notes-component]
+     [:hr]
+     [:div "version " version]]))
 
-    (defn home-page
-      "js/klass はどこでセットしているか？"
-      []
-      (fn []
-        [:section.section>div.container>div.content
-         [:h3 js/login "(" js/klass "), What I Learned?"]
-         [:p "出席の記録。"]
-         [:p "日付をクリックは同日の他人ノートをランダムに表示する、
-          👍 😐 👎 は作成中、
-          テキストは自分ノートの1行目。クリックで自分ノートを表示する。"
-          [:br]
-          "自分が WIL 書いてない週は他の人の WIL は見れないよ。"]
-         (when (and (today-is-klass-day?) (not (done-todays?)))
-           [:button.button.is-primary
-            {:on-click (fn [_]
-                         (reset! note "")
-                         (swap! session assoc :page :new-note))}
-            "本日分を追加"])
-         [notes-component]
-         [:hr]
-         [:div "version " version]]))
+;; (defn good-page
+;;   []
+;;   [:section.section>div.container>div.content
+;;    [:h3 "👍: under construction"]
+;;    [:p [:a {:href "/#/"} "back"]]])
 
-    (defn good-page
-      []
-      [:section.section>div.container>div.content
-       [:h3 "👍: under construction"]
-       [:p [:a {:href "/#/"} "back"]]])
-
-    (defn bad-page
-      []
-      [:section.section>div.container>div.content
-       [:h3 "👎: under construction"]
-       [:p [:a {:href "/#/"} "back"]]])
+;; (defn bad-page
+;;   []
+;;   [:section.section>div.container>div.content
+;;    [:h3 "👎: under construction"]
+;;    [:p [:a {:href "/#/"} "back"]]])
 
 ;; -------------------------
 ;; pages
 
-    (def pages
-      {:home     #'home-page
-       :about    #'about-page
-       :bad      #'bad-page
-       :good     #'good-page
-       :new-note #'new-note-page
-       :my       #'my-note
-       :others   #'others-notes-page
-       :list     #'list})
+(def pages
+  {:home     #'home-page
+   :about    #'about-page
+   ;; :bad      #'bad-page
+   ;; :good     #'good-page
+   :new-note #'new-note-page
+   :my       #'my-note
+   :others   #'others-notes-page
+   :list     #'list})
 
-    (defn page []
-      [(pages (:page @session))])
+(defn page []
+  [(pages (:page @session))])
 
 ;; -------------------------
 ;; Routes
 
-    (def router
-      (reitit/router
-       [["/"        :home]
-        ["/about"   :about]
-        ["/bad/:n"  :bad]
-        ["/good/:n" :good]
-        ["/my/:id"  :my]
-        ["/others/:date" :others]]))
+(def router
+  (reitit/router
+   [["/"        :home]
+    ["/about"   :about]
+    ["/bad/:n"  :bad]
+    ["/good/:n" :good]
+    ["/my/:id"  :my]
+    ["/others/:date" :others]]))
 
-    (defn path-params [match]
-      (when-let [p (:path-params match)]
-        (when (seq p)
-          (reset! params p))
-        match))
+(defn path-params [match]
+  (when-let [p (:path-params match)]
+    (when (seq p)
+      (reset! params p))
+    match))
 
-    (defn match-route [uri]
-      (->> (or (not-empty (str/replace uri #"^.*#" "")) "/")
-           (reitit/match-by-path router)
-           path-params
-           :data
-           :name))
+(defn match-route [uri]
+  (->> (or (not-empty (str/replace uri #"^.*#" "")) "/")
+       (reitit/match-by-path router)
+       path-params
+       :data
+       :name))
 
 ;; -------------------------
 ;; History
 ;; must be called after routes have been defined
-    (defn hook-browser-navigation! []
-      (doto (History.)
-        (events/listen
-         HistoryEventType/NAVIGATE
-         (fn [^js/Event.token event]
-           (swap! session assoc :page (match-route (.-token event)))))
-        (.setEnabled true)))
+(defn hook-browser-navigation! []
+  (doto (History.)
+    (events/listen
+     HistoryEventType/NAVIGATE
+     (fn [^js/Event.token event]
+       (swap! session assoc :page (match-route (.-token event)))))
+    (.setEnabled true)))
 
 ;; -------------------------
 ;; Initialize app
-    (defn ^:dev/after-load mount-components []
-      (rdom/render [#'navbar] (.getElementById js/document "navbar"))
-      (rdom/render [#'page] (.getElementById js/document "app")))
+(defn ^:dev/after-load mount-components []
+  (rdom/render [#'navbar] (.getElementById js/document "navbar"))
+  (rdom/render [#'page] (.getElementById js/document "app")))
 
-    (defn init! []
-      (ajax/load-interceptors!)
-      (hook-browser-navigation!)
-      (reset-notes!)
-      (mount-components))
+(defn init! []
+  (ajax/load-interceptors!)
+  (hook-browser-navigation!)
+  (reset-notes!)
+  (mount-components))
