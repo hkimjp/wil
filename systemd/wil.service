@@ -1,5 +1,5 @@
 [Unit]
-Description=What I Learned todays Lecture?
+Description=What you Learned In todays Lecture
 
 [Service]
 WorkingDirectory=/home/ubuntu/wil
