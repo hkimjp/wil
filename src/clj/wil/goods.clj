@@ -13,11 +13,10 @@
                  "so-so" 0
                  "bad" -1
                  (throw (Exception. (str "unknown condition: " condition))))]
-      (try
-        (db/create-good-bad!
-         {:from_ from :to_ to :kind kind})
-        (response/ok "inserted")
-        (catch Exception e (throw (Exception. (.getMessage e))))))))
+      (db/create-good-bad!
+       {:from_ from :to_ to :kind kind})
+      (response/ok "inserted"))
+    (catch Exception e (throw (Exception. (.getMessage e))))))
 
 (defn good-bad
   [{{:keys [id]} :params}]
@@ -28,4 +27,7 @@
 (defn goods-bads
   [{{:keys [date]} :path-params}]
   (log/info "goods-bads" date)
-  (response/ok {:date date :goods "n" :bads "n"}))
+  (let [goods (:count (db/goods-bads {:date date :kind 1}))
+        so-so (:count (db/goods-bads {:date date :kind 0}))
+        bads  (:count (db/goods-bads {:date date :kind -1}))]
+    (response/ok {:date date :goods goods :so-so so-so :bads bads})))

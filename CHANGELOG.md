@@ -5,6 +5,18 @@ What you learned In this Lecture?
 ## Unreleased
 - good3/bad3
 
+## 0.13.5 2023-09-19
+- GET の内側で js/alert
+
+date(create_at)=date(:date) の箇所でつまづいた。
+
+```sql
+-- :name goods-bads :? :*
+-- :doc retrieve goods/so-so/bads count for date
+SELECT count(*) from goods
+WHERE date(created_at) = date(:date) and kind=:kind;
+```
+
 ## 0.13.4 - 2023-09-13
 clojure -Tantq outdated :upgrade true
 
