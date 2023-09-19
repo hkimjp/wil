@@ -1,8 +1,9 @@
 (ns wil.core
   (:require
    [ajax.core :refer [GET POST]]
+   [cljs-time.coerce :refer [to-local-date]]
    [cljs-time.core :refer [day-of-week]]
-   [cljs-time.format :refer [formatter unparse]]
+   [cljs-time.format :refer [formatter unparse parse-local]]
    [cljs-time.local :refer [local-now]]
    [clojure.string :as str]
    [goog.events :as events]
@@ -14,7 +15,7 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.13.6")
+(def ^:private version "0.13.7")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7)
@@ -33,8 +34,7 @@
 ;; (defonce goods-bads (r/atom ""))
 
 (defn reset-notes!
-  "get the notes from `/api/notes/:login`,
-   set it in `notes` r/atom."
+  "get the notes from `/api/notes/:login`, set it in `notes` r/atom."
   []
   (GET (str "/api/notes/" js/login)
     {:handler #(reset! notes %)
@@ -180,13 +180,17 @@
   []
   [:section.section>div.container>div.content
    [:h3 "他の人のノートも参考にしよう。"]
-   [:p "自分の取り組みはどうか？取り組み次第で半年後には点数以上の差がつくよ。"]
+   [:p "自分の取り組みはどうか？取り組み次第で点数以上の差がつく。当たり前。"]
    [:hr]
    (for [[i note] (map-indexed vector @others)]
      [:div {:key i}
       [:div
        "From: " [:b (:login note)] ", "
-       (.-rep (str (:created_at note))) ","]
+       ;;
+       ;; FIXME: not displayed.
+       ;;
+       ;; (js/alert (str (:created_at note)))
+       (subs (.-rep ^js/LocalDateTime (:created_at note)) 0 19) ","]
       [:br]
       [:div
        {:dangerouslySetInnerHTML
@@ -291,13 +295,13 @@
      [:hr]
      [:div "version " version]]))
 
-;; (defn good-page
+;; (defn good-pages
 ;;   []
 ;;   [:section.section>div.container>div.content
 ;;    [:h3 "👍: under construction"]
 ;;    [:p [:a {:href "/#/"} "back"]]])
 
-;; (defn bad-page
+;; (defn bad-pages
 ;;   []
 ;;   [:section.section>div.container>div.content
 ;;    [:h3 "👎: under construction"]
@@ -309,8 +313,8 @@
 (def pages
   {:home     #'home-page
    :about    #'about-page
-   ;; :bad      #'bad-page
-   ;; :good     #'good-page
+   ;; :bad      #'bad-pages
+   ;; :good     #'good-pages
    :new-note #'new-note-page
    :my       #'my-note
    :others   #'others-notes-page
@@ -326,8 +330,8 @@
   (reitit/router
    [["/"        :home]
     ["/about"   :about]
-    ["/bad/:n"  :bad]
-    ["/good/:n" :good]
+    ;; ["/bad/:n"  :bad]
+    ;; ["/good/:n" :good]
     ["/my/:id"  :my]
     ["/others/:date" :others]]))
 
