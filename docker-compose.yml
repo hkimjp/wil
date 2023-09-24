@@ -9,7 +9,7 @@ services:
     #   - "7002:7002"
     #   - "9630:9630"
     volumes:
-      - .:/usr/src/app:cached
+      - .:/usr/src/app
       - m2:/home/vscode/.m2
       - gitlibs:/home/vscode/.gitlibs
     working_dir: /usr/src/app
@@ -28,7 +28,7 @@ services:
     # ports:
     #   - "55432:5432"
     volumes:
-      - ./initdb.d:/docker-entrypoint-initdb.d
+      # - ./initdb.d:/docker-entrypoint-initdb.d
       - data:/var/lib/postgresql/data
 
 volumes:
