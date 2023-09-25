@@ -3,7 +3,6 @@
   :url "https://wil.kyutech.ac.jp"
   :dependencies
   [
-   [com.andrewmcveigh/cljs-time "0.5.2"]
    [buddy/buddy-auth "3.0.323"]
    [buddy/buddy-core "1.11.423"]
    [buddy/buddy-hashers "2.0.167"]
