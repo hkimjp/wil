@@ -1,24 +1,22 @@
 version: "3"
 
 services:
-  wil:
+  luminus:
     image: hkim0331/luminus:0.1
     user: vscode
     # ports:
-    #   - "3020:3020"
-    #   - "7002:7002"
-    #   - "9630:9630"
+    #   - "3000:3000"
     volumes:
       - .:/usr/src/app
       - m2:/home/vscode/.m2
       - gitlibs:/home/vscode/.gitlibs
     working_dir: /usr/src/app
-    command:
+    entrypoint:
       - sleep
       - infinity
 
   db:
-    image: postgres:14.9
+    image: postgres
     # restart: always
     environment:
       POSTGRES_DB: wil
@@ -27,14 +25,14 @@ services:
       TZ: Asia/Toky
     # ports:
     #   - "55432:5432"
-    volumes:
+   volumes:
       # - ./initdb.d:/docker-entrypoint-initdb.d
       - data:/var/lib/postgresql/data
 
 volumes:
-  data:
-    driver: local
-  m2:
-    external: true
   gitlibs:
     external: true
+  m2:
+    external: true
+  data:
+    driver: local

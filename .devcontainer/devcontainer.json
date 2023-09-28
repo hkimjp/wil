@@ -1,22 +1,19 @@
 {
-  "name": "What You Learned?",
-  "service": "wil",
-  // "remoteUser": "vscode",
-  "workspaceFolder": "/usr/src/app",
-  "dockerComposeFile": [
-    "../docker-compose.yml"
-  ],
-  "customizations": {
-    "vscode": {
-        "settings": {
-    },
-    "extensions": [
-        "betterthantomorrow.calva",
-        "borkdude.clj-kondo",
-        // "eduarddyckman.vscode-parinfer",
-        "jsynowiec.vscode-insertdatestring",
-        "lfs.vscode-emacs-friendly"
-        // "mosapride.zenkaku",
-        // "ybaumes.highlight-trailing-white-spaces"
-    ]}}
-}
+    "name": "Luminus",
+    "service": "luminus",
+    "remoteUser": "vscode",
+    "workspaceFolder": "/usr/src/app",
+    "dockerComposeFile": [
+        "../docker-compose.yml"
+    ],
+    "customizations": {
+        "vscode": {
+            "settings": {
+            },
+            "extensions": [
+                "borkdude.clj-kondo",
+                "jsynowiec.vscode-insertdatestring",
+                "lfs.vscode-emacs-friendly"
+                // "mosapride.zenkaku",
+                // "ybaumes.highlight-trailing-white-spaces"
+            ]}}}
