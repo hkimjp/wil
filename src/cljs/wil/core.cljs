@@ -250,7 +250,7 @@
           {:on-click (fn [_]
                        (fetch-others! (:date note))
                        (swap! session assoc :page :others))}
-          (:date note)]
+          (str (:date note) "(同日ノートを表示)")]
          " "
          [:button.button.is-small
           {:on-click (fn [_]
@@ -278,13 +278,15 @@
   (fn []
     [:section.section>div.container>div.content
      [:h3 js/login "(" js/klass "), What I Learned?"]
-     [:p "出席の記録。"]
-     [:p "日付をクリックは同日の他人ノートをランダムに表示する。"
-          "👍 😐 👎 は当日のいいね、まあまあ、悪いね総数。"
-          "表示テキストは自分ノートの1行目。クリックで当日自分ノートを表示する。
-           自分についた 👍 😐 👎 もそのページから。"
-      [:br]
-      "自分が WIL 書いてない週は他の人の WIL は見れないよ。"]
+     [:p "出席の記録。自分が WIL 書いてない週は他の人の WIL は見れないよ。"]
+     [:ul
+      [:li "左側の「yyyy-mm-dd(同日ノートを表示)」は同日の他人ノートをランダムに表示する。
+            積極的に、👍、😐、👎 つけよう。"]
+      [:li "真ん中の「👍 😐 👎」 は当日のいいね、まあまあ、悪いね総数。"]
+      [:li "右側のテキストは自分ノートの1行目。クリックで当日自分ノートを表示する。
+           自分についた 👍 😐 👎 もそのページから。"]]
+     #_[:p "wil に戻るにはメニューの WIL をクリック。ブラウザの「戻る」はすいません、変なところに行きます。"]
+     [:br]
      (when (and (today-is-klass-day?) (not (done-todays?)))
        [:button.button.is-primary
         {:on-click (fn [_]

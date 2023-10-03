@@ -4,6 +4,9 @@ What you learned In this Lecture?
 
 ## Unreleased
 
+## 0.13.8 - 2023-10-03
+- core.cljs: / に表示する文言をアップデート。
+
 ## 0.13.7 - 2023-09-19
 Cannot infer target type in expression
 
