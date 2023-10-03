@@ -4,10 +4,11 @@
   [clojure.tools.logging :as log]
   [hato.client :as hc]
   [ring.util.http-response :as response]
-  [wil.env]
+  ;; [wil.env]
+  [wil.config]
   [wil.layout :as layout]
   [wil.middleware :as middleware]
-  #_[wil.notes :refer [list-notes]]
+  ;; [wil.notes :refer [list-notes]]
   ))
 
 (defn home-page
@@ -23,20 +24,16 @@
    note: parameter is a string. cf. (db/get-user {:login login})"
   [login]
   (let [body (:body (hc/get (str api-user login) {:as :json}))]
-    (log/info "api-user" body)
+    ;; (log/info "api-user" body)
     body))
 
 (defn login-page [request]
   (layout/render request "login.html" {:flash (:flash request)}))
 
-(comment
-  wil.env/dev?
-  :rcf)
-
-(defn login-post [{{:keys [login password]} :params}]
-  (if wil.env/dev?
+(defn login-post! [{{:keys [login password]} :params}]
+  (if (wil.config/env :dev)
     (do
-      (log/info "login-post dev")
+      (log/info "login-post! dev mode")
       (-> (response/found "/")
           (assoc-in [:session :identity] login)
           (assoc-in [:session :klass] "*")))
@@ -45,7 +42,7 @@
                (= (:login user) login)
                (hashers/check password (:password user)))
         (do
-          (log/info "login" login)
+          (log/info "login success" login)
           (-> (response/found "/")
               (assoc-in [:session :identity] login)
               (assoc-in [:session :klass] (:uhour user))))
@@ -66,21 +63,13 @@
     (-> (response/found "/login")
         (assoc :flash "please login"))))
 
-;; (defn list-texts
-;;   "admin 専用メソッド。引数 date の wil 一覧"
-;;   [{{:keys [date]} :path-params}]
-;;   (let [body (:body (hc/get (str "/api/list/" date) {:as :json}))]
-;;     (for [b body]
-;;       (:text b))))
-
 (defn home-routes []
   [""
-   {:middleware [middleware/wrap-csrf
+   {:middleware [middleware/wrap-ip
+                 middleware/wrap-csrf
                  middleware/wrap-formats]}
    ["/"        {:get home-page}]
-   ["/login"   {:get  login-page :post login-post}]
+   ["/login"   {:get login-page :post login-post!}]
    ["/logout"  {:get logout}]
    ["/profile" {:get profile-page}]
-   ;; no use
-   #_["/list/:date" {:get list-notes}]
    ])

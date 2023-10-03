@@ -1,23 +1,71 @@
 # WIL
 
+What you learned In this Lecture?
+
 ## Unreleased
-- cljs の warning: luminus のコード navbar
-- hyperfiddle でコンパイルエラーになる
-Compiling wil.corona-absents
-✅Syntax error macroexpanding at (corona_absents.clj:34:1).
-Execution error (ClassCastException) at wil.db.core/fn (core.clj:14).
-class mount.core.DerefableState cannot be cast to class clojure.lang.
-IFn (mount.core.DerefableState is in unnamed module of loader clojure.
-lang.DynamicClassLoader @cc239ba; clojure.lang.IFn is in unnamed
-module of loader 'app')
+
+## 0.13.8 - 2023-10-03
+- core.cljs: / に表示する文言をアップデート。
+
+## 0.13.7 - 2023-09-19
+Cannot infer target type in expression
+
+```clojure
+;; before
+(.-rep (:created_at note))
+;; fixed
+(.-rep ^js/LocalDateTime (:created_at note)) 0 19)
+```
+
+## 0.13.6 - 2023-09-19
+- 文言の修正
+
+## 0.13.5 - 2023-09-19
+- GET の内側で js/alert
+
+date(create_at)=date(:date) の箇所でつまづいた。
+
+```sql
+-- :name goods-bads :? :*
+-- :doc retrieve goods/so-so/bads count for date
+SELECT count(*) from goods
+WHERE date(created_at) = date(:date) and kind=:kind;
+```
+
+## 0.13.4 - 2023-09-13
+clojure -Tantq outdated :upgrade true
+
+## 0.13.3 - 2023-09-13
+deployed to tiger.melt
+
+## 0.13.2 - 2023-09-13
+### Added
+- systemd/ copy from app.melt:wil
+- middleware/wrap-ip
+  ban ip connection from VPN.
+
+## 0.13.1 - 2023-09-13
+### Changed
+- wil.env/dev を見るではく、dev-config.edn を参照する
+  (wil.config/env :dev)
 - admin? which replaces #(= "hkimura" %)
-- Tagged Value
+
+## 0.13.0 - 2023-09-13
+2023 cycle started.
+
+## 0.12.1 - 2023-08-01
+- fixed
 ```
 178 |       [:div "From: " [:b (:login note)] ", " (str (.-rep (:created_at note))) ","]
 ---------------------------------------------------------^----------------------
  Cannot infer target type in expression (. (:created_at note) -rep)
 ```
-return type?
+
+by letting `-rep` know that the type of argument is String.
+
+```
+(.-rep (str (:created_at note)))
+```
 
 ## 0.11.1 - 2023-05-21
 - added so-so button

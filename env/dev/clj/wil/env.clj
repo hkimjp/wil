@@ -14,4 +14,5 @@
      (log/info "\n-=[wil has shut down successfully]=-"))
    :middleware wrap-dev})
 
-(def dev? true)
+;; use wil.config/env instead
+;; (def dev? true)

@@ -32,12 +32,16 @@ INSERT INTO notes
 (login, date, note)
 VALUES (:login, :date, :note)
 
--- :name login-notes :? :*
+-- :name notes-login :? :*
 -- :doc  retrieve login's notes
 SELECT * FROM notes
 WHERE login = :login
 ORDER BY id
 
+-- :name notes-all :? :*
+-- :doc retrieve all notes
+SELECT * FROM notes
+ORDER BY id
 
 -- :name get-note :? :1
 -- :doc  get note id=:id
@@ -69,6 +73,11 @@ VALUES (:from_, :to_, :kind)
 -- :doc retrieve goods and bads sent to id
 SELECT * from goods
 WHERE to_= :id
+
+-- :name goods-bads :? :1
+-- :doc retrieve goods/so-so/bads count for date
+SELECT count(*) from goods
+WHERE date(created_at) = date(:date) and kind=:kind;
 
 -------------------------------------
 -- corona table

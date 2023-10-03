@@ -23,7 +23,8 @@
     {% style "/css/screen.css" %}
     {% style "/css/wil.css" %}
 
-    <!-- wil.layoyt 中で細工している -->
+    <!-- wil.layout 中で細工している.
+      　　csrfToken とともにlogin, klass をセッション中グローバルに持つ。 -->
     <script type="text/javascript">
         var csrfToken = "{{csrf-token}}";
         var login = "{{login}}";
