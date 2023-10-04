@@ -11,9 +11,10 @@
             "settings": {
             },
             "extensions": [
-                "borkdude.clj-kondo",
+                "betterthantomorrow.calva",
                 "jsynowiec.vscode-insertdatestring",
-                "lfs.vscode-emacs-friendly"
+                "rkwan94.vscode-emacs-improved"
+                //　"borkdude.clj-kondo",
                 // "mosapride.zenkaku",
                 // "ybaumes.highlight-trailing-white-spaces"
             ]}}}
