@@ -280,8 +280,10 @@
      [:h3 js/login "(" js/klass "), What I Learned?"]
      [:p "出席の記録。自分が WIL 書いてない週は他の人の WIL は見れないよ。"]
      [:ul
+      [:li [:button.button.is-primary.is-small "本日分を追加"]
+       "は、授業当日、一度しかクリックできません。"]
       [:li "左側の"
-       [:span.orange "yyyy-mm-dd"]
+       [:button.button.is-warning.is-small "yyyy-mm-dd"]
        "は同日の他人ノートをランダムに表示する。"
        "積極的に、👍、😐、👎 つけよう。情けは人の為ならず。"]
       [:li "真ん中の"
