@@ -1,11 +1,10 @@
 version: "3"
-
 services:
   luminus:
     image: hkim0331/luminus:0.1
     user: vscode
     # ports:
-    #   - "3000:3000"
+    #   - "3020:3020"
     volumes:
       - .:/usr/src/app
       - m2:/home/vscode/.m2
@@ -25,7 +24,7 @@ services:
       TZ: Asia/Toky
     # ports:
     #   - "55432:5432"
-   volumes:
+    volumes:
       # - ./initdb.d:/docker-entrypoint-initdb.d
       - data:/var/lib/postgresql/data
 

@@ -4,6 +4,9 @@ What you learned In this Lecture?
 
 ## Unreleased
 
+## 0.13.9 - 2023-10-04
+- コンテナが立ち上がらなかったのは db セクションのインデントミス？
+
 ## 0.13.8 - 2023-10-03
 - core.cljs: / に表示する文言をアップデート。
 
