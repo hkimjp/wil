@@ -1,9 +1,9 @@
 (ns wil.core
   (:require
    [ajax.core :refer [GET POST]]
-   [cljs-time.coerce :refer [to-local-date]]
+   ;; [cljs-time.coerce :refer [to-local-date]]
    [cljs-time.core :refer [day-of-week]]
-   [cljs-time.format :refer [formatter unparse parse-local]]
+   [cljs-time.format :refer [formatter unparse #_parse-local]]
    [cljs-time.local :refer [local-now]]
    [clojure.string :as str]
    [goog.events :as events]
@@ -15,7 +15,7 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.13.7")
+(def ^:private version "0.13.9")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7)
@@ -250,7 +250,7 @@
           {:on-click (fn [_]
                        (fetch-others! (:date note))
                        (swap! session assoc :page :others))}
-          (:date note)]
+          (str (:date note))]
          " "
          [:button.button.is-small
           {:on-click (fn [_]
@@ -278,14 +278,22 @@
   (fn []
     [:section.section>div.container>div.content
      [:h3 js/login "(" js/klass "), What I Learned?"]
-     [:p "出席の記録。"]
-     [:p "日付をクリックは同日の他人ノートをランダムに表示する。"
-          "👍 😐 👎 は当日のいいね、まあまあ、悪いね総数。"
-          "表示テキストは自分ノートの1行目。クリックで当日自分ノートを表示する。
-           自分についた 👍 😐 👎 もそのページから。"
-      [:br]
-      "自分が WIL 書いてない週は他の人の WIL は見れないよ。"]
-     (when (and (today-is-klass-day?) (not (done-todays?)))
+     [:p "出席の記録。自分が WIL 書いてない週は他の人の WIL は見れないよ。"]
+     [:ul
+      [:li "左側の"
+       [:span.orange "yyyy-mm-dd"]
+       "は同日の他人ノートをランダムに表示する。"
+       "積極的に、👍、😐、👎 つけよう。情けは人の為ならず。"]
+      [:li "真ん中の"
+       [:span.boxed "👍 😐 👎"]
+        "はクラスについた当日のいいね、まあまあ、悪いね総数。"]
+      [:li "右側のテキストは自分ノートの1行目。"
+       "クリックで当日自分ノートを表示する。"
+       "自分についた 👍 😐 👎 もそのページから。"]]
+     #_[:p "wil に戻るにはメニューの WIL をクリック。ブラウザの「戻る」はすいません、変なところに行きます。"]
+     [:br]
+     (when (or (= "hkimura" js/login)
+               (and (today-is-klass-day?) (not (done-todays?))))
        [:button.button.is-primary
         {:on-click (fn [_]
                      (reset! note "")

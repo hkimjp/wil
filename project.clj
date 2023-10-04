@@ -1,9 +1,8 @@
-(defproject wil "0.13.7"
+(defproject wil "0.13.9"
   :description "for 2023 python classes"
   :url "https://wil.kyutech.ac.jp"
   :dependencies
   [
-   [com.andrewmcveigh/cljs-time "0.5.2"]
    [buddy/buddy-auth "3.0.323"]
    [buddy/buddy-core "1.11.423"]
    [buddy/buddy-hashers "2.0.167"]
@@ -45,7 +44,7 @@
    [ring/ring-core "1.10.0"]
    [ring/ring-defaults "0.4.0"]
    [selmer "1.12.59"]
-   [thheller/shadow-cljs "2.25.4" :scope "provided"]
+   [thheller/shadow-cljs "2.25.5" :scope "provided"]
    ;;
    [com.andrewmcveigh/cljs-time "0.5.2"]
    [hato/hato "0.9.0"]]

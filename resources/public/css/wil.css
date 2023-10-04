@@ -3,3 +3,12 @@ textarea#note {
   width:   80%;
   height:  400px;
 }
+
+span.orange {
+  padding: 5px;
+  background-color: rgb(251, 229, 134);
+}
+span.boxed {
+  padding: 5px;
+  border-style: groove;
+}

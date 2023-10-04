@@ -4,6 +4,20 @@ What you learned In this Lecture?
 
 ## Unreleased
 
+
+## 0.13.9 - 2023-10-04
+- コンテナが立ち上がらなかったのは db セクションのインデントミス？
+- .devcontainer.json
+  calva
+  emacs.keymap.improved
+- docker-compose.yml: use postgres:14.9
+- 表示を合わせる。ボタン、ボックス
+- hkimura は2時間目も「本日分を追加」できる。
+- /css/wil.css を書き換えても vivaldiが読まないのは「ブラウザのキャッシュをクリア」で直った。
+
+## 0.13.8 - 2023-10-03
+- core.cljs: / に表示する文言をアップデート。
+
 ## 0.13.7 - 2023-09-19
 Cannot infer target type in expression
 
