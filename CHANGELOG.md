@@ -6,6 +6,7 @@ What you learned In this Lecture?
 
 ## 0.14.10 - 2023-10-04
 - css を bulma の is-button で書き直し。
+- 忘れ物。
 
 ## 0.13.9 - 2023-10-04
 - コンテナが立ち上がらなかったのは db セクションのインデントミス？
