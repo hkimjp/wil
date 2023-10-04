@@ -3,9 +3,14 @@
 What you learned In this Lecture?
 
 ## Unreleased
+- 表示を合わせる。ボタン、ボックス
+- hkimura は2時間目も「本日分を追加」できる。
 
-## 0.13.9 - 2023-10-04
+## 0.13.9-snapshot
 - コンテナが立ち上がらなかったのは db セクションのインデントミス？
+- .devcontainer.json
+  calva
+  emacs.keymap.improved
 
 ## 0.13.8 - 2023-10-03
 - core.cljs: / に表示する文言をアップデート。
