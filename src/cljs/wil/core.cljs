@@ -15,7 +15,8 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.14.10")
+(def ^:private version "0.15.11")
+(def ^:private updated "2023-10-06 00:52:23")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7)
@@ -85,7 +86,8 @@
 (defn about-page []
   [:section.section>div.container>div.content
    [:img {:src "/img/warning_clojure.png"}]
-   [:p "version " version]])
+   [:p "version: " version [:br]
+       "update: " updated]])
 
 ;; -------------------------
 ;; 今日のノート

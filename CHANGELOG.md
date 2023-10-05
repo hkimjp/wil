@@ -3,6 +3,10 @@
 What you learned In this Lecture?
 
 ## Unreleased
+- weeks テーブルの目的は？
+
+## 0.15.11 - 2023-10-06
+- about に updated 表示
 
 ## 0.14.10 - 2023-10-04
 - css を bulma の is-button で書き直し。
