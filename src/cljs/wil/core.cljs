@@ -105,10 +105,11 @@
 (defn new-note-page []
   ;; section.section じゃないとナビバートのマージンが狭すぎになる。
   [:section.section>div.container>div.content
-   [:p "WIL には今日の授業で何を学んだ内容を具体的に書く。単に感想文じゃない。"
+   [:p "WIL には今日の授業で何を学んだ内容を具体的に書く。メモは取れたか？" [:br]
+    "オープン戦は終わりだ。いつまでも 12345 は幼稚園か猿だね。"
     [:br]
     "コピペはブロック。"]
-   [:p "送信は１日一回です。マークダウン OK."
+   [:p "送信は１日一回。マークダウン OK."
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
      "<https://github.com/yogthos/markdown-clj>"]]
    [:div
@@ -283,10 +284,12 @@
      [:p "出席の記録。自分が WIL 書いてない週は他の人の WIL は見れないよ。"]
      [:ul
       [:li [:button.button.is-primary.is-small "本日分を追加"]
-       "は、授業当日、一度しかクリックできません。"]
+       "は、授業当日だけ現れ、一度しかクリックできない。"]
       [:li "左側の"
        [:button.button.is-warning.is-small "yyyy-mm-dd"]
-       "は同日の他人ノートをランダムに表示する。"
+       "は同日の他人ノートをランダムに "
+       how-many-wil
+       " 件、表示する。"
        "積極的に、👍、😐、👎 つけよう。情けは人の為ならず。"]
       [:li "真ん中の"
        [:button.button.is-prinary.is-small "👍 😐 👎"]
