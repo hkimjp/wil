@@ -1,9 +1,9 @@
 (ns wil.core
   (:require
    [ajax.core :refer [GET POST]]
-   [cljs-time.coerce :refer [to-local-date]]
+   ;; [cljs-time.coerce :refer [to-local-date]]
    [cljs-time.core :refer [day-of-week]]
-   [cljs-time.format :refer [formatter unparse parse-local]]
+   [cljs-time.format :refer [formatter unparse #_parse-local]]
    [cljs-time.local :refer [local-now]]
    [clojure.string :as str]
    [goog.events :as events]
@@ -15,7 +15,8 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.13.8")
+(def ^:private version "0.15.11")
+(def ^:private updated "2023-10-06 00:53:57")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7)
@@ -85,7 +86,8 @@
 (defn about-page []
   [:section.section>div.container>div.content
    [:img {:src "/img/warning_clojure.png"}]
-   [:p "version " version]])
+   [:p "version: " version [:br]
+       "update: " updated]])
 
 ;; -------------------------
 ;; 今日のノート
@@ -250,7 +252,7 @@
           {:on-click (fn [_]
                        (fetch-others! (:date note))
                        (swap! session assoc :page :others))}
-          (str (:date note) "(同日ノートを表示)")]
+          (str (:date note))]
          " "
          [:button.button.is-small
           {:on-click (fn [_]
@@ -280,14 +282,22 @@
      [:h3 js/login "(" js/klass "), What I Learned?"]
      [:p "出席の記録。自分が WIL 書いてない週は他の人の WIL は見れないよ。"]
      [:ul
-      [:li "左側の「yyyy-mm-dd(同日ノートを表示)」は同日の他人ノートをランダムに表示する。
-            積極的に、👍、😐、👎 つけよう。"]
-      [:li "真ん中の「👍 😐 👎」 は当日のいいね、まあまあ、悪いね総数。"]
-      [:li "右側のテキストは自分ノートの1行目。クリックで当日自分ノートを表示する。
-           自分についた 👍 😐 👎 もそのページから。"]]
+      [:li [:button.button.is-primary.is-small "本日分を追加"]
+       "は、授業当日、一度しかクリックできません。"]
+      [:li "左側の"
+       [:button.button.is-warning.is-small "yyyy-mm-dd"]
+       "は同日の他人ノートをランダムに表示する。"
+       "積極的に、👍、😐、👎 つけよう。情けは人の為ならず。"]
+      [:li "真ん中の"
+       [:button.button.is-prinary.is-small "👍 😐 👎"]
+        "はクラス全体の当日いいね、まあまあ、悪いね総数。"]
+      [:li "右側のテキストは自分ノートの1行目。"
+       "クリックで当日自分ノートを表示する。"
+       "自分についた 👍 😐 👎 もそのページから。"]]
      #_[:p "wil に戻るにはメニューの WIL をクリック。ブラウザの「戻る」はすいません、変なところに行きます。"]
      [:br]
-     (when (and (today-is-klass-day?) (not (done-todays?)))
+     (when (or (= "hkimura" js/login)
+               (and (today-is-klass-day?) (not (done-todays?))))
        [:button.button.is-primary
         {:on-click (fn [_]
                      (reset! note "")
