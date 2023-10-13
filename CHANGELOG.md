@@ -4,6 +4,8 @@ What you learned In this Lecture?
 
 ## Unreleased
 - weeks テーブルの目的は？
+- bug: 先週以前の WIL が表示されない 2023-10-12
+
 
 ## 0.15.12 - 2023-10-13
 - 2023-10-01 以前の notes も削除した。(tiger.melt で)
