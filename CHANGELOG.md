@@ -5,6 +5,9 @@ What you learned In this Lecture?
 ## Unreleased
 - weeks テーブルの目的は？
 
+## 0.15.12 - 2023-10-13
+- 2023-10-01 以前の notes も削除した。(tiger.melt で)
+
 ## 0.15.11 - 2023-10-06
 - about に updated 表示する。
 - 2023-10-01 以降の notes を削除した。(tiger.melt で)
