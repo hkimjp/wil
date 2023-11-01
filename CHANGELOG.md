@@ -6,6 +6,13 @@ What you learned In this Lecture?
 - weeks テーブルの目的は？
 - bug: 先週以前の WIL が表示されない 2023-10-12
 
+## 0.15.13 - 2023-11-01
+- use same background color at textarea#note with other App's (qa.melt) markdown areas.
+```
+textarea#note{
+  background-color: #cfc;
+}
+```
 
 ## 0.15.12 - 2023-10-13
 - 2023-10-01 以前の notes も削除した。(tiger.melt で)
