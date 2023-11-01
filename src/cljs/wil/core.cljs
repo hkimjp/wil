@@ -15,7 +15,8 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.14.10")
+(def ^:private version "0.15.13")
+(def ^:private updated "2023-11-01 10:31:49")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7)
@@ -85,7 +86,8 @@
 (defn about-page []
   [:section.section>div.container>div.content
    [:img {:src "/img/warning_clojure.png"}]
-   [:p "version " version]])
+   [:p "version: " version [:br]
+       "update: " updated]])
 
 ;; -------------------------
 ;; 今日のノート
@@ -103,10 +105,11 @@
 (defn new-note-page []
   ;; section.section じゃないとナビバートのマージンが狭すぎになる。
   [:section.section>div.container>div.content
-   [:p "WIL には今日の授業で何を学んだ内容を具体的に書く。単に感想文じゃない。"
+   [:p "WIL には今日の授業で何を学んだ内容を具体的に書く。メモは取れたか？" [:br]
+    "オープン戦は終わりだ。いつまでも 12345 は幼稚園か猿だね。"
     [:br]
     "コピペはブロック。"]
-   [:p "送信は１日一回です。マークダウン OK."
+   [:p "送信は１日一回。マークダウン OK."
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
      "<https://github.com/yogthos/markdown-clj>"]]
    [:div
@@ -281,14 +284,16 @@
      [:p "出席の記録。自分が WIL 書いてない週は他の人の WIL は見れないよ。"]
      [:ul
       [:li [:button.button.is-primary.is-small "本日分を追加"]
-       "は、授業当日、一度しかクリックできません。"]
+       "は、授業当日だけ現れ、一度しかクリックできない。"]
       [:li "左側の"
        [:button.button.is-warning.is-small "yyyy-mm-dd"]
-       "は同日の他人ノートをランダムに表示する。"
+       "は同日の他人ノートをランダムに "
+       how-many-wil
+       " 件、表示する。"
        "積極的に、👍、😐、👎 つけよう。情けは人の為ならず。"]
       [:li "真ん中の"
-       [:span.boxed "👍 😐 👎"]
-        "はクラスについた当日のいいね、まあまあ、悪いね総数。"]
+       [:button.button.is-prinary.is-small "👍 😐 👎"]
+        "はクラス全体の当日いいね、まあまあ、悪いね総数。"]
       [:li "右側のテキストは自分ノートの1行目。"
        "クリックで当日自分ノートを表示する。"
        "自分についた 👍 😐 👎 もそのページから。"]]

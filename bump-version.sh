@@ -15,19 +15,19 @@ if [ -z "$1" ]; then
     exit
 fi
 
-# use  extended regular expressions in the script
 if [ -x "${HOMEBREW_PREFIX}/bin/gsed" ]; then
-    SED="${HOMEBREW_PREFIX}/bin/gsed -E"
+    SED="${HOMEBREW_PREFIX}/bin/gsed -E -i"
 else
-    SED="/usr/bin/sed -E"
+    SED="/usr/bin/sed -E -i"
 fi
 
 # project.clj
-${SED} -i "s/(defproject \S+) \S+/\1 \"$1\"/" project.clj
+${SED} -e "s/(defproject \S+) \S+/\1 \"$1\"/" project.clj
 
 # clj
-#${SED} -i "s/(def \^:private version) .+/\1 \"$1\")/" src/core.clj
+#${SED} -e "s/(def \^:private version) .+/\1 \"$1\")/" src/core.clj
 
 # cljs
-${SED} -i "s/(def \^:private version) .+/\1 \"$1\")/" src/cljs/wil/core.cljs
-
+now=`date '+%F %T'`
+${SED} -e "s/(def \^:private version) .+/\1 \"$1\")/" \
+       -e "s/(def \^:private updated) .+/\1 \"$now\")/" src/cljs/wil/core.cljs

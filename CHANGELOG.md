@@ -3,9 +3,27 @@
 What you learned In this Lecture?
 
 ## Unreleased
+- weeks テーブルの目的は？
+- bug: 先週以前の WIL が表示されない 2023-10-12
+
+## 0.15.13 - 2023-11-01
+- use same background color at textarea#note with other App's (qa.melt) markdown areas.
+```
+textarea#note{
+  background-color: #cfc;
+}
+```
+
+## 0.15.12 - 2023-10-13
+- 2023-10-01 以前の notes も削除した。(tiger.melt で)
+
+## 0.15.11 - 2023-10-06
+- about に updated 表示する。
+- 2023-10-01 以降の notes を削除した。(tiger.melt で)
 
 ## 0.14.10 - 2023-10-04
 - css を bulma の is-button で書き直し。
+- 忘れ物。
 
 ## 0.13.9 - 2023-10-04
 - コンテナが立ち上がらなかったのは db セクションのインデントミス？
