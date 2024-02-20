@@ -6,6 +6,12 @@ What you learned In this Lecture?
 - weeks テーブルの目的は？
 - bug: 先週以前の WIL が表示されない 2023-10-12
 
+
+## 0.16.14 / 2024-02-20
+- 期末テストの 311,321,331,341 の回答を wil.notes に取り込んだ．
+- l22 に wil/not ユーザを作成した．
+- tiger.melt に wil-added-wil.sql を送信, restore.sh.
+
 ## 0.15.13 - 2023-11-01
 - use same background color at textarea#note with other App's (qa.melt) markdown areas.
 ```
