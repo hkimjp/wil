@@ -1,8 +1,17 @@
 # wil
 
 What you learned In this Lecture?
-
 Authentication https://l22.melt.kyutech.ac.jp/api/user/:login
+## CAUSTION
+when start, cljs says
+
+```
+clj꞉shadow.user꞉> 
+; Evaluating 'afterCLJReplJackInCode'
+Access the server at http://localhost:3000
+```
+
+but listening port is `3020`.
 
 ## docker/lein-devcontainer
 

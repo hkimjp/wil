@@ -15,8 +15,8 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.15.13")
-(def ^:private updated "2023-11-01 10:31:49")
+(def ^:private version "0.16.14")
+(def ^:private updated "2024-02-20 13:41:58")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7)
@@ -87,7 +87,7 @@
   [:section.section>div.container>div.content
    [:img {:src "/img/warning_clojure.png"}]
    [:p "version: " version [:br]
-       "update: " updated]])
+    "update: " updated]])
 
 ;; -------------------------
 ;; 今日のノート
@@ -211,7 +211,8 @@
 ;; 過去ノート一覧
 
 (defn- admin? []
-  (= js/login "hkimura"))
+  (or (= js/login "hkimura")
+      (= js/login "wil")))
 
 (defn fetch-others!
   "/api/notes/:date/300 からノートをフェッチ、atom others を更新する。"
@@ -293,13 +294,13 @@
        "積極的に、👍、😐、👎 つけよう。情けは人の為ならず。"]
       [:li "真ん中の"
        [:button.button.is-prinary.is-small "👍 😐 👎"]
-        "はクラス全体の当日いいね、まあまあ、悪いね総数。"]
+       "はクラス全体の当日いいね、まあまあ、悪いね総数。"]
       [:li "右側のテキストは自分ノートの1行目。"
        "クリックで当日自分ノートを表示する。"
        "自分についた 👍 😐 👎 もそのページから。"]]
      #_[:p "wil に戻るにはメニューの WIL をクリック。ブラウザの「戻る」はすいません、変なところに行きます。"]
      [:br]
-     (when (or (= "hkimura" js/login)
+     (when (or (admin?)
                (and (today-is-klass-day?) (not (done-todays?))))
        [:button.button.is-primary
         {:on-click (fn [_]
