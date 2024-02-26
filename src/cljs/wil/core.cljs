@@ -15,11 +15,11 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.16.14")
-(def ^:private updated "2024-02-20 13:41:58")
+(def ^:private version "0.17-SNAPSHOT")
+(def ^:private updated "2024-02-23 09:03:06")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
-(def how-many-wil "ランダムに拾う WIL の数" 7)
+(def how-many-wil "ランダムに拾う WIL の数" 30)
 
 ;; -------------------------
 ;; r/atom
@@ -76,7 +76,7 @@
 ;; misc functions
 
 (defn today
-  "returns yyyy-MM-dd string."
+  "returns string `yyyy-MM-dd`."
   []
   (unparse (formatter "yyyy-MM-DD") (local-now)))
 

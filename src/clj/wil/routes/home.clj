@@ -1,15 +1,15 @@
 (ns wil.routes.home
- (:require
-  [buddy.hashers :as hashers]
-  [clojure.tools.logging :as log]
-  [hato.client :as hc]
-  [ring.util.http-response :as response]
+  (:require
+   [buddy.hashers :as hashers]
+   [clojure.tools.logging :as log]
+   [hato.client :as hc]
+   [ring.util.http-response :as response]
   ;; [wil.env]
-  [wil.config]
-  [wil.layout :as layout]
-  [wil.middleware :as middleware]
+   [wil.config]
+   [wil.layout :as layout]
+   [wil.middleware :as middleware]
   ;; [wil.notes :refer [list-notes]]
-  ))
+   ))
 
 (defn home-page
   [request]
@@ -65,11 +65,10 @@
 
 (defn home-routes []
   [""
-   {:middleware [middleware/wrap-ip
+   {:middleware [;;  middleware/wrap-ip
                  middleware/wrap-csrf
                  middleware/wrap-formats]}
    ["/"        {:get home-page}]
    ["/login"   {:get login-page :post login-post!}]
    ["/logout"  {:get logout}]
-   ["/profile" {:get profile-page}]
-   ])
+   ["/profile" {:get profile-page}]])
