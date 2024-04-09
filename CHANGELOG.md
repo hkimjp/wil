@@ -7,14 +7,16 @@ What you learned In this Lecture?
 - bug: 先週以前の WIL が表示されない 2023-10-12
 
 
-## 2.0-SNAPSHOT
+## 2.0.314 / 2024-04-09
 for 2024 classes. should stay bulma 0.9.4?
-
 ```
   modified:   CHANGELOG.md
   modified:   env/dev/cljs/wil/app.cljs
   modified:   project.clj
 ```
+
+- updated bump-version.sh
+
 - Extending an existing JavaScript type - use a different symbol name instead of js/Symbol e.g symbol
 
 - Consider using [org.webjars.npm/bulma "1.0.0" :exclusions [org.webjars.npm/is-number org.webjars.npm/to-regex-range org.webjars.npm/normalize-path org.webjars.npm/picomatch org.webjars.npm/is-glob org.webjars.npm/is-extglob]].
@@ -42,6 +44,7 @@ for 2024 classes. should stay bulma 0.9.4?
 |             | ring/ring-core                                  | 1.10.0    | 1.12.1    |
 |             | ring/ring-devel                                 | 1.10.0    | 1.12.1    |
 |             | thheller/shadow-cljs                            | 2.25.5    | 2.28.3    |
+
 
 ## 0.16.14 / 2024-02-20
 - 期末テストの 311,321,331,341 の回答を wil.notes に取り込んだ．
@@ -239,7 +242,7 @@ by letting `-rep` know that the type of argument is String.
 ## 0.3.0 - 2022-10-01
 - 過去ノートのリスト表示ができた。
 
-## 0.2.3-SNAPSHOT
+## 2.0.314 /
 - wrap-restricted
 - csrf どうする？
 
