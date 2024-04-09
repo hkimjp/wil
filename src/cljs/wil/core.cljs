@@ -124,10 +124,10 @@
       (fn [_]
         (cond
           (< (count (str/split-lines @note)) shortest-wil)
-          (js/alert "もうちょっと授業の内容書けないと。今日は何したっけ？")
+          (js/alert "もうちょっと内容書けないと。今日は何した？")
           (or (< @count-key-up 10)
               (< @count-key-up (count @note)))
-          (js/alert (str "コピペは不可。学んでないの裏返し。"))
+          (js/alert (str "コピペは受け付けない。"))
           :else (do
                   (send-note @note)
                   (swap! session assoc :page :home))))}
@@ -255,11 +255,6 @@
                        (swap! session assoc :page :others))}
           (str (:date note))]
          " "
-         #_[:button.button.is-small
-            {:on-click (fn [_]
-                         (fetch-goods-bads! (:date note)))}
-            "👍 😐 👎"]
-         " "
          [:a {:href (str "/#/my/" (:id note))}
           (-> (:note note) str/split-lines first)]])]]))
 
@@ -287,8 +282,7 @@
        "は、授業当日だけ現れ、送信は一度限り。"]
       [:li [:button.button.is-warning.is-small "yyyy-mm-dd"]
        "は同日の他人ノートをランダムに表示する。"
-       "積極的に👍😐👎 つけよう。情けは人の為ならず。"
-       "自分がつけた👍😐👎 → "
+       "積極的に"
        [:button.button.is-small
         {:on-click
          (fn [_]
@@ -298,14 +292,11 @@
               #(js/alert (good-bad %))
               :error-handler
               (fn [^js/Event e] (js/alert (.getMessage e)))}))}
-        "クリック"]]
-      #_[:li "真ん中の"
-         [:button.button.is-prinary.is-small "👍 😐 👎"]
-         "はクラス全体の当日いいね、まあまあ、悪いね総数。"]
+        "👍 😐 👎"]
+       "つけよう。情けは人の為ならず。"]
       [:li "右側のテキストは自分ノートの1行目。"
        "クリックで当日自分ノートを表示する。"
-       "自分についた 👍 😐 👎 もそのページから見える。"]]
-     #_[:p "wil に戻るにはメニューの WIL をクリック。ブラウザの「戻る」はすいません、変なところに行きます。"]
+       "自分についた 👍 😐 👎 はそのページから見える。"]]
      [:br]
      (when (or (admin?)
                (and (today-is-klass-day?) (not (done-todays?))))
