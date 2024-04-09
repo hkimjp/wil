@@ -6,7 +6,7 @@ What you learned In this Lecture?
 - weeks テーブルの目的は？
 - bug: 先週以前の WIL が表示されない 2023-10-12
 
-## 2.1-SNAPSHOT
+## 2.1.318 / 2024-04-09
 - this wil received/sent to all
 - how may wil? 50 (was 7)
 
