@@ -19,7 +19,7 @@
 (def ^:private updated "2024-04-09 13:16:26")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
-(def how-many-wil "ランダムに拾う WIL の数" 50)
+(def how-many-wil "ランダムに拾う WIL の数" 30)
 
 ;; -------------------------
 ;; r/atom
@@ -165,17 +165,7 @@
              :error-handler
              (fn [^js/Event e] (js/alert (.getMessage e)))}))}
        "received: 👍 😐 👎"]
-      " "
-      [:button.button.is-small
-       {:on-click
-        (fn [_]
-          (GET "/api/good-sent"
-            {:params {:login js/login}
-             :handler
-             #(js/alert (good-bad %))
-             :error-handler
-             (fn [^js/Event e] (js/alert (.getMessage e)))}))}
-       "sent to all: 👍 😐 👎"]]]))
+      " "]]))
 
 (defn send-good-bad!
   [stat mark id]
@@ -297,7 +287,18 @@
        "は、授業当日だけ現れ、送信は一度限り。"]
       [:li [:button.button.is-warning.is-small "yyyy-mm-dd"]
        "は同日の他人ノートをランダムに表示する。"
-       "積極的に、👍、😐、👎 つけよう。情けは人の為ならず。"]
+       "積極的に👍😐👎 つけよう。情けは人の為ならず。"
+       "自分がつけた👍😐👎 → "
+       [:button.button.is-small
+        {:on-click
+         (fn [_]
+           (GET "/api/good-sent"
+             {:params {:login js/login}
+              :handler
+              #(js/alert (good-bad %))
+              :error-handler
+              (fn [^js/Event e] (js/alert (.getMessage e)))}))}
+        "クリック"]]
       #_[:li "真ん中の"
          [:button.button.is-prinary.is-small "👍 😐 👎"]
          "はクラス全体の当日いいね、まあまあ、悪いね総数。"]
