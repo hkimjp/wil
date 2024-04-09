@@ -15,8 +15,8 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.16.14")
-(def ^:private updated "2024-02-20 13:41:58")
+(def ^:private version "2.0.314")
+(def ^:private updated "2024-04-09 12:00:43")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7)
