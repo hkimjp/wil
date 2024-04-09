@@ -3,4 +3,4 @@
 
 (defn preview [{{:keys [doc]} :params :as request}]
   (println "preview doc" doc)
-  (render request "preview.html" {:html "doc を html にして渡す．"}))
+  (render request "preview.html" {:html doc}))

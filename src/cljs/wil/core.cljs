@@ -122,10 +122,20 @@
     [:a
      {:href "/api/preview"
       :target "_blank"
+      :method "GET"
       :params {:doc
                #_(.-value (.getElementById js/document "note"))
                "abc"}}
      "Preview"]
+    " "
+    [:button.button.is-danger
+     {:on-click
+      (fn [_]
+        (POST "/api/preview"
+          {:params
+           {:target "_blank"
+            :doc (.-value (.getElementById js/document "note"))}}))}
+     "POST"]
     " "
     [:button.button.is-danger
      {:on-click

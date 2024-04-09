@@ -23,4 +23,4 @@
              :get good-bad}]
    ["/good-sent" {:get good-bad-sent}]
    ["/goods-bads/:date" {:get goods-bads}]
-   ["/preview" {:get preview}]])
+   ["/preview" {:get preview :post preview}]])
