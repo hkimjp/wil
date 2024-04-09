@@ -1,10 +1,12 @@
 (ns wil.routes.services
   (:require
    #_[clojure.tools.logging :as log]
-   [wil.goods :refer [create-good-bad! good-bad goods-bads]]
+   [wil.goods :refer [create-good-bad! good-bad goods-bads good-bad-sent]]
    [wil.notes :refer [create-note! notes-login get-note date-notes-randomly
                       notes-all]]
+   [wil.preview :refer [preview]]
    [wil.middleware :as middleware]))
+
 
 (defn services-routes []
   ["/api"
@@ -19,4 +21,6 @@
    #_["/list/:date"     {:get list-notes}]
    ["/good" {:post create-good-bad!
              :get good-bad}]
-   ["/goods-bads/:date" {:get goods-bads}]])
+   ["/good-sent" {:get good-bad-sent}]
+   ["/goods-bads/:date" {:get goods-bads}]
+   ["/preview" {:get preview :post preview}]])

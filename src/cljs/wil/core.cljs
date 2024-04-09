@@ -15,11 +15,11 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "0.16.14")
-(def ^:private updated "2024-02-20 13:41:58")
+(def ^:private version "2.1.318")
+(def ^:private updated "2024-04-09 13:16:26")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
-(def how-many-wil "ランダムに拾う WIL の数" 7)
+(def how-many-wil "ランダムに拾う WIL の数" 30)
 
 ;; -------------------------
 ;; r/atom
@@ -119,15 +119,33 @@
       :on-key-up #(swap! count-key-up inc)
       :on-change #(reset! note (-> % .-target .-value))}]]
    [:div
+    [:a
+     {:href "/api/preview"
+      :target "_blank"
+      :method "GET"
+      :params {:doc
+               #_(.-value (.getElementById js/document "note"))
+               "abc"}}
+     "Preview"]
+    " "
+    [:button.button.is-danger
+     {:on-click
+      (fn [_]
+        (POST "/api/preview"
+          {:params
+           {:target "_blank"
+            :doc (.-value (.getElementById js/document "note"))}}))}
+     "POST"]
+    " "
     [:button.button.is-danger
      {:on-click
       (fn [_]
         (cond
           (< (count (str/split-lines @note)) shortest-wil)
-          (js/alert "もうちょっと授業の内容書けないと。今日は何したっけ？")
+          (js/alert "もうちょっと内容書けないと。今日は何した？")
           (or (< @count-key-up 10)
               (< @count-key-up (count @note)))
-          (js/alert (str "コピペは不可。学んでないの裏返し。"))
+          (js/alert (str "コピペは受け付けない。"))
           :else (do
                   (send-note @note)
                   (swap! session assoc :page :home))))}
@@ -154,7 +172,7 @@
      [:div {:dangerouslySetInnerHTML
             {:__html (md->html (:note note))}}]
      [:hr]
-     [:div#goodbad
+     [:div
       [:button.button.is-small
        {:on-click
         (fn [_]
@@ -164,7 +182,8 @@
              #(js/alert (good-bad %))
              :error-handler
              (fn [^js/Event e] (js/alert (.getMessage e)))}))}
-       "👍 😐 👎 ?"]]]))
+       "received: 👍 😐 👎"]
+      " "]]))
 
 (defn send-good-bad!
   [stat mark id]
@@ -248,18 +267,11 @@
       (for [[i note] (reverse (map-indexed vector @notes))]
         [:p
          {:key i}
-         ;; これでページが切り替わるわけは？
-         ;; => (defn page [] [(pages (:page @session))])
          [:button.button.is-warning.is-small
           {:on-click (fn [_]
                        (fetch-others! (:date note))
                        (swap! session assoc :page :others))}
           (str (:date note))]
-         " "
-         [:button.button.is-small
-          {:on-click (fn [_]
-                       (fetch-goods-bads! (:date note)))}
-          "👍 😐 👎"]
          " "
          [:a {:href (str "/#/my/" (:id note))}
           (-> (:note note) str/split-lines first)]])]]))
@@ -277,7 +289,7 @@
       (= (day-of-week (local-now)) (wd (subs js/klass 0 3)))))
 
 (defn home-page
-  "js/klass はどこでセットしているか？"
+  "display wil top-page."
   []
   (fn []
     [:section.section>div.container>div.content
@@ -285,20 +297,24 @@
      [:p "出席の記録。自分が WIL 書いてない週は他の人の WIL は見れないよ。"]
      [:ul
       [:li [:button.button.is-primary.is-small "本日分を追加"]
-       "は、授業当日だけ現れ、一度しかクリックできない。"]
-      [:li "左側の"
-       [:button.button.is-warning.is-small "yyyy-mm-dd"]
-       "は同日の他人ノートをランダムに "
-       how-many-wil
-       " 件、表示する。"
-       "積極的に、👍、😐、👎 つけよう。情けは人の為ならず。"]
-      [:li "真ん中の"
-       [:button.button.is-prinary.is-small "👍 😐 👎"]
-       "はクラス全体の当日いいね、まあまあ、悪いね総数。"]
+       "は、授業当日だけ現れ、送信は一度限り。"]
+      [:li [:button.button.is-warning.is-small "yyyy-mm-dd"]
+       "は同日の他人ノートをランダムに表示する。"
+       "積極的に"
+       [:button.button.is-small
+        {:on-click
+         (fn [_]
+           (GET "/api/good-sent"
+             {:params {:login js/login}
+              :handler
+              #(js/alert (good-bad %))
+              :error-handler
+              (fn [^js/Event e] (js/alert (.getMessage e)))}))}
+        "👍 😐 👎"]
+       "つけよう。情けは人の為ならず。"]
       [:li "右側のテキストは自分ノートの1行目。"
        "クリックで当日自分ノートを表示する。"
-       "自分についた 👍 😐 👎 もそのページから。"]]
-     #_[:p "wil に戻るにはメニューの WIL をクリック。ブラウザの「戻る」はすいません、変なところに行きます。"]
+       "自分についた 👍 😐 👎 はそのページから見える。"]]
      [:br]
      (when (or (admin?)
                (and (today-is-klass-day?) (not (done-todays?))))
@@ -311,26 +327,12 @@
      [:hr]
      [:div "version " version]]))
 
-;; (defn good-pages
-;;   []
-;;   [:section.section>div.container>div.content
-;;    [:h3 "👍: under construction"]
-;;    [:p [:a {:href "/#/"} "back"]]])
-
-;; (defn bad-pages
-;;   []
-;;   [:section.section>div.container>div.content
-;;    [:h3 "👎: under construction"]
-;;    [:p [:a {:href "/#/"} "back"]]])
-
 ;; -------------------------
 ;; pages
 
 (def pages
   {:home     #'home-page
    :about    #'about-page
-   ;; :bad      #'bad-pages
-   ;; :good     #'good-pages
    :new-note #'new-note-page
    :my       #'my-note
    :others   #'others-notes-page
@@ -346,8 +348,6 @@
   (reitit/router
    [["/"        :home]
     ["/about"   :about]
-    ;; ["/bad/:n"  :bad]
-    ;; ["/good/:n" :good]
     ["/my/:id"  :my]
     ["/others/:date" :others]]))
 
