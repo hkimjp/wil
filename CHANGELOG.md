@@ -7,6 +7,42 @@ What you learned In this Lecture?
 - bug: 先週以前の WIL が表示されない 2023-10-12
 
 
+## 2.0-SNAPSHOT
+for 2024 classes. should stay bulma 0.9.4?
+
+```
+  modified:   CHANGELOG.md
+  modified:   env/dev/cljs/wil/app.cljs
+  modified:   project.clj
+```
+- Extending an existing JavaScript type - use a different symbol name instead of js/Symbol e.g symbol
+
+- Consider using [org.webjars.npm/bulma "1.0.0" :exclusions [org.webjars.npm/is-number org.webjars.npm/to-regex-range org.webjars.npm/normalize-path org.webjars.npm/picomatch org.webjars.npm/is-glob org.webjars.npm/is-extglob]].
+
+| :file       | :name                                           | :current  | :latest   |
+|------------ | ----------------------------------------------- | --------- | ----------|
+| project.clj | ch.qos.logback/logback-classic                  | 1.4.11    | 1.5.3     |
+|             | cider/cider-nrepl                               | 0.37.1    | 0.47.1    |
+|             | clojure.java-time/clojure.java-time             | 1.3.0     | 1.4.2     |
+|             | com.google.javascript/closure-compiler-unshaded | v20230802 | v20240317 |
+|             | cprop/cprop                                     | 0.1.19    | 0.1.20    |
+|             | jonase/eastwood                                 | 1.4.0     | 1.4.2     |
+|             | markdown-clj/markdown-clj                       | 1.11.4    | 1.12.1    |
+|             | metosin/muuntaja                                | 0.6.8     | 0.6.10    |
+|             | mount/mount                                     | 0.1.17    | 0.1.18    |
+|             | nrepl/nrepl                                     | 1.0.0     | 1.1.1     |
+|             | org.clojure/clojure                             | 1.11.1    | 1.11.2    |
+|             | org.clojure/clojurescript                       | 1.11.121  | 1.11.132  |
+|             | org.clojure/tools.cli                           | 1.0.219   | 1.1.230   |
+|             | org.clojure/tools.logging                       | 1.2.4     | 1.3.0     |
+|             | org.clojure/tools.namespace                     | 1.4.4     | 1.5.0     |
+|             | org.postgresql/postgresql                       | 42.6.0    | 42.7.3    |
+|             | org.webjars.npm/bulma                           | 0.9.4     | 1.0.0     |
+|             | org.webjars/webjars-locator                     | 0.47      | 0.52      |
+|             | ring/ring-core                                  | 1.10.0    | 1.12.1    |
+|             | ring/ring-devel                                 | 1.10.0    | 1.12.1    |
+|             | thheller/shadow-cljs                            | 2.25.5    | 2.28.3    |
+
 ## 0.16.14 / 2024-02-20
 - 期末テストの 311,321,331,341 の回答を wil.notes に取り込んだ．
 - l22 に wil/not ユーザを作成した．
