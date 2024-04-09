@@ -4,7 +4,9 @@
    [wil.goods :refer [create-good-bad! good-bad goods-bads good-bad-sent]]
    [wil.notes :refer [create-note! notes-login get-note date-notes-randomly
                       notes-all]]
+   [wil.preview :refer [preview]]
    [wil.middleware :as middleware]))
+
 
 (defn services-routes []
   ["/api"
@@ -20,4 +22,5 @@
    ["/good" {:post create-good-bad!
              :get good-bad}]
    ["/good-sent" {:get good-bad-sent}]
-   ["/goods-bads/:date" {:get goods-bads}]])
+   ["/goods-bads/:date" {:get goods-bads}]
+   ["/preview" {:get preview}]])

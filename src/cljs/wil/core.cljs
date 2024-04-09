@@ -119,6 +119,14 @@
       :on-key-up #(swap! count-key-up inc)
       :on-change #(reset! note (-> % .-target .-value))}]]
    [:div
+    [:a
+     {:href "/api/preview"
+      :target "_blank"
+      :params {:doc
+               #_(.-value (.getElementById js/document "note"))
+               "abc"}}
+     "Preview"]
+    " "
     [:button.button.is-danger
      {:on-click
       (fn [_]
@@ -309,26 +317,12 @@
      [:hr]
      [:div "version " version]]))
 
-;; (defn good-pages
-;;   []
-;;   [:section.section>div.container>div.content
-;;    [:h3 "👍: under construction"]
-;;    [:p [:a {:href "/#/"} "back"]]])
-
-;; (defn bad-pages
-;;   []
-;;   [:section.section>div.container>div.content
-;;    [:h3 "👎: under construction"]
-;;    [:p [:a {:href "/#/"} "back"]]])
-
 ;; -------------------------
 ;; pages
 
 (def pages
   {:home     #'home-page
    :about    #'about-page
-   ;; :bad      #'bad-pages
-   ;; :good     #'good-pages
    :new-note #'new-note-page
    :my       #'my-note
    :others   #'others-notes-page
@@ -344,8 +338,6 @@
   (reitit/router
    [["/"        :home]
     ["/about"   :about]
-    ;; ["/bad/:n"  :bad]
-    ;; ["/good/:n" :good]
     ["/my/:id"  :my]
     ["/others/:date" :others]]))
 
