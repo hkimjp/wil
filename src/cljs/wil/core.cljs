@@ -112,7 +112,7 @@
    [:p "送信は１日一回。マークダウン OK."
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
      "<https://github.com/yogthos/markdown-clj>"]]
-   [:div.columns
+   [:div.columns {:class "gapless"}
     [:div.column
      [:textarea
       {:id "note"
@@ -122,9 +122,10 @@
                      (reset! note text)
                      (reset! md (md->html text)))}]]
     [:div.column
-     {:id "preview"
-      :dangerouslySetInnerHTML
-      {:__html (md->html @md)}}]]
+     [:div
+      {:id "preview"
+       :dangerouslySetInnerHTML
+       {:__html (md->html @md)}}]]]
    [:button.button.is-danger
     {:on-click
      (fn [_]
