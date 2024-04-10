@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SERV=app.melt
+SERV=tiger.melt
 PROJ=wil
 DUMP=${PROJ}/db-dumps
 TODAY=`date +%F`

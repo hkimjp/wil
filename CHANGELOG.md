@@ -5,6 +5,74 @@ What you learned In this Lecture?
 ## Unreleased
 - weeks テーブルの目的は？
 
+## 2.2.337 / 2024-04-10
+preview.
+- 当日の全WILを拾う。
+  ```
+  (def how-many-wil "ランダムに拾う WIL の数" 200)
+  ```
+- interactive markdown preview.
+
+## 2.1.318 / 2024-04-09
+display self goods counts in dialog.
+- this wil received/sent to all
+- how may wil? 50 (was 7)
+
+## 2.0.314 / 2024-04-09
+for 2024 classes. should stay bulma 0.9.4?
+```
+  modified:   CHANGELOG.md
+  modified:   env/dev/cljs/wil/app.cljs
+  modified:   project.clj
+```
+
+- updated bump-version.sh
+
+- Extending an existing JavaScript type - use a different symbol name instead of js/Symbol e.g symbol
+
+- Consider using [org.webjars.npm/bulma "1.0.0" :exclusions [org.webjars.npm/is-number org.webjars.npm/to-regex-range org.webjars.npm/normalize-path org.webjars.npm/picomatch org.webjars.npm/is-glob org.webjars.npm/is-extglob]].
+
+| :file       | :name                                           | :current  | :latest   |
+|------------ | ----------------------------------------------- | --------- | ----------|
+| project.clj | ch.qos.logback/logback-classic                  | 1.4.11    | 1.5.3     |
+|             | cider/cider-nrepl                               | 0.37.1    | 0.47.1    |
+|             | clojure.java-time/clojure.java-time             | 1.3.0     | 1.4.2     |
+|             | com.google.javascript/closure-compiler-unshaded | v20230802 | v20240317 |
+|             | cprop/cprop                                     | 0.1.19    | 0.1.20    |
+|             | jonase/eastwood                                 | 1.4.0     | 1.4.2     |
+|             | markdown-clj/markdown-clj                       | 1.11.4    | 1.12.1    |
+|             | metosin/muuntaja                                | 0.6.8     | 0.6.10    |
+|             | mount/mount                                     | 0.1.17    | 0.1.18    |
+|             | nrepl/nrepl                                     | 1.0.0     | 1.1.1     |
+|             | org.clojure/clojure                             | 1.11.1    | 1.11.2    |
+|             | org.clojure/clojurescript                       | 1.11.121  | 1.11.132  |
+|             | org.clojure/tools.cli                           | 1.0.219   | 1.1.230   |
+|             | org.clojure/tools.logging                       | 1.2.4     | 1.3.0     |
+|             | org.clojure/tools.namespace                     | 1.4.4     | 1.5.0     |
+|             | org.postgresql/postgresql                       | 42.6.0    | 42.7.3    |
+|             | org.webjars.npm/bulma                           | 0.9.4     | 1.0.0     |
+|             | org.webjars/webjars-locator                     | 0.47      | 0.52      |
+|             | ring/ring-core                                  | 1.10.0    | 1.12.1    |
+|             | ring/ring-devel                                 | 1.10.0    | 1.12.1    |
+|             | thheller/shadow-cljs                            | 2.25.5    | 2.28.3    |
+
+
+## 0.16.14 / 2024-02-20
+- 期末テストの 311,321,331,341 の回答を wil.notes に取り込んだ．
+- l22 に wil/not ユーザを作成した．
+- tiger.melt に wil-added-wil.sql を送信, restore.sh.
+
+## 0.15.13 - 2023-11-01
+- use same background color at textarea#note with other App's (qa.melt) markdown areas.
+```
+textarea#note{
+  background-color: #cfc;
+}
+```
+
+## 0.15.12 - 2023-10-13
+- 2023-10-01 以前の notes も削除した。(tiger.melt で)
+
 ## 0.15.11 - 2023-10-06
 - about に updated 表示する。
 - 2023-10-01 以降の notes を削除した。(tiger.melt で)
@@ -185,7 +253,7 @@ by letting `-rep` know that the type of argument is String.
 ## 0.3.0 - 2022-10-01
 - 過去ノートのリスト表示ができた。
 
-## 0.2.3-SNAPSHOT
+## 2.0.314 /
 - wrap-restricted
 - csrf どうする？
 

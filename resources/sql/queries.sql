@@ -74,6 +74,11 @@ VALUES (:from_, :to_, :kind)
 SELECT * from goods
 WHERE to_= :id
 
+-- :name good-bad-sent :? :*
+-- :doc retrieve goods and bads sent from login
+SELECT * from goods
+WHERE from_= :login
+
 -- :name goods-bads :? :1
 -- :doc retrieve goods/so-so/bads count for date
 SELECT count(*) from goods
