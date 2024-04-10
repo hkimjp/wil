@@ -112,7 +112,7 @@
    [:p "送信は１日一回。マークダウン OK."
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
      "<https://github.com/yogthos/markdown-clj>"]]
-   [:div.columns {:class "gapless"}
+   [:div.columns.gapless
     [:div.column
      [:textarea
       {:id "note"
@@ -120,25 +120,26 @@
        :on-key-up #(swap! count-key-up inc)
        :on-change #(let [text (-> % .-target .-value)]
                      (reset! note text)
-                     (reset! md (md->html text)))}]]
+                     (reset! md (md->html text)))}]
+     [:br]
+     [:button.button.is-danger
+      {:on-click
+       (fn [_]
+         (cond
+           (< (count (str/split-lines @note)) shortest-wil)
+           (js/alert "もうちょっと内容書けないと。今日は何した？")
+           (or (< @count-key-up 10)
+               (< @count-key-up (count @note)))
+           (js/alert (str "コピペは受け付けない。"))
+           :else (do
+                   (send-note @note)
+                   (swap! session assoc :page :home))))}
+      "送信"]]
     [:div.column
      [:div
       {:id "preview"
        :dangerouslySetInnerHTML
-       {:__html (md->html @md)}}]]]
-   [:button.button.is-danger
-    {:on-click
-     (fn [_]
-       (cond
-         (< (count (str/split-lines @note)) shortest-wil)
-         (js/alert "もうちょっと内容書けないと。今日は何した？")
-         (or (< @count-key-up 10)
-             (< @count-key-up (count @note)))
-         (js/alert (str "コピペは受け付けない。"))
-         :else (do
-                 (send-note @note)
-                 (swap! session assoc :page :home))))}
-    "送信"]])
+       {:__html (md->html @md)}}]]]])
 
 ;; -------------------------
 ;; view notes
