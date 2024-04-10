@@ -76,7 +76,7 @@
 ;; misc functions
 
 (defn today
-  "returns yyyy-MM-dd string."
+  "returns string `yyyy-MM-dd`."
   []
   (unparse (formatter "yyyy-MM-DD") (local-now)))
 

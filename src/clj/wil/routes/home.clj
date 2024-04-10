@@ -62,7 +62,7 @@
 
 (defn home-routes []
   [""
-   {:middleware [middleware/wrap-ip
+   {:middleware [;;  middleware/wrap-ip
                  middleware/wrap-csrf
                  middleware/wrap-formats]}
    ["/"        {:get home-page}]
