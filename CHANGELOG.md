@@ -4,12 +4,6 @@ What you learned In this Lecture?
 
 ## Unreleased
 - weeks テーブルの目的は？
-- bug: 先週以前の WIL が表示されない 2023-10-12
-
-## 0.17-SNAPSHOT
-### Changed
-- core.clj: how-many-wil 30 (was 7)
-- core.clj: stop `wrap-ip` for allowing VPN accesses.
 
 ## 2.2-SNAPSHOT
 preview.
