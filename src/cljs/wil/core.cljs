@@ -19,7 +19,7 @@
 (def ^:private updated "2024-04-09 13:16:26")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
-(def how-many-wil "ランダムに拾う WIL の数" 30)
+(def how-many-wil "ランダムに拾う WIL の数" 200)
 
 ;; -------------------------
 ;; r/atom
@@ -29,6 +29,7 @@
 (defonce params  (r/atom nil))
 (defonce others  (r/atom nil)) ;; 必要か？
 (defonce note    (r/atom ""))
+(defonce md      (r/atom "preview"))
 
 ;; async
 ;; (defonce ans (r/atom nil))
@@ -105,51 +106,38 @@
 (defn new-note-page []
   ;; section.section じゃないとナビバートのマージンが狭すぎになる。
   [:section.section>div.container>div.content
-   [:p "WIL には今日の授業で何を学んだ内容を具体的に書く。メモは取れたか？" [:br]
-    "オープン戦は終わりだ。いつまでも 12345 は幼稚園か猿だね。"
+   [:p "WIL には今日の授業で何を学んだ内容を具体的に書く。メモは取れたか？"
     [:br]
     "コピペはブロック。"]
    [:p "送信は１日一回。マークダウン OK."
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
      "<https://github.com/yogthos/markdown-clj>"]]
-   [:div
-    [:textarea
-     {:id "note"
-      :value @note
-      :on-key-up #(swap! count-key-up inc)
-      :on-change #(reset! note (-> % .-target .-value))}]]
-   [:div
-    [:a
-     {:href "/api/preview"
-      :target "_blank"
-      :method "GET"
-      :params {:doc
-               #_(.-value (.getElementById js/document "note"))
-               "abc"}}
-     "Preview"]
-    " "
-    [:button.button.is-danger
-     {:on-click
-      (fn [_]
-        (POST "/api/preview"
-          {:params
-           {:target "_blank"
-            :doc (.-value (.getElementById js/document "note"))}}))}
-     "POST"]
-    " "
-    [:button.button.is-danger
-     {:on-click
-      (fn [_]
-        (cond
-          (< (count (str/split-lines @note)) shortest-wil)
-          (js/alert "もうちょっと内容書けないと。今日は何した？")
-          (or (< @count-key-up 10)
-              (< @count-key-up (count @note)))
-          (js/alert (str "コピペは受け付けない。"))
-          :else (do
-                  (send-note @note)
-                  (swap! session assoc :page :home))))}
-     "送信"]]])
+   [:div.columns
+    [:div.column
+     [:textarea
+      {:id "note"
+       :value @note
+       :on-key-up #(swap! count-key-up inc)
+       :on-change #(let [text (-> % .-target .-value)]
+                     (reset! note text)
+                     (reset! md (md->html text)))}]]
+    [:div.column
+     {:id "preview"
+      :dangerouslySetInnerHTML
+      {:__html (md->html @md)}}]]
+   [:button.button.is-danger
+    {:on-click
+     (fn [_]
+       (cond
+         (< (count (str/split-lines @note)) shortest-wil)
+         (js/alert "もうちょっと内容書けないと。今日は何した？")
+         (or (< @count-key-up 10)
+             (< @count-key-up (count @note)))
+         (js/alert (str "コピペは受け付けない。"))
+         :else (do
+                 (send-note @note)
+                 (swap! session assoc :page :home))))}
+    "送信"]])
 
 ;; -------------------------
 ;; view notes

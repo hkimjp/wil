@@ -7,7 +7,10 @@ What you learned In this Lecture?
 
 ## 2.2-SNAPSHOT
 preview.
-
+- 当日の全WILを拾う。
+  ```
+  (def how-many-wil "ランダムに拾う WIL の数" 200)
+  ```
 
 ## 2.1.318 / 2024-04-09
 display self goods counts in dialog.

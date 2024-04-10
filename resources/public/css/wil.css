@@ -1,7 +1,11 @@
 textarea#note {
   padding: 5px;
-  width:   80%;
-  height:  400px;
+  width: 80%;
+  height: 400px;
   /* 2023-11-01 */
   background-color: #cfc;
+}
+
+div#preview {
+  border: solid;
 }
