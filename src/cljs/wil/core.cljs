@@ -93,13 +93,14 @@
 ;; -------------------------
 ;; 今日のノート
 
+;; FIXME: error?
 (defn send-note
   [note]
   (POST "/api/note"
     {:params {:login js/login :date (today) :note note}
      :handler #(reset-notes!)
-     :error-handler
-     (fn [^js/Event e] (js/alert (str "送信失敗。もう一度。" (.getMessage e))))}))
+     :error-handler (fn [^js/Event e]
+                      (js/alert (str "送信失敗。もう一度。" (.getMessage e))))}))
 
 (defonce count-key-up (r/atom 0))
 

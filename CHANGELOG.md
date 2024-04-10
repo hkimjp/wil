@@ -5,6 +5,7 @@ What you learned In this Lecture?
 ## Unreleased
 - weeks テーブルの目的は？
 
+
 ## 2.2.337 / 2024-04-10
 preview.
 - 当日の全WILを拾う。
