@@ -11,6 +11,7 @@ preview.
   ```
   (def how-many-wil "ランダムに拾う WIL の数" 200)
   ```
+- interactive markdown preview.
 
 ## 2.1.318 / 2024-04-09
 display self goods counts in dialog.
