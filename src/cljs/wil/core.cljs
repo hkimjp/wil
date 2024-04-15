@@ -184,7 +184,7 @@
             (fn [_]
               (POST "/api/good"
                 {:params {:from js/login :to id :condition stat}
-                 :handler #(js/alert (str "sent " stat "."))
+                 :handler (fn [ret] (js/alert ret))
                  :error-handler
                  (fn [^js/Event e]
                    (js/alert (str "error: " (.getMessage e))))}))}
