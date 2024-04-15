@@ -4,6 +4,11 @@ What you learned In this Lecture?
 
 ## Unreleased
 - weeks テーブルの目的は？
+- 送信失敗の理由。
+
+## v2.3-SNAPSHOT / 2024-04-15
+- check 'already checked or not.
+- post /api/good から戻り値を戻すしてアラートに表示する。
 
 
 ## 2.2.337 / 2024-04-10
