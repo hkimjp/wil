@@ -1,4 +1,4 @@
-(defproject wil "v2.3-SNAPSHOT"
+(defproject wil "2.3.346"
   :description "for 2023 python classes"
   :url "https://wil.kyutech.ac.jp"
   :dependencies
