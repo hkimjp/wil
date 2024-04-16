@@ -4,9 +4,24 @@ What you learned In this Lecture?
 
 ## Unreleased
 - weeks テーブルの目的は？
-- bug: 先週以前の WIL が表示されない 2023-10-12
+- 送信失敗の理由。
+- hkimura で同日複数WILが複数エントリになっている。（そういうロジック）
+
+## 2.3.346 / 2024-04-16
+- check 'already checked or not.
+- post /api/good から戻り値を戻すしてアラートに表示する。
+
+
+## 2.2.337 / 2024-04-10
+preview.
+- 当日の全WILを拾う。
+  ```
+  (def how-many-wil "ランダムに拾う WIL の数" 200)
+  ```
+- interactive markdown preview.
 
 ## 2.1.318 / 2024-04-09
+display self goods counts in dialog.
 - this wil received/sent to all
 - how may wil? 50 (was 7)
 

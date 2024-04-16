@@ -74,6 +74,7 @@
      x-real-ip)
    (:remote-addr req)))
 
+;; deny access from BAN_IP env var.
 (defn wrap-ip [handler]
   (fn [request]
     ;; (log/info :ban-ip (env :ban-ip))
