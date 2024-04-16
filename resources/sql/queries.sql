@@ -63,6 +63,10 @@ WHERE date = :date
 
 -------------------------------------
 -- goods table
+-- :name find-good-bad :? :1
+SELECT * from goods
+WHERE from_ = :from_ and to_ = :to_
+
 -- :name create-good-bad! :! :n
 -- :doc  create goods params from_, to_, kind
 INSERT INTO goods
