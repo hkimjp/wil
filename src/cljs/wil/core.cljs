@@ -15,8 +15,8 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "v2.3-SNAPSHOT")
-(def ^:private updated "2024-04-15 17:26:31")
+(def ^:private version "2.3.346")
+(def ^:private updated "2024-04-16 11:01:24")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7)
@@ -100,7 +100,7 @@
   (POST "/api/note"
     {:params {:login js/login :date (today) :note note}
     ;;  :handler #(reset-notes!)
-     :handler #(js/alert "good job!")
+     :handler #(js/alert "ページを再読み込みで今日のWILを表示。")
      :error-handler (fn [^js/Event e]
                       (js/alert (str "送信失敗。もう一度。" (.getMessage e))))}))
 
@@ -293,7 +293,8 @@
        "は、授業当日だけ現れ、送信は一度限り。"]
       [:li [:button.button.is-warning.is-small "yyyy-mm-dd"]
        "は同日の他人ノートをランダムに表示する。"
-       "積極的に👍😐👎つけよう。情けは人の為ならず。自分の送信数は"
+       "積極的に👍😐👎つけよう。情けは人の為ならず。"]
+      [:li "自分の送信数は"
        [:button.button.is-small
         {:on-click
          (fn [_]
