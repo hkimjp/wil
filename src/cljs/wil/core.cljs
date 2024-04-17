@@ -77,7 +77,7 @@
 ;; misc functions
 
 (defn today
-  "returns string `yyyy-MM-dd`."
+  "returns string `yyyy-MM-dd`"
   []
   (unparse (formatter "yyyy-MM-DD") (local-now)))
 
@@ -110,7 +110,7 @@
 (defn new-note-page []
   ;; section.section じゃないとナビバートのマージンが狭すぎになる。
   [:section.section>div.container>div.content
-   [:p "WIL には今日の授業で何を学んだ内容を思い出して具体的に書く。"
+   [:p "今日の授業で何を学んだか、内容を思い出して具体的に書く。"
     [:br]
     "コピペはブロック。"]
    [:p "送信は１日一回。マークダウンで。"

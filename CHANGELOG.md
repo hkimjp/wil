@@ -7,8 +7,10 @@ What you learned In this Lecture?
 - 送信失敗の理由。
 - hkimura で同日複数WILが複数エントリになっている。（そういうロジック）
 
+
 ## v2.3.352 / 2024-04-17
 post back reload
+
 
 ## 2.3.346 / 2024-04-16
 - check 'already checked or not.
