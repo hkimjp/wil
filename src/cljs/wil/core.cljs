@@ -15,8 +15,8 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "2.3.346")
-(def ^:private updated "2024-04-16 11:01:24")
+(def ^:private version "2.3.352")
+(def ^:private updated "2024-04-17 15:43:48")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7)
@@ -99,8 +99,9 @@
   [note]
   (POST "/api/note"
     {:params {:login js/login :date (today) :note note}
-    ;;  :handler #(reset-notes!)
-     :handler #(js/alert "ページを再読み込みで今日のWILを表示。")
+     :handler #(do
+                 (js/alert "ページを再読み込みで今日のWILを表示。")
+                 (reset-notes!))
      :error-handler (fn [^js/Event e]
                       (js/alert (str "送信失敗。もう一度。" (.getMessage e))))}))
 
