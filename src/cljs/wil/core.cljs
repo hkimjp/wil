@@ -99,8 +99,9 @@
   [note]
   (POST "/api/note"
     {:params {:login js/login :date (today) :note note}
-    ;;  :handler #(reset-notes!)
-     :handler #(js/alert "ページを再読み込みで今日のWILを表示。")
+     :handler #(do
+                 (js/alert "ページを再読み込みで今日のWILを表示。")
+                 (reset-notes!))
      :error-handler (fn [^js/Event e]
                       (js/alert (str "送信失敗。もう一度。" (.getMessage e))))}))
 
