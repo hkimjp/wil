@@ -1,19 +1,19 @@
 (ns wil.middleware
   (:require
-   [wil.env :refer [defaults]]
-   [clojure.tools.logging :as log]
-   [wil.layout :refer [error-page]]
-   [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
-   [wil.middleware.formats :as formats]
-   [muuntaja.middleware :refer [wrap-format wrap-params]]
-   [wil.config :refer [env]]
-   [ring.middleware.flash :refer [wrap-flash]]
-   [ring.adapter.undertow.middleware.session :refer [wrap-session]]
-   [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
-   [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
-   [buddy.auth.accessrules :refer [restrict]]
    [buddy.auth :refer [authenticated?]]
-   [buddy.auth.backends.session :refer [session-backend]]))
+   [buddy.auth.accessrules :refer [restrict]]
+   [buddy.auth.backends.session :refer [session-backend]]
+   [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
+   [clojure.tools.logging :as log]
+   [muuntaja.middleware :refer [wrap-format wrap-params]]
+   [ring.adapter.undertow.middleware.session :refer [wrap-session]]
+   [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
+   [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
+   [ring.middleware.flash :refer [wrap-flash]]
+   [wil.config :refer [env]]
+   [wil.env :refer [defaults]]
+   [wil.layout :refer [error-page]]
+   [wil.middleware.formats :as formats]))
 
 (defn wrap-internal-error [handler]
   (fn [req]

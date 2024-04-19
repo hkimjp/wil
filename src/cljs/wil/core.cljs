@@ -15,8 +15,8 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "2.3.352")
-(def ^:private updated "2024-04-17 15:43:48")
+(def ^:private version "v2.4.358")
+(def ^:private updated "2024-04-19 15:26:19")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7)
@@ -77,7 +77,7 @@
 ;; misc functions
 
 (defn today
-  "returns string `yyyy-MM-dd`."
+  "returns string `yyyy-MM-dd`"
   []
   (unparse (formatter "yyyy-MM-DD") (local-now)))
 
@@ -110,7 +110,7 @@
 (defn new-note-page []
   ;; section.section じゃないとナビバートのマージンが狭すぎになる。
   [:section.section>div.container>div.content
-   [:p "WIL には今日の授業で何を学んだ内容を思い出して具体的に書く。"
+   [:p "今日の授業で何を学んだか、内容を思い出して具体的に書く。"
     [:br]
     "コピペはブロック。"]
    [:p "送信は１日一回。マークダウンで。"
@@ -201,7 +201,7 @@
    (for [[i note] (map-indexed vector @others)]
      [:div {:key i}
       [:div
-       "From: " [:b (:login note)] ", "
+       "From: " [:b "********"] ", " ;; was (:login note)
        ;;
        ;; FIXME: not displayed.
        ;;
