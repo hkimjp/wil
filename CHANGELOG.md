@@ -7,7 +7,7 @@ What you learned In this Lecture?
 - 送信失敗の理由。
 - hkimura で同日複数WILが複数エントリになっている。（そういうロジック）
 
-## v2.4-SNAPSHOT
+## v2.4.358 / 2024-04-19
 - login 名を匿名に。
 
 ## v2.3.352 / 2024-04-17
