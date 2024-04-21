@@ -6,6 +6,8 @@ What you learned In this Lecture?
 - weeks テーブルの目的は？
 - 送信失敗の理由。
 
+## v2.5-SNAPSHOT
+
 ## v2.4.358 / 2024-04-19
 - login 名を匿名に。
 

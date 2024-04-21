@@ -1,4 +1,5 @@
 DEST="ubuntu@tiger.melt.kyutech.ac.jp"
+VER=0.2.0
 
 all:
 	@echo make build
@@ -6,8 +7,8 @@ all:
 	@echo make deploy
 	@echo make clean
 
-# build:
-# 	docker build -t hkim0331/wil .
+build:
+	docker build -t hkim0331/wil:${VER} .
 
 prep:
 	npm install
