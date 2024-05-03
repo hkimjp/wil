@@ -6,7 +6,13 @@ What you learned In this Lecture?
 - weeks テーブルの目的は？
 - 送信失敗の理由。
 
-## v2.5-SNAPSHOT
+## v2.5.368 / 2024-05-03
+- updated libraries except bulma 0.9.4.
+- logback-classic 1.5.6
+- metosin/reitit 0.7.0
+- ring/ring-defaults 0.5.0
+- thheller/shadow-cljs 2.28.4
+- org/clojure 1.11.3
 
 ## v2.4.358 / 2024-04-19
 - login 名を匿名に。
