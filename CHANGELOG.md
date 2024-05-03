@@ -5,7 +5,6 @@ What you learned In this Lecture?
 ## Unreleased
 - weeks テーブルの目的は？
 - 送信失敗の理由。
-- hkimura で同日複数WILが複数エントリになっている。（そういうロジック）
 
 ## v2.5-SNAPSHOT
 
@@ -13,7 +12,7 @@ What you learned In this Lecture?
 - login 名を匿名に。
 
 ## v2.3.352 / 2024-04-17
-post back reload
+post back reload to prevent plural posts.
 
 ## 2.3.346 / 2024-04-16
 - check 'already checked or not.
