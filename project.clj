@@ -1,4 +1,4 @@
-(defproject wil "2.2.337"
+(defproject wil "v2.5.368"
   :description "for 2023 python classes"
   :url "https://wil.kyutech.ac.jp"
   :dependencies
@@ -6,7 +6,7 @@
    [buddy/buddy-core "1.11.423"]
    [buddy/buddy-hashers "2.0.167"]
    #_[buddy/buddy-sign "3.4.333"]
-   [ch.qos.logback/logback-classic "1.5.3"]
+   [ch.qos.logback/logback-classic "1.5.6"]
    [cljs-ajax "0.8.4"]
    [clojure.java-time "1.4.2"]
    [com.cognitect/transit-clj "1.0.333"]
@@ -24,17 +24,17 @@
    [luminus/ring-ttl-session "0.3.3"]
    [markdown-clj "1.12.1"]
    [metosin/muuntaja "0.6.10"]
-   [metosin/reitit "0.6.0"]
+   [metosin/reitit "0.7.0"]
    [metosin/ring-http-response "0.9.3"]
    [mount "0.1.18"]
    [nrepl "1.1.1"]
-   [org.clojure/clojure "1.11.2"]
+   [org.clojure/clojure "1.11.3"]
    [org.clojure/clojurescript "1.11.132" :scope "provided"]
    [org.clojure/core.async "1.6.681"]
    [org.clojure/tools.cli "1.1.230"]
    [org.clojure/tools.logging "1.3.0"]
    [org.postgresql/postgresql "42.7.3"]
-   [org.webjars.npm/bulma "0.9.4"]
+   [org.webjars.npm/bulma "0.9.4"] ;; not 1.0.0
    #_[org.webjars.npm/bulma "1.0.0" :exclusions [org.webjars.npm/is-number org.webjars.npm/normalize-path org.webjars.npm/picomatch org.webjars.npm/is-glob org.webjars.npm/is-extglob]]
    [org.webjars.npm/material-icons "1.13.2"]
    [org.webjars/webjars-locator "0.52"]
@@ -42,9 +42,9 @@
    [reagent "1.2.0"]
    [ring-webjars "0.2.0"]
    [ring/ring-core "1.12.1"]
-   [ring/ring-defaults "0.4.0"]
+   [ring/ring-defaults "0.5.0"]
    [selmer "1.12.59"]
-   [thheller/shadow-cljs "2.28.3" :scope "provided"]
+   [thheller/shadow-cljs "2.28.4" :scope "provided"]
    ;;
    [com.andrewmcveigh/cljs-time "0.5.2"]
    [hato/hato "0.9.0"]]

@@ -6,17 +6,19 @@
 
 (defn create-good-bad!
   [{{:keys [from to condition]} :params}]
-  ;;(let [kind (if (= condition "good") 1 -1)]
-  (try
-    (let [kind (case condition
-                 "good" 1
-                 "so-so" 0
-                 "bad" -1
-                 (throw (Exception. (str "unknown condition: " condition))))]
-      (db/create-good-bad!
-       {:from_ from :to_ to :kind kind})
-      (response/ok "inserted"))
-    (catch Exception e (throw (Exception. (.getMessage e))))))
+  (let [hit (db/find-good-bad {:from_ from :to_ to})]
+    ;; (tap> [from to condition])
+    (if hit
+      (response/ok "投票済み。")
+      (let [kind (case condition
+                   "good" 1
+                   "so-so" 0
+                   "bad" -1
+                   (throw (Exception. (str "unknown condition:" condition))))]
+        (try
+          (db/create-good-bad! {:from_ from :to_ to :kind kind})
+          (response/ok (str "received " condition))
+          (catch Exception e (throw (Exception. (.getMessage e)))))))))
 
 (defn good-bad
   [{{:keys [id]} :params}]

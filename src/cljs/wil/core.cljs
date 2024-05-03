@@ -15,11 +15,11 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "2.2.337")
-(def ^:private updated "2024-04-10 20:05:46")
+(def ^:private version "v2.5.368")
+(def ^:private updated "2024-05-03 14:43:03")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
-(def how-many-wil "ランダムに拾う WIL の数" 200)
+(def how-many-wil "ランダムに拾う WIL の数" 7)
 
 ;; -------------------------
 ;; r/atom
@@ -77,7 +77,7 @@
 ;; misc functions
 
 (defn today
-  "returns string `yyyy-MM-dd`."
+  "returns string `yyyy-MM-dd`"
   []
   (unparse (formatter "yyyy-MM-DD") (local-now)))
 
@@ -93,23 +93,27 @@
 ;; -------------------------
 ;; 今日のノート
 
+;; FIXME: error?
+;; 送信失敗したらnote を戻す。
 (defn send-note
   [note]
   (POST "/api/note"
     {:params {:login js/login :date (today) :note note}
-     :handler #(reset-notes!)
-     :error-handler
-     (fn [^js/Event e] (js/alert (str "送信失敗。もう一度。" (.getMessage e))))}))
+     :handler #(do
+                 (js/alert "ページを再読み込みで今日のWILを表示。")
+                 (reset-notes!))
+     :error-handler (fn [^js/Event e]
+                      (js/alert (str "送信失敗。もう一度。" (.getMessage e))))}))
 
 (defonce count-key-up (r/atom 0))
 
 (defn new-note-page []
   ;; section.section じゃないとナビバートのマージンが狭すぎになる。
   [:section.section>div.container>div.content
-   [:p "WIL には今日の授業で何を学んだ内容を具体的に書く。メモは取れたか？"
+   [:p "今日の授業で何を学んだか、内容を思い出して具体的に書く。"
     [:br]
     "コピペはブロック。"]
-   [:p "送信は１日一回。マークダウン OK."
+   [:p "送信は１日一回。マークダウンで。"
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
      "<https://github.com/yogthos/markdown-clj>"]]
    [:div.columns.gapless
@@ -181,7 +185,7 @@
             (fn [_]
               (POST "/api/good"
                 {:params {:from js/login :to id :condition stat}
-                 :handler #(js/alert (str "sent " stat "."))
+                 :handler (fn [ret] (js/alert ret))
                  :error-handler
                  (fn [^js/Event e]
                    (js/alert (str "error: " (.getMessage e))))}))}
@@ -197,7 +201,7 @@
    (for [[i note] (map-indexed vector @others)]
      [:div {:key i}
       [:div
-       "From: " [:b (:login note)] ", "
+       "From: " [:b "********"] ", " ;; was (:login note)
        ;;
        ;; FIXME: not displayed.
        ;;
@@ -290,7 +294,8 @@
        "は、授業当日だけ現れ、送信は一度限り。"]
       [:li [:button.button.is-warning.is-small "yyyy-mm-dd"]
        "は同日の他人ノートをランダムに表示する。"
-       "積極的に"
+       "積極的に👍😐👎つけよう。情けは人の為ならず。"]
+      [:li "自分の送信数は"
        [:button.button.is-small
         {:on-click
          (fn [_]
@@ -300,11 +305,11 @@
               #(js/alert (good-bad %))
               :error-handler
               (fn [^js/Event e] (js/alert (.getMessage e)))}))}
-        "👍 😐 👎"]
-       "つけよう。情けは人の為ならず。"]
+        "👍😐👎"]
+       "から。"]
       [:li "右側のテキストは自分ノートの1行目。"
        "クリックで当日自分ノートを表示する。"
-       "自分についた 👍 😐 👎 はそのページから見える。"]]
+       "自分についた 👍😐👎 はそのページから見える。"]]
      [:br]
      (when (or (admin?)
                (and (today-is-klass-day?) (not (done-todays?))))

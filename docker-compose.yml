@@ -1,21 +1,20 @@
-version: "3"
 services:
   luminus:
-    image: hkim0331/luminus:0.1
-    user: vscode
+    image: hkim0331/wil:0.2.0
+    # user: vscode
     ports:
-      - "3020:3020"
+      - "3003:3000"
     volumes:
       - .:/usr/src/app
-      - m2:/home/vscode/.m2
-      - gitlibs:/home/vscode/.gitlibs
+      - m2:/root/.m2
+      - gitlibs:/root/.gitlibs
     working_dir: /usr/src/app
     entrypoint:
       - sleep
       - infinity
 
   db:
-    image: postgres:14.9
+    image: postgres:14.11
     # restart: always
     environment:
       POSTGRES_DB: wil
