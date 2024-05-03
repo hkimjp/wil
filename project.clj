@@ -34,7 +34,7 @@
    [org.clojure/tools.cli "1.1.230"]
    [org.clojure/tools.logging "1.3.0"]
    [org.postgresql/postgresql "42.7.3"]
-   [org.webjars.npm/bulma "0.9.4"]
+   [org.webjars.npm/bulma "0.9.4"] ;; not 1.0.0
    #_[org.webjars.npm/bulma "1.0.0" :exclusions [org.webjars.npm/is-number org.webjars.npm/normalize-path org.webjars.npm/picomatch org.webjars.npm/is-glob org.webjars.npm/is-extglob]]
    [org.webjars.npm/material-icons "1.13.2"]
    [org.webjars/webjars-locator "0.52"]
