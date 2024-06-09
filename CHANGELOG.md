@@ -6,6 +6,9 @@ What you learned In this Lecture?
 - weeks テーブルの目的は？
 - 送信失敗の理由。
 
+## v2.5-SNAPAHOT
+- bulma 1.0.1
+
 ## v2.5.368 / 2024-05-03
 - updated libraries except bulma 0.9.4.
 - logback-classic 1.5.6
