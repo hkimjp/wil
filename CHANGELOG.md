@@ -8,7 +8,7 @@ What you learned In this Lecture?
 
 
 
-## v2.6-SNAPSHOT
+## v2.6.379 / 2024-08-09
 for re-re exam.
 - allow VPN connection by undef BAN_IP in `wil/start.sh`.
 
