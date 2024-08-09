@@ -5,13 +5,38 @@ What you learned In this Lecture?
 ## Unreleased
 - weeks テーブルの目的は？
 - 送信失敗の理由。
-- hkimura で同日複数WILが複数エントリになっている。（そういうロジック）
+
+
+
+## v2.6.379 / 2024-08-09
+for re-re exam.
+- allow VPN connection by undef BAN_IP in `wil/start.sh`.
+
+
+## v2.5
+- bulma 1.0.1
+```
+% clj -Tantq outdated
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+[##################################################] 53/53
+All dependencies are up-to-date.
+```
+
+## v2.5.368 / 2024-05-03
+- updated libraries except bulma 0.9.4.
+- logback-classic 1.5.6
+- metosin/reitit 0.7.0
+- ring/ring-defaults 0.5.0
+- thheller/shadow-cljs 2.28.4
+- org/clojure 1.11.3
 
 ## v2.4.358 / 2024-04-19
 - login 名を匿名に。
 
 ## v2.3.352 / 2024-04-17
-post back reload
+post back reload to prevent plural posts.
 
 ## 2.3.346 / 2024-04-16
 - check 'already checked or not.

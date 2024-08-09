@@ -15,8 +15,8 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "v2.4.358")
-(def ^:private updated "2024-04-19 15:26:19")
+(def ^:private version "v2.6.379")
+(def ^:private updated "2024-08-09 13:32:11")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7)
@@ -290,8 +290,8 @@
      [:h3 js/login "(" js/klass "), What I Learned?"]
      [:p "出席の記録。自分が WIL 書いてない週は他の人の WIL は見れないよ。"]
      [:ul
-      [:li [:button.button.is-primary.is-small "本日分を追加"]
-       "は、授業当日だけ現れ、送信は一度限り。"]
+      #_[:li [:button.button.is-primary.is-small "本日分を追加"]
+       "は、授業当日だけ現れ、送信は一度限り。"] ;; for re-re
       [:li [:button.button.is-warning.is-small "yyyy-mm-dd"]
        "は同日の他人ノートをランダムに表示する。"
        "積極的に👍😐👎つけよう。情けは人の為ならず。"]
@@ -311,8 +311,10 @@
        "クリックで当日自分ノートを表示する。"
        "自分についた 👍😐👎 はそのページから見える。"]]
      [:br]
-     (when (or (admin?)
-               (and (today-is-klass-day?) (not (done-todays?))))
+     (when (or
+            true ;; for re-re
+            (admin?)
+            (and (today-is-klass-day?) (not (done-todays?))))
        [:button.button.is-primary
         {:on-click (fn [_]
                      (reset! note "")
