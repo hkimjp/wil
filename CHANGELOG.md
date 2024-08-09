@@ -6,7 +6,14 @@ What you learned In this Lecture?
 - weeks テーブルの目的は？
 - 送信失敗の理由。
 
-## v2.5-SNAPAHOT
+
+
+## v2.6-SNAPSHOT
+for re-re exam.
+- allow VPN connection by undef BAN_IP in `wil/start.sh`.
+
+
+## v2.5
 - bulma 1.0.1
 ```
 % clj -Tantq outdated
