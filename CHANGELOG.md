@@ -6,6 +6,12 @@ What you learned In this Lecture?
 - weeks テーブルの目的は？
 - 送信失敗の理由。
 
+## v2.7.392 / 2024-08-21
+- forgot to merge remote repository.
+```
+[develop]% git fetch
+[develop]% git merge
+```
 
 ## v2.7.386 / 2024-08-21
 - unhide `login`.
