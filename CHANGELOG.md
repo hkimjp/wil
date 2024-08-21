@@ -19,7 +19,7 @@ What you learned In this Lecture?
 ```
 (def how-many-wil "ランダムに拾う WIL の数" 40)
 ```
-- allow paste
+- allow paste.
 ```
           ;;  (or
           ;;   (< @count-key-up 10)
