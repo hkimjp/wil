@@ -15,11 +15,11 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "v2.6.379")
-(def ^:private updated "2024-08-09 13:32:11")
+(def ^:private version "v2.7.386")
+(def ^:private updated "2024-08-21 10:39:45")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
-(def how-many-wil "ランダムに拾う WIL の数" 7)
+(def how-many-wil "ランダムに拾う WIL の数" 40) ; was 7. 40 is for re-re-exam.
 
 ;; -------------------------
 ;; r/atom
@@ -132,9 +132,11 @@
          (cond
            (< (count (str/split-lines @note)) shortest-wil)
            (js/alert "もうちょっと内容書けないと。今日は何した？")
-           (or (< @count-key-up 10)
-               (< @count-key-up (count @note)))
-           (js/alert (str "コピペは受け付けない。"))
+           ;; for re-re-exam. 2024-08-21.
+          ;;  (or
+          ;;   (< @count-key-up 10)
+          ;;   (< @count-key-up (count @note)))
+          ;;  (js/alert (str "コピペは受け付けない。"))
            :else (do
                    (send-note @note)
                    (swap! session assoc :page :home))))}
@@ -201,11 +203,8 @@
    (for [[i note] (map-indexed vector @others)]
      [:div {:key i}
       [:div
-       "From: " [:b "********"] ", " ;; was (:login note)
-       ;;
-       ;; FIXME: not displayed.
-       ;;
-       ;; (js/alert (str (:created_at note)))
+       ;; "From: " [:b "********"] ", " ;; was (:login note)
+       "From: " [:b (:login note)] ", "
        (subs (.-rep ^js/LocalDateTime (:created_at note)) 0 19) ","]
       [:br]
       [:div

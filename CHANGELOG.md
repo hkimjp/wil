@@ -7,6 +7,19 @@ What you learned In this Lecture?
 - 送信失敗の理由。
 
 
+## v2.7.386 / 2024-08-21
+- unhide `login`.
+- list all today's WILs.
+```
+(def how-many-wil "ランダムに拾う WIL の数" 40)
+```
+- allow paste
+```
+          ;;  (or
+          ;;   (< @count-key-up 10)
+          ;;   (< @count-key-up (count @note)))
+          ;;  (js/alert (str "コピペは受け付けない。"))
+```
 
 ## v2.6.379 / 2024-08-09
 for re-re exam.
