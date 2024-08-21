@@ -1,6 +1,6 @@
 #!/bin/sh
 if [ -z "$1" ]; then
-    echo usage: $0 yyyy-mm-dd.dumo
+    echo usage: $0 yyyy-mm-dd.dump
     exit 1
 fi
 

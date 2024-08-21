@@ -201,7 +201,8 @@
    (for [[i note] (map-indexed vector @others)]
      [:div {:key i}
       [:div
-       "From: " [:b "********"] ", " ;; was (:login note)
+       ;; "From: " [:b "********"] ", " ;; was (:login note)
+       "From: " [:b (:login note)] ", "
        ;;
        ;; FIXME: not displayed.
        ;;

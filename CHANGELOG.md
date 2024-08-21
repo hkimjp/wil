@@ -7,6 +7,11 @@ What you learned In this Lecture?
 - 送信失敗の理由。
 
 
+## v2.7-SNAPSHOT
+- unhide `login`.
+- allow paste.
+- list all WIL.
+
 
 ## v2.6.379 / 2024-08-09
 for re-re exam.
