@@ -7,7 +7,7 @@ What you learned In this Lecture?
 - 送信失敗の理由。
 
 
-## v2.7-SNAPSHOT
+## v2.7.386 / 2024-08-21
 - unhide `login`.
 - list all today's WILs.
 ```
