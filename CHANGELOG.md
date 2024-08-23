@@ -6,9 +6,10 @@ What you learned In this Lecture?
 - weeks テーブルの目的は？
 - 送信失敗の理由。
 
-## v2.8-SNAPSHOT
-- gitignired `/out`.
-- fixed a bug:core.cljs/new-note-page, called md->html twice.
+## v2.8.397 / 2024-08-23
+- gitignored `/out`.
+- gitignored `/.cljs_node_repl
+- fixed: core.cljs/new-note-page, called md->html twice.
 ```
 {:__html @md}
 ```
