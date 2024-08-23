@@ -8,12 +8,13 @@ What you learned In this Lecture?
 
 ## v2.8.397 / 2024-08-23
 - gitignored `/out`.
-- gitignored `/.cljs_node_repl
+- gitignored `/.cljs_node_repl`.
 - fixed: core.cljs/new-note-page, called md->html twice.
 ```
 {:__html @md}
 ```
 - updated libraries.
+
 | :file       | :name                          | :current | :latest    |
 |------------ | ------------------------------ | -------- | -----------|
 | project.clj | buddy/buddy-core               | 1.11.423 | 1.12.0-430 |
