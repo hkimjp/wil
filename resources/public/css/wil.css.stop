@@ -1,0 +1,13 @@
+textarea#note {
+  padding: 5px;
+  width: 100%;
+  height: 400px;
+  /* 2023-11-01 */
+  background-color: #cfc;
+}
+
+div#preview {
+  padding-top: 0px;
+  padding-left: 1em;
+  border: solid;
+}

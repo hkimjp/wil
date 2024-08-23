@@ -15,8 +15,8 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "v2.7.392")
-(def ^:private updated "2024-08-21 10:42:44")
+(def ^:private version "v2.8.397")
+(def ^:private updated "2024-08-23 16:42:02")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 40) ; was 7. 40 is for re-re-exam.
@@ -115,7 +115,8 @@
     "コピペはブロック。"]
    [:p "送信は１日一回。マークダウンで。"
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
-     "<https://github.com/yogthos/markdown-clj>"]]
+     "<https://github.com/yogthos/markdown-clj>"]
+    ]
    [:div.columns.gapless
     [:div.column
      [:textarea
@@ -144,8 +145,7 @@
     [:div.column
      [:div
       {:id "preview"
-       :dangerouslySetInnerHTML
-       {:__html (md->html @md)}}]]]])
+       :dangerouslySetInnerHTML {:__html @md}}]]]])
 
 ;; -------------------------
 ;; view notes
