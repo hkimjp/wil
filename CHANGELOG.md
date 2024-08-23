@@ -6,6 +6,32 @@ What you learned In this Lecture?
 - weeks テーブルの目的は？
 - 送信失敗の理由。
 
+## v2.8-SNAPSHOT
+- gitignired `/out`.
+- fixed a bug:core.cljs/new-note-page, called md->html twice.
+```
+{:__html @md}
+```
+- updated libraries.
+| :file       | :name                          | :current | :latest    |
+|------------ | ------------------------------ | -------- | -----------|
+| project.clj | buddy/buddy-core               | 1.11.423 | 1.12.0-430 |
+|             | ch.qos.logback/logback-classic | 1.5.6    | 1.5.7      |
+|             | cider/cider-nrepl              | 0.49.0   | 0.49.3     |
+|             | hato/hato                      | 0.9.0    | 1.0.0      |
+|             | jonase/eastwood                | 1.4.2    | 1.4.3      |
+|             | metosin/reitit                 | 0.7.0    | 0.7.1      |
+|             | metosin/ring-http-response     | 0.9.3    | 0.9.4      |
+|             | mount/mount                    | 0.1.18   | 0.1.19     |
+|             | nrepl/nrepl                    | 1.1.2    | 1.3.0      |
+|             | org.clojure/clojure            | 1.11.3   | 1.11.4     |
+|             | org.postgresql/postgresql      | 42.7.3   | 42.7.4     |
+|             | ring-webjars/ring-webjars      | 0.2.0    | 0.3.0      |
+|             | ring/ring-core                 | 1.12.1   | 1.12.2     |
+|             | ring/ring-devel                | 1.12.1   | 1.12.2     |
+|             | thheller/shadow-cljs           | 2.28.8   | 2.28.12    |
+
+
 ## v2.7.392 / 2024-08-21
 - forgot to merge remote repository.
 ```

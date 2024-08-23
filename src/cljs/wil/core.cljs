@@ -115,7 +115,8 @@
     "コピペはブロック。"]
    [:p "送信は１日一回。マークダウンで。"
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
-     "<https://github.com/yogthos/markdown-clj>"]]
+     "<https://github.com/yogthos/markdown-clj>"]
+    ]
    [:div.columns.gapless
     [:div.column
      [:textarea
@@ -144,8 +145,7 @@
     [:div.column
      [:div
       {:id "preview"
-       :dangerouslySetInnerHTML
-       {:__html (md->html @md)}}]]]])
+       :dangerouslySetInnerHTML {:__html @md}}]]]])
 
 ;; -------------------------
 ;; view notes

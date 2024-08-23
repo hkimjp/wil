@@ -23,3 +23,6 @@ profiles.clj
 /docker-compose.yml
 /db-dumps/*.sql
 /db-dumps/old/
+
+/out
+/.cljs_node_repl
