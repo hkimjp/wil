@@ -19,7 +19,7 @@
 (def ^:private updated "2024-08-23 16:42:02")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
-(def how-many-wil "ランダムに拾う WIL の数" 40) ; was 7. 40 is for re-re-exam.
+(def how-many-wil "ランダムに拾う WIL の数" 7) ; was 40 is for re-re-exam.
 
 ;; -------------------------
 ;; r/atom
@@ -72,7 +72,6 @@
      [nav-link "#/about" "About" :about]
      [nav-link "/logout" "Logout"]]]])
 
-
 ;; -------------------------
 ;; misc functions
 
@@ -93,8 +92,7 @@
 ;; -------------------------
 ;; 今日のノート
 
-;; FIXME: error?
-;; 送信失敗したらnote を戻す。
+;; FIXME: 送信失敗したらnote を戻す。
 (defn send-note
   [note]
   (POST "/api/note"
@@ -115,8 +113,7 @@
     "コピペはブロック。"]
    [:p "送信は１日一回。マークダウンで。"
     [:a {:href "https://github.com/yogthos/markdown-clj#supported-syntax"}
-     "<https://github.com/yogthos/markdown-clj>"]
-    ]
+     "<https://github.com/yogthos/markdown-clj>"]]
    [:div.columns.gapless
     [:div.column
      [:textarea
@@ -133,11 +130,11 @@
          (cond
            (< (count (str/split-lines @note)) shortest-wil)
            (js/alert "もうちょっと内容書けないと。今日は何した？")
-           ;; for re-re-exam. 2024-08-21.
-          ;;  (or
-          ;;   (< @count-key-up 10)
-          ;;   (< @count-key-up (count @note)))
-          ;;  (js/alert (str "コピペは受け付けない。"))
+           ; forbiden pasting.
+           (or
+            (< @count-key-up 10)
+            (< @count-key-up (count @note)))
+           (js/alert (str "コピペは受け付けない。"))
            :else (do
                    (send-note @note)
                    (swap! session assoc :page :home))))}
@@ -289,8 +286,9 @@
      [:h3 js/login "(" js/klass "), What I Learned?"]
      [:p "出席の記録。自分が WIL 書いてない週は他の人の WIL は見れないよ。"]
      [:ul
-      #_[:li [:button.button.is-primary.is-small "本日分を追加"]
-       "は、授業当日だけ現れ、送信は一度限り。"] ;; for re-re
+      ; for re-re-exam
+      [:li [:button.button.is-primary.is-small "本日分を追加"]
+       "は、授業当日だけ現れ、送信は一度限り。"]
       [:li [:button.button.is-warning.is-small "yyyy-mm-dd"]
        "は同日の他人ノートをランダムに表示する。"
        "積極的に👍😐👎つけよう。情けは人の為ならず。"]
@@ -311,7 +309,7 @@
        "自分についた 👍😐👎 はそのページから見える。"]]
      [:br]
      (when (or
-            true ;; for re-re
+            ; true ; for re-re
             (admin?)
             (and (today-is-klass-day?) (not (done-todays?))))
        [:button.button.is-primary
