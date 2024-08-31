@@ -5,10 +5,10 @@ What you learned In this Lecture?
 ## Unreleased
 - weeks テーブルの目的は？
 - 送信失敗の理由。
-- include remote-ip in LOG.
+
 
 ## v2.9-SNAPSHOT
-
+- include `remote-addr` in LOG.
 
 
 ## v2.8.397 / 2024-08-23
