@@ -6,6 +6,10 @@ What you learned In this Lecture?
 - weeks テーブルの目的は？
 - 送信失敗の理由。
 - vpn 150.69.77.* only?
+- remove useless, doubled logs.
+
+## v2.10-SNAPSHOT
+- changed: log/info to log/debug in `wil/notes.clj`.
 
 
 ## v2.9.406 / 2024-08-31
