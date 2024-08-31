@@ -8,7 +8,7 @@ What you learned In this Lecture?
 - vpn 150.69.77.* only?
 
 
-## v2.9-SNAPSHOT
+## v2.9.406 / 2024-08-31
 - include `remote-addr` in LOG.
 no, remote-addr is always 127.0.0.1 in reverse-proxy environment.
 
