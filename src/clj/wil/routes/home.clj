@@ -1,12 +1,12 @@
 (ns wil.routes.home
   (:require
-   [buddy.hashers :as hashers]
-   [clojure.tools.logging :as log]
-   [hato.client :as hc]
-   [ring.util.http-response :as response]
-   [wil.config]
-   [wil.layout :as layout]
-   [wil.middleware :as middleware]))
+    [buddy.hashers :as hashers]
+    [clojure.tools.logging :as log]
+    [hato.client :as hc]
+    [ring.util.http-response :as response]
+    [wil.config]
+    [wil.layout :as layout]
+    [wil.middleware :as middleware]))
 
 (defn home-page
   [request]
@@ -27,30 +27,41 @@
 (defn login-page [request]
   (layout/render request "login.html" {:flash (:flash request)}))
 
-(defn login-post! [{{:keys [login password]} :params}]
-  (if (wil.config/env :dev)
-    (do
-      (log/info "login-post! dev mode")
-      (-> (response/found "/")
+(defn- remote-addr
+  "check cf-connecting-ip x-real-ip remote-addr in request header
+   in order."
+  [req]
+  (log/debug "remote-addr" req)
+  (or
+    (get-in req [:headers "cf-connecting-ip"])
+    (get-in req [:headers "x-real-ip"])
+    (get req :remote-addr)))
+
+(defn login-post! [{{:keys [login password]} :params :as request}]
+  (let [remote-addr (remote-addr request)]
+    (if (wil.config/env :dev)
+      (do
+        (log/info "login-post! dev mode, from" remote-addr)
+        (-> (response/found "/")
           (assoc-in [:session :identity] login)
           (assoc-in [:session :klass] "*")))
-    (let [user (get-user login)]
-      (if (and (seq user)
-               (= (:login user) login)
-               (hashers/check password (:password user)))
-        (do
-          (log/info "login success" login)
-          (-> (response/found "/")
+      (let [user (get-user login)]
+        (if (and (seq user)
+              (= (:login user) login)
+              (hashers/check password (:password user)))
+          (do
+            (log/info "login success" login "from" remote-addr)
+            (-> (response/found "/")
               (assoc-in [:session :identity] login)
               (assoc-in [:session :klass] (:uhour user))))
-        (do
-          (log/info "login faild" login)
-          (-> (response/found "/login")
-              (assoc :flash "login failure")))))))
+          (do
+            (log/info "login faild" login)
+            (-> (response/found "/login")
+              (assoc :flash "login failure"))))))))
 
 (defn logout [_]
   (-> (response/found "/login")
-      (assoc :session {})))
+    (assoc :session {})))
 
 (defn profile-page [request]
   (if-let [login (get-in request [:session :identity])]
@@ -58,7 +69,7 @@
      :headers {"content-type" "text/html"}
      :body "under construction"}
     (-> (response/found "/login")
-        (assoc :flash "please login"))))
+      (assoc :flash "please login"))))
 
 (defn home-routes []
   [""
