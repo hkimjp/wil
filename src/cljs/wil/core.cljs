@@ -15,8 +15,8 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "v2.7-SNAPSHOT-2")
-(def ^:private updated "2024-08-31 09:36:38")
+(def ^:private version "v2.9.406")
+(def ^:private updated "2024-08-31 09:42:01")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7) ; was 40 is for re-re-exam.
