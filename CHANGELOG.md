@@ -5,10 +5,18 @@ What you learned In this Lecture?
 ## Unreleased
 - weeks テーブルの目的は？
 - 送信失敗の理由。
+- vpn 150.69.77.* only?
 
 
 ## v2.9-SNAPSHOT
 - include `remote-addr` in LOG.
+no, remote-addr is always 127.0.0.1 in reverse-proxy environment.
+
+- defined `home/remote-addr` whick looks up cf-connecting-ip, x-real-ip and remote-addr in order.
+
+- should bump version up even if developing stage.
+
+- log/debug will not appear in production log. development only.
 
 
 ## v2.8.397 / 2024-08-23

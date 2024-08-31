@@ -27,8 +27,18 @@
 (defn login-page [request]
   (layout/render request "login.html" {:flash (:flash request)}))
 
+(defn- remote-addr
+  "check cf-connecting-ip x-real-ip remote-addr in request header
+   in order."
+  [req]
+  (log/debug "remote-addr" req)
+  (or
+    (get-in req [:headers "cf-connecting-ip"])
+    (get-in req [:headers "x-real-ip"])
+    (get req :remote-addr)))
+
 (defn login-post! [{{:keys [login password]} :params :as request}]
-  (let [remote-addr (:remote-addr request)]
+  (let [remote-addr (remote-addr request)]
     (if (wil.config/env :dev)
       (do
         (log/info "login-post! dev mode, from" remote-addr)
