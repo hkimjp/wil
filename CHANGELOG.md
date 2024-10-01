@@ -5,10 +5,24 @@ What you learned In this Lecture?
 ## Unreleased
 - weeks テーブルの目的は？
 - 送信失敗の理由。
-- vpn 150.69.77.* only?
+- ban vpn 150.69.77.* only?
+- remove useless, doubled logs.
 
+## v2.10.411 / 2024-10-01
+
+- changed: log/info to log/debug in `wil/notes.clj`.
+
+| :file       | :name                          | :current | :latest |
+|------------ | ------------------------------ | -------- | --------|
+| project.clj | ch.qos.logback/logback-classic | 1.5.7    | 1.5.8   |
+|             | cider/cider-nrepl              | 0.49.3   | 0.50.2  |
+|             | metosin/reitit                 | 0.7.1    | 0.7.2   |
+|             | org.clojure/clojure            | 1.11.4   | 1.12.0  |
+|             | org.webjars.npm/bulma          | 1.0.1    | 1.0.2   |
+|             | thheller/shadow-cljs           | 2.28.12  | 2.28.16 |
 
 ## v2.9.406 / 2024-08-31
+
 - include `remote-addr` in LOG.
 no, remote-addr is always 127.0.0.1 in reverse-proxy environment.
 

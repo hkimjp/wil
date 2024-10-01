@@ -7,7 +7,7 @@
 
 (defn create-note!
   [{params :params}]
-  (log/info "create-note" params)
+  (log/debug "create-note" params)
   (try
     (db/create-note! params)
     (response/ok {:ok "created"})
@@ -15,24 +15,24 @@
 
 (defn notes-login
   [{{:keys [login]} :path-params}]
-  (log/info "notes-login" login)
+  (log/debug "notes-login" login)
   (response/ok (db/notes-login {:login login})))
 
 ;; NO GOOD.
 (defn notes-all
   [_params]
-  (log/info "notes-all")
+  (log/debug "notes-all")
   (response/ok (db/notes-all)))
 
 (defn get-note
   [{{:keys [id]} :params}]
-  (log/info "get-note")
+  (log/debug "get-note")
   (response/ok (db/get-note {:id id})))
 
 (defn date-notes-randomly
   "retrieve random n `date` note"
   [{{:keys [date n]} :path-params}]
-  (log/info "date-notes-randomly")
+  (log/debug "date-notes-randomly")
   (response/ok (db/date-notes-randomly
                 {:date date :n (Integer/parseInt n)})))
 
