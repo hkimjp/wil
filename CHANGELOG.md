@@ -10,6 +10,7 @@ What you learned In this Lecture?
 
 ## v2.10.411 / 2024-10-01
 
+- forgot to enable `wrap-ip`?
 - changed: log/info to log/debug in `wil/notes.clj`.
 
 | :file       | :name                          | :current | :latest |
