@@ -8,7 +8,7 @@ What you learned In this Lecture?
 - ban vpn 150.69.77.* only?
 - remove useless, doubled logs.
 
-## v2.10-SNAPSHOT
+## v2.10.411 / 2024-10-01
 
 - changed: log/info to log/debug in `wil/notes.clj`.
 
