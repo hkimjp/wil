@@ -271,7 +271,7 @@
   (seq (filter #(= (today) (:date %)) @notes)))
 
 (def ^:private wd
-  {"mon" 1, "tue" 2, "wed" 3, "thr" 4, "fri" 5, "sat" 6, "sun" 7})
+  {"mon" 1, "tue" 2, "wed" 3, "thu" 4, "fri" 5, "sat" 6, "sun" 7})
 
 (defn today-is-klass-day?
   []
@@ -309,7 +309,7 @@
        "自分についた 👍😐👎 はそのページから見える。"]]
      [:br]
      (when (or
-            ; true ; for re-re
+            ; true ;; for debug
             (admin?)
             (and (today-is-klass-day?) (not (done-todays?))))
        [:button.button.is-primary
