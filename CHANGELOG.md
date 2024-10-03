@@ -5,12 +5,12 @@ What you learned In this Lecture?
 ## Unreleased
 - weeks テーブルの目的は？
 - 送信失敗の理由。
-- ban vpn 150.69.77.* only?
 - remove useless, doubled logs.
-- thr/thu issue.
+
 
 ## v2.10.416 / 2024-10-03
 
+- SOLVED: thr/thu issue.
 
 ## v2.10.411 / 2024-10-01
 
