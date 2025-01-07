@@ -6,7 +6,9 @@ What you learned In this Lecture?
 - weeks テーブルの目的は？
 - 送信失敗の理由。
 - remove useless, doubled logs.
+- キーカウント一時停止？
 
+## v2.11-SNAPSHOT
 
 ## v2.10.416 / 2024-10-03
 

@@ -103,6 +103,7 @@
      :error-handler (fn [^js/Event e]
                       (js/alert (str "送信失敗。もう一度。" (.getMessage e))))}))
 
+;;
 (defonce count-key-up (r/atom 0))
 
 (defn new-note-page []
@@ -130,11 +131,9 @@
          (cond
            (< (count (str/split-lines @note)) shortest-wil)
            (js/alert "もうちょっと内容書けないと。今日は何した？")
-           ; forbiden pasting.
-           (or
-            (< @count-key-up 10)
-            (< @count-key-up (count @note)))
-           (js/alert (str "コピペは受け付けない。"))
+           ;; forbiden pasting.
+           ;;  (< @count-key-up (count @note))
+           ;;  (js/alert (str "コピペは受け付けない。"))
            :else (do
                    (send-note @note)
                    (swap! session assoc :page :home))))}
