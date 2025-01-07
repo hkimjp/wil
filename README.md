@@ -29,6 +29,9 @@ see package.json.
 ## start
 
 ### VScode Calva
+
+(can't. 2025-01-07)
+
 Use vscode.
 
 1. cd to this folder.

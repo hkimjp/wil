@@ -15,8 +15,8 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "v2.10.416")
-(def ^:private updated "2024-10-03 12:39:44")
+(def ^:private version "v2.11.423")
+(def ^:private updated "2025-01-07 13:28:46")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7) ; was 40 is for re-re-exam.
@@ -103,6 +103,7 @@
      :error-handler (fn [^js/Event e]
                       (js/alert (str "送信失敗。もう一度。" (.getMessage e))))}))
 
+;;
 (defonce count-key-up (r/atom 0))
 
 (defn new-note-page []
@@ -130,11 +131,9 @@
          (cond
            (< (count (str/split-lines @note)) shortest-wil)
            (js/alert "もうちょっと内容書けないと。今日は何した？")
-           ; forbiden pasting.
-           (or
-            (< @count-key-up 10)
-            (< @count-key-up (count @note)))
-           (js/alert (str "コピペは受け付けない。"))
+           ;; forbiden pasting.
+           ;;  (< @count-key-up (count @note))
+           ;;  (js/alert (str "コピペは受け付けない。"))
            :else (do
                    (send-note @note)
                    (swap! session assoc :page :home))))}
@@ -271,7 +270,7 @@
   (seq (filter #(= (today) (:date %)) @notes)))
 
 (def ^:private wd
-  {"mon" 1, "tue" 2, "wed" 3, "thr" 4, "fri" 5, "sat" 6, "sun" 7})
+  {"mon" 1, "tue" 2, "wed" 3, "thu" 4, "fri" 5, "sat" 6, "sun" 7})
 
 (defn today-is-klass-day?
   []
@@ -309,7 +308,7 @@
        "自分についた 👍😐👎 はそのページから見える。"]]
      [:br]
      (when (or
-            ; true ; for re-re
+            ; true ;; for debug
             (admin?)
             (and (today-is-klass-day?) (not (done-todays?))))
        [:button.button.is-primary
