@@ -6,16 +6,6 @@ What you learned In this Lecture?
 
     https://l22.melt.kyutech.ac.jp/api/user/:login
 
-## CAUSTION
-when start, cljs says
-
-```
-clj꞉shadow.user꞉>
-; Evaluating 'afterCLJReplJackInCode'
-Access the server at http://localhost:3000
-```
-
-but listening port is `3020`.
 
 ## docker/lein-devcontainer
 
@@ -28,15 +18,31 @@ see package.json.
 
 ## start
 
+### VScode dev container
+
 ### VScode Calva
-Use vscode.
 
 1. cd to this folder.
-2. start vscode by `code .`
-3. start REPL
-4. choose start your REPL(a.k.a. jack-in)
-4. choose 'wil Server + Client' menu.
-5. open http://localhost:3020
+1. `% npx shadow-cljs watch app`
+
+```
+    2025-01-09 21:49:47,633 [main] DEBUG io.undertow - Configuring listener with protocol HTTP for interface 0.0.0.0 and port 9630
+    shadow-cljs - server version: 2.28.20 running at http://localhost:9630
+    shadow-cljs - nREPL server started on port 7002
+    shadow-cljs - watching build :app
+```
+1. start vscode by `code .`
+1. start REPL
+1. choose start your REPL(a.k.a. jack-in)
+1. (2025-01-09 does not work  'wil Server + Client' menu)
+1. instead, choose `Leiningen`
+
+```
+(cd /Users/hkim/workspace/wil; lein update-in :dependencies conj '[nrepl,"1.1.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.47.1"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- repl :headless)
+nREPL server started on port 56092 on host 127.0.0.1 - nrepl://127.0.0.1:56092
+```
+
+1. open http://localhost:3020
 
 
 ### emacs cider

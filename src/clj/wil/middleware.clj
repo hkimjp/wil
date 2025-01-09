@@ -68,17 +68,16 @@
 
 (defn- remote-ip [req]
   (or
-   (when-let [cf-connecting-ip (get-in req [:headers "cf-connecting-ip"])]
-     cf-connecting-ip)
-   (when-let [x-real-ip (get-in req [:headers "x-real-ip"])]
-     x-real-ip)
+   (get-in req [:headers "cf-connecting-ip"])
+   (get-in req [:headers "x-real-ip"])
    (:remote-addr req)))
 
 ;; deny access from BAN_IP env var.
 (defn wrap-ip [handler]
   (fn [request]
+    ;; log/info?
     ;; (log/info :ban-ip (env :ban-ip))
-    ;; (log/info "remote-ip" (remote-ip request))
+    (log/info "remote-ip" (remote-ip request))
     (if (re-matches  (re-pattern (env :ban-ip))
                      (remote-ip request))
       (error-page

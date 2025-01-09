@@ -5,11 +5,40 @@ What you learned In this Lecture?
 ## Unreleased
 - weeks テーブルの目的は？
 - 送信失敗の理由。
-- ban vpn 150.69.77.* only?
 - remove useless, doubled logs.
+
+## v2.12.427 / 2025-01-09
+
+- updated libraries
+
+| :file       | :name                               | :current | :latest |
+|------------ | ----------------------------------- | -------- | --------|
+| project.clj | ch.qos.logback/logback-classic      | 1.5.8    | 1.5.16  |
+|             | cider/cider-nrepl                   | 0.50.2   | 0.51.1  |
+|             | cider/piggieback                    | 0.5.3    | 0.6.0   |
+|             | clojure.java-time/clojure.java-time | 1.4.2    | 1.4.3   |
+|             | com.jakemccrary/lein-test-refresh   | 0.25.0   | 0.26.0  |
+|             | markdown-clj/markdown-clj           | 1.12.1   | 1.12.2  |
+|             | metosin/muuntaja                    | 0.6.10   | 0.6.11  |
+|             | metosin/ring-http-response          | 0.9.4    | 0.9.5   |
+|             | mount/mount                         | 0.1.19   | 0.1.20  |
+|             | nrepl/nrepl                         | 1.3.0    | 1.3.1   |
+|             | org.clojure/core.async              | 1.6.681  | 1.7.701 |
+|             | ring/ring-core                      | 1.12.2   | 1.13.0  |
+|             | thheller/shadow-cljs                | 2.28.16  | 2.28.20 |
+
+
+## v2.11.423 / 2025-01-07
+
+- キーカウント一時停止。flags.py をコピペで上げさせる。
+
+## v2.10.416 / 2024-10-03
+
+- SOLVED: thr/thu issue.
 
 ## v2.10.411 / 2024-10-01
 
+- forgot to enable `wrap-ip`?
 - changed: log/info to log/debug in `wil/notes.clj`.
 
 | :file       | :name                          | :current | :latest |
