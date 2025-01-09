@@ -7,7 +7,7 @@ What you learned In this Lecture?
 - 送信失敗の理由。
 - remove useless, doubled logs.
 
-## v2.12-SNAPSHOT
+## v2.12.427 / 2025-01-09
 
 - updated libraries
 
