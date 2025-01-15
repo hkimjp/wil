@@ -1,6 +1,6 @@
 services:
   luminus:
-    image: hkim0331/wil:0.2.0
+    image: hkim0331/wil:0.3.0
     # user: vscode
     ports:
       - "3003:3000"
@@ -14,7 +14,7 @@ services:
       - infinity
 
   db:
-    image: postgres:14.11
+    image: postgres:16
     # restart: always
     environment:
       POSTGRES_DB: wil
