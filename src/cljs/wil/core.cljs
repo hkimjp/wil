@@ -42,7 +42,7 @@
     {:handler #(reset! notes %)
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
 
-;; -------------------------
+;;-------------------------
 ;; navbar
 
 (defn nav-link [uri title page]
@@ -254,16 +254,17 @@
     [:div
      [:ol
       (for [[i note] (reverse (map-indexed vector @notes))]
-        [:p
-         {:key i}
-         [:button.button.is-warning.is-small
-          {:on-click (fn [_]
-                       (fetch-others! (:date note))
-                       (swap! session assoc :page :others))}
-          (str (:date note))]
-         " "
-         [:a {:href (str "/#/my/" (:id note))}
-          (-> (:note note) str/split-lines first)]])]]))
+        (let []
+          [:p
+           {:key i}
+           [:button.button.is-warning.is-small
+            {:on-click (fn [_]
+                         (fetch-others! (:date note))
+                         (swap! session assoc :page :others))}
+            (str (:date note))]
+           " (wil count) "
+           [:a {:href (str "/#/my/" (:id note))}
+            (-> (:note note) str/split-lines first)]]))]]))
 
 (defn done-todays?
   []
@@ -291,7 +292,11 @@
       [:li [:button.button.is-warning.is-small "yyyy-mm-dd"]
        "は同日の他人ノートをランダムに表示する。"
        "積極的に👍😐👎つけよう。情けは人の為ならず。"]
-      [:li "自分の送信数は"
+
+      [:li "右側の" [:span.blue "青いテキスト"] "は自分ノートの1行目。"
+       "クリックで当日自分ノートを表示する。"
+       "自分についた 👍😐👎 はそのページから見える。"]
+      [:li "自分の送信数は" [:span.blue "青いテキスト"] "をクリック後、"
        [:button.button.is-small
         {:on-click
          (fn [_]
@@ -302,10 +307,7 @@
               :error-handler
               (fn [^js/Event e] (js/alert (.getMessage e)))}))}
         "👍😐👎"]
-       "から。"]
-      [:li "右側のテキストは自分ノートの1行目。"
-       "クリックで当日自分ノートを表示する。"
-       "自分についた 👍😐👎 はそのページから見える。"]]
+       "から。"]]
      [:br]
      (when (or
             ; true ;; for debug

@@ -26,17 +26,19 @@ div.gap {
   width: 5%;
 }
 
-/* 2024-04-12 */
-
 code {
   color: red;
   font-weight: bold;
   font-size: larger;
 }
 
-pre code{
+pre code {
   font-family: 'Courier New', Courier, monospace;
   color: black;
   font-weight: normal;
   font-size: normal;
+}
+
+span.blue {
+  color: blue;
 }

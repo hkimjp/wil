@@ -7,6 +7,32 @@ What you learned In this Lecture?
 - 送信失敗の理由。
 - remove useless, doubled logs.
 
+## v2.13.0-SNAPSHOT
+
+* v20250407 は使えない。
+
+  [com.google.javascript/closure-compiler-unshaded "v20240317"]
+
+* updated libraries
+
+| :file       | :name                                           | :current  | :latest   |
+|------------ | ----------------------------------------------- | --------- | ----------|
+| project.clj | ch.qos.logback/logback-classic                  | 1.5.16    | 1.5.18    |
+|             | cider/cider-nrepl                               | 0.51.1    | 0.55.1    |
+|             | com.google.javascript/closure-compiler-unshaded | v20240317 | v20250407 |
+|             | markdown-clj/markdown-clj                       | 1.12.2    | 1.12.3    |
+|             | metosin/reitit                                  | 0.7.2     | 0.8.0     |
+|             | mount/mount                                     | 0.1.20    | 0.1.21    |
+|             | org.clojure/core.async                          | 1.7.701   | 1.8.741   |
+|             | org.postgresql/postgresql                       | 42.7.4    | 42.7.5    |
+|             | org.webjars.npm/bulma                           | 1.0.2     | 1.0.3     |
+|             | reagent/reagent                                 | 1.2.0     | 1.3.0     |
+|             | ring/ring-core                                  | 1.13.0    | 1.14.1    |
+|             | ring/ring-defaults                              | 0.5.0     | 0.6.0     |
+|             | ring/ring-devel                                 | 1.13.0    | 1.14.1    |
+|             | selmer/selmer                                   | 1.12.61   | 1.12.62   |
+|             | thheller/shadow-cljs                            | 2.28.20   | 2.28.23   |
+
 ## v2.12.427 / 2025-01-09
 
 - updated libraries
