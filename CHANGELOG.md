@@ -12,7 +12,11 @@ What you learned In this Lecture?
     WARNING: parse-long already refers to: #'clojure.core/parse-long in namespace: cuerdas.core, being replaced by: #'cuerdas.core/parse-long
 
 
+## 2.13.2-SNAPSHOT
 
+* display counts about today's wils.
+* (for ...) -> (doall (for ...))
+* fixed typo - handler for hadler.
 
 ## 2.13.1 / 2025-04-16
 

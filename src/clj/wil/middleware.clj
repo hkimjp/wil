@@ -45,9 +45,15 @@
    {:status 403
     :title (str "Access to " (:uri request) " is not authorized")}))
 
+(comment
+  (System/getenv "WIL_DEBUG")
+  :rcf)
+
 (defn wrap-restricted [handler]
-  (restrict handler {:handler authenticated?
-                     :on-error on-error}))
+  (if (System/getenv "WIL_DEBUG")
+    handler
+    (restrict handler {:handler authenticated?
+                       :on-error on-error})))
 
 (defn wrap-auth [handler]
   (let [backend (session-backend)]

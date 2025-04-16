@@ -38,6 +38,11 @@ SELECT * FROM notes
 WHERE login = :login
 ORDER BY id
 
+-- :name date-count :? :*
+-- :doc  how many wils in same day with login?
+SELECT date, count(*) FROM notes
+GROUP BY date
+
 -- :name notes-all :? :*
 -- :doc retrieve all notes
 SELECT * FROM notes
