@@ -37,7 +37,7 @@
    [org.webjars.npm/material-icons "1.13.2"]
    [org.webjars/webjars-locator "0.52"]
    [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
-   [reagent "1.3.0"]
+   [reagent "1.2.0"] ; 1.3.0
    [ring-webjars "0.3.0"]
    [ring/ring-core "1.14.1"]
    [ring/ring-defaults "0.6.0"]

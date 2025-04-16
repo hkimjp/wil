@@ -10,7 +10,8 @@
    [goog.history.EventType :as HistoryEventType]
    [markdown.core :refer [md->html]]
    [reagent.core :as r]
-   [reagent.dom.client :as rdom-client]
+   ;[reagent.dom.client :as rdom-client]
+   [reagent.dom :as rdom]
    [reitit.core :as reitit]
    [wil.ajax :as ajax])
   (:import goog.History))
@@ -159,10 +160,12 @@
   (let [note (first (filter #(= (:id @params) (str (:id %))) @notes))]
     ;; ここで呼んだらダメ。前もって reset! しとかなくちゃ。
     ;; (goods-bads (:id note))
+    ;; (js/alert (md->html (:note note)))
     [:section.section>div.container>div.content
      [:h2 (:login note) ", " (:date note)]
-     [:div {:dangerouslySetInnerHTML
-            {:__html (md->html (:note note))}}]
+     ; [:div {:dangerouslySetInnerHTML
+     ;       {:__html (md->html (:note note))}}]
+     [:div {:dangerousSetInnerHTML {:__html (md->html (:note note))}}]
      [:hr]
      [:div
       [:button.button.is-small
@@ -254,17 +257,16 @@
     [:div
      [:ol
       (for [[i note] (reverse (map-indexed vector @notes))]
-        (let []
-          [:p
-           {:key i}
-           [:button.button.is-warning.is-small
-            {:on-click (fn [_]
-                         (fetch-others! (:date note))
-                         (swap! session assoc :page :others))}
-            (str (:date note))]
-           " (wil count) "
-           [:a {:href (str "/#/my/" (:id note))}
-            (-> (:note note) str/split-lines first)]]))]]))
+        [:p
+         {:key i}
+         [:button.button.is-warning.is-small
+          {:on-click (fn [_]
+                       (fetch-others! (:date note))
+                       (swap! session assoc :page :others))}
+          (str (:date note))]
+         note
+         [:a {:href (str "/#/my/" (:id note))}
+          (-> (:note note) str/split-lines first)]])]]))
 
 (defn done-todays?
   []
@@ -292,7 +294,6 @@
       [:li [:button.button.is-warning.is-small "yyyy-mm-dd"]
        "は同日の他人ノートをランダムに表示する。"
        "積極的に👍😐👎つけよう。情けは人の為ならず。"]
-
       [:li "右側の" [:span.blue "青いテキスト"] "は自分ノートの1行目。"
        "クリックで当日自分ノートを表示する。"
        "自分についた 👍😐👎 はそのページから見える。"]
@@ -372,15 +373,16 @@
 
 ;; -------------------------
 ;; Initialize app
-; (defn ^:dev/after-load mount-components []
-;   (rdom/render [#'navbar] (.getElementById js/document "navbar"))
-;   (rdom/render [#'page] (.getElementById js/document "app")))
-
 (defn ^:dev/after-load mount-components []
-  (let [container (.getElementById js/document "navbar")
-        root (rdom-client/create-root container)]
-    (rdom-client/render root [#'navbar])
-    (rdom-client/render root [#'page])))
+  (rdom/render [#'navbar] (.getElementById js/document "navbar"))
+  (rdom/render [#'page] (.getElementById js/document "app")))
+
+;18
+;(defn ^:dev/after-load mount-components []
+;  (let [container (.getElementById js/document "navbar")
+;        root (rdom-client/create-root container)]
+;    (rdom-client/render root [#'navbar])
+;    (rdom-client/render root [#'page])))
 
 (defn init! []
   (ajax/load-interceptors!)
