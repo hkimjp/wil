@@ -9,6 +9,27 @@ What you learned In this Lecture?
 
 ## v2.13.0-SNAPSHOT / 2025-04-16
 
+    app.js:1297 TypeError: module$node_modules$react_dom$index.render is not a function
+    at Object.wil$core$mount_components [as mount_components] (core.cljs:376:4)
+    at Object.wil$core$init_BANG_ [as init_BANG_] (core.cljs:383:4)
+    at eval (app.cljs:20:2)
+    at eval (<anonymous>)
+    at goog.globalEval (app.js:434:11)
+    at env.evalLoad (app.js:1405:12)
+    at app.js:1692:12
+    reportError @ app.js:1297
+    app.js:1299 The above error occurred when loading "wil.app.js". Any additional errors after that one may be the result of that failure. In general your code cannot be trusted to execute properly after such a failure. Make sure to fix the first one before looking at others.
+
+    react-dom.development.js:87 Warning: ReactDOM.render is no longer supported in React 18. Use createRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot
+
+* npm upgraded
+
+    npm notice
+    npm notice New major version of npm available! 10.9.2 -> 11.3.0
+    npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.3.0
+    npm notice To update run: npm install -g npm@11.3.0
+    npm notice
+
 * v20250407 は使えない。
 
   [com.google.javascript/closure-compiler-unshaded "v20240317"]

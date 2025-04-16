@@ -10,7 +10,7 @@
    [goog.history.EventType :as HistoryEventType]
    [markdown.core :refer [md->html]]
    [reagent.core :as r]
-   [reagent.dom :as rdom]
+   [reagent.dom.client :as rdom-client]
    [reitit.core :as reitit]
    [wil.ajax :as ajax])
   (:import goog.History))
@@ -372,9 +372,15 @@
 
 ;; -------------------------
 ;; Initialize app
+; (defn ^:dev/after-load mount-components []
+;   (rdom/render [#'navbar] (.getElementById js/document "navbar"))
+;   (rdom/render [#'page] (.getElementById js/document "app")))
+
 (defn ^:dev/after-load mount-components []
-  (rdom/render [#'navbar] (.getElementById js/document "navbar"))
-  (rdom/render [#'page] (.getElementById js/document "app")))
+  (let [container (.getElementById js/document "navbar")
+        root (rdom-client/create-root container)]
+    (rdom-client/render root [#'navbar])
+    (rdom-client/render root [#'page])))
 
 (defn init! []
   (ajax/load-interceptors!)
