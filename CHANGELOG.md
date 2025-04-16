@@ -7,7 +7,7 @@ What you learned In this Lecture?
 - 送信失敗の理由。
 - remove useless, doubled logs.
 
-## v2.13.0-SNAPSHOT
+## v2.13.0-SNAPSHOT / 2025-04-16
 
 * v20250407 は使えない。
 
