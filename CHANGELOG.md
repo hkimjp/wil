@@ -3,13 +3,17 @@
 What you learned In this Lecture?
 
 ## Unreleased
-- weeks テーブルの目的は？
-- 送信失敗の理由。
-- remove useless, doubled logs.
-- already refers
+* weeks テーブルの目的は？
+* 送信失敗の理由。
+* remove useless, doubled logs.
+* already refers
 
     WARNING: parse-double already refers to: #'clojure.core/parse-double in namespace: cuerdas.core, being replaced by: #'cuerdas.core/parse-double
     WARNING: parse-long already refers to: #'clojure.core/parse-long in namespace: cuerdas.core, being replaced by: #'cuerdas.core/parse-long
+
+* enbug - does not show wil contents.
+
+## v2.13.1-SNAPSHOT
 
 
 ## v2.13.0 / 2025-04-16
