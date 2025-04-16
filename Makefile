@@ -1,5 +1,5 @@
 DEST="ubuntu@tiger.melt.kyutech.ac.jp"
-VER=0.2.0
+VER=0.3.0
 
 all:
 	@echo make build

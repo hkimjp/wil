@@ -3,9 +3,89 @@
 What you learned In this Lecture?
 
 ## Unreleased
-- weeks テーブルの目的は？
-- 送信失敗の理由。
-- remove useless, doubled logs.
+* weeks テーブルの目的は？
+* 送信失敗の理由。
+* remove useless, doubled logs.
+* already refers
+
+    WARNING: parse-double already refers to: #'clojure.core/parse-double in namespace: cuerdas.core, being replaced by: #'cuerdas.core/parse-double
+    WARNING: parse-long already refers to: #'clojure.core/parse-long in namespace: cuerdas.core, being replaced by: #'cuerdas.core/parse-long
+
+
+
+
+## 2.13.1 / 2025-04-16
+
+* enbug - does not show wil contents. returned to react "^17.0.2", [reagent "1.2.0"].
+
+
+## v2.13.0 / 2025-04-16
+
+    app.js:1297 TypeError: module$node_modules$react_dom$index.render is not a function
+    at Object.wil$core$mount_components [as mount_components] (core.cljs:376:4)
+    at Object.wil$core$init_BANG_ [as init_BANG_] (core.cljs:383:4)
+    at eval (app.cljs:20:2)
+    at eval (<anonymous>)
+    at goog.globalEval (app.js:434:11)
+    at env.evalLoad (app.js:1405:12)
+    at app.js:1692:12
+    reportError @ app.js:1297
+    app.js:1299 The above error occurred when loading "wil.app.js". Any additional errors after that one may be the result of that failure. In general your code cannot be trusted to execute properly after such a failure. Make sure to fix the first one before looking at others.
+
+    react-dom.development.js:87 Warning: ReactDOM.render is no longer supported in React 18. Use createRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot
+
+* npm upgraded
+
+    npm notice
+    npm notice New major version of npm available! 10.9.2 -> 11.3.0
+    npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.3.0
+    npm notice To update run: npm install -g npm@11.3.0
+    npm notice
+
+* v20250407 は使えない。
+
+  [com.google.javascript/closure-compiler-unshaded "v20240317"]
+
+* updated libraries
+
+| :file       | :name                                           | :current  | :latest   |
+|------------ | ----------------------------------------------- | --------- | ----------|
+| project.clj | ch.qos.logback/logback-classic                  | 1.5.16    | 1.5.18    |
+|             | cider/cider-nrepl                               | 0.51.1    | 0.55.1    |
+|             | com.google.javascript/closure-compiler-unshaded | v20240317 | v20250407 |
+|             | markdown-clj/markdown-clj                       | 1.12.2    | 1.12.3    |
+|             | metosin/reitit                                  | 0.7.2     | 0.8.0     |
+|             | mount/mount                                     | 0.1.20    | 0.1.21    |
+|             | org.clojure/core.async                          | 1.7.701   | 1.8.741   |
+|             | org.postgresql/postgresql                       | 42.7.4    | 42.7.5    |
+|             | org.webjars.npm/bulma                           | 1.0.2     | 1.0.3     |
+|             | reagent/reagent                                 | 1.2.0     | 1.3.0     |
+|             | ring/ring-core                                  | 1.13.0    | 1.14.1    |
+|             | ring/ring-defaults                              | 0.5.0     | 0.6.0     |
+|             | ring/ring-devel                                 | 1.13.0    | 1.14.1    |
+|             | selmer/selmer                                   | 1.12.61   | 1.12.62   |
+|             | thheller/shadow-cljs                            | 2.28.20   | 2.28.23   |
+
+## v2.12.427 / 2025-01-09
+
+- updated libraries
+
+| :file       | :name                               | :current | :latest |
+|------------ | ----------------------------------- | -------- | --------|
+| project.clj | ch.qos.logback/logback-classic      | 1.5.8    | 1.5.16  |
+|             | cider/cider-nrepl                   | 0.50.2   | 0.51.1  |
+|             | cider/piggieback                    | 0.5.3    | 0.6.0   |
+|             | clojure.java-time/clojure.java-time | 1.4.2    | 1.4.3   |
+|             | com.jakemccrary/lein-test-refresh   | 0.25.0   | 0.26.0  |
+|             | markdown-clj/markdown-clj           | 1.12.1   | 1.12.2  |
+|             | metosin/muuntaja                    | 0.6.10   | 0.6.11  |
+|             | metosin/ring-http-response          | 0.9.4    | 0.9.5   |
+|             | mount/mount                         | 0.1.19   | 0.1.20  |
+|             | nrepl/nrepl                         | 1.3.0    | 1.3.1   |
+|             | org.clojure/core.async              | 1.6.681  | 1.7.701 |
+|             | ring/ring-core                      | 1.12.2   | 1.13.0  |
+|             | thheller/shadow-cljs                | 2.28.16  | 2.28.20 |
+
 
 ## v2.11.423 / 2025-01-07
 

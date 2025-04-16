@@ -32,9 +32,10 @@
 (defn date-notes-randomly
   "retrieve random n `date` note"
   [{{:keys [date n]} :path-params}]
-  (log/debug "date-notes-randomly")
-  (response/ok (db/date-notes-randomly
-                {:date date :n (Integer/parseInt n)})))
+  (let [ret (db/date-notes-randomly
+             {:date date :n (parse-long n)})]
+    (log/debug "date-notes-randomly" ret)
+    (response/ok ret)))
 
 ;; FIXME: admin only
 ;; (defn list-notes

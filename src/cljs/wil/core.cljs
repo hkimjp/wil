@@ -10,13 +10,14 @@
    [goog.history.EventType :as HistoryEventType]
    [markdown.core :refer [md->html]]
    [reagent.core :as r]
+   ;[reagent.dom.client :as rdom-client]
    [reagent.dom :as rdom]
    [reitit.core :as reitit]
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "v2.11.423")
-(def ^:private updated "2025-01-07 13:28:46")
+(def ^:private version "v2.13.1")
+(def ^:private updated "2025-04-16 23:50:23")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7) ; was 40 is for re-re-exam.
@@ -42,7 +43,7 @@
     {:handler #(reset! notes %)
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
 
-;; -------------------------
+;;-------------------------
 ;; navbar
 
 (defn nav-link [uri title page]
@@ -159,10 +160,12 @@
   (let [note (first (filter #(= (:id @params) (str (:id %))) @notes))]
     ;; ここで呼んだらダメ。前もって reset! しとかなくちゃ。
     ;; (goods-bads (:id note))
+    ;; (js/alert (md->html (:note note)))
     [:section.section>div.container>div.content
      [:h2 (:login note) ", " (:date note)]
-     [:div {:dangerouslySetInnerHTML
-            {:__html (md->html (:note note))}}]
+     ; [:div {:dangerouslySetInnerHTML
+     ;       {:__html (md->html (:note note))}}]
+     [:div {:dangerousSetInnerHTML {:__html (md->html (:note note))}}]
      [:hr]
      [:div
       [:button.button.is-small
@@ -261,7 +264,7 @@
                        (fetch-others! (:date note))
                        (swap! session assoc :page :others))}
           (str (:date note))]
-         " "
+         note
          [:a {:href (str "/#/my/" (:id note))}
           (-> (:note note) str/split-lines first)]])]]))
 
@@ -291,7 +294,10 @@
       [:li [:button.button.is-warning.is-small "yyyy-mm-dd"]
        "は同日の他人ノートをランダムに表示する。"
        "積極的に👍😐👎つけよう。情けは人の為ならず。"]
-      [:li "自分の送信数は"
+      [:li "右側の" [:span.blue "青いテキスト"] "は自分ノートの1行目。"
+       "クリックで当日自分ノートを表示する。"
+       "自分についた 👍😐👎 はそのページから見える。"]
+      [:li "自分の送信数は" [:span.blue "青いテキスト"] "をクリック後、"
        [:button.button.is-small
         {:on-click
          (fn [_]
@@ -302,10 +308,7 @@
               :error-handler
               (fn [^js/Event e] (js/alert (.getMessage e)))}))}
         "👍😐👎"]
-       "から。"]
-      [:li "右側のテキストは自分ノートの1行目。"
-       "クリックで当日自分ノートを表示する。"
-       "自分についた 👍😐👎 はそのページから見える。"]]
+       "から。"]]
      [:br]
      (when (or
             ; true ;; for debug
@@ -373,6 +376,13 @@
 (defn ^:dev/after-load mount-components []
   (rdom/render [#'navbar] (.getElementById js/document "navbar"))
   (rdom/render [#'page] (.getElementById js/document "app")))
+
+;18
+;(defn ^:dev/after-load mount-components []
+;  (let [container (.getElementById js/document "navbar")
+;        root (rdom-client/create-root container)]
+;    (rdom-client/render root [#'navbar])
+;    (rdom-client/render root [#'page])))
 
 (defn init! []
   (ajax/load-interceptors!)
