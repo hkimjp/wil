@@ -26,22 +26,33 @@
 ;; r/atom
 
 (defonce session (r/atom {:page :home}))
-(defonce notes   (r/atom nil))
+
 (defonce params  (r/atom nil))
 (defonce others  (r/atom nil)) ;; 必要か？
 (defonce note    (r/atom ""))
 (defonce md      (r/atom "preview"))
 
+(defonce notes   (r/atom nil))
+(defonce date-count  (r/atom "boke")) ;; r/atom の必要ない。
+
 ;; async
 ;; (defonce ans (r/atom nil))
 ;; (defonce goods-bads (r/atom ""))
 
+;; Warning: Reactive deref not supported in lazy seq,
+;; it should be wrapped in doall
 (defn reset-notes!
   "get the notes from `/api/notes/:login`, set it in `notes` r/atom."
   []
   (GET (str "/api/notes/" js/login)
     {:handler #(reset! notes %)
      :error-handler (fn [^js/Event e] (js/alert (.getMessage e)))}))
+
+(defn reset-date-count!
+  []
+  (GET "/api/date-count"
+    {:hadler #(reset! date-count %)
+     :error-hadler (fn [^js/Event e] (js/alert (.getMessage e)))}))
 
 ;;-------------------------
 ;; navbar
@@ -163,9 +174,8 @@
     ;; (js/alert (md->html (:note note)))
     [:section.section>div.container>div.content
      [:h2 (:login note) ", " (:date note)]
-     ; [:div {:dangerouslySetInnerHTML
-     ;       {:__html (md->html (:note note))}}]
-     [:div {:dangerousSetInnerHTML {:__html (md->html (:note note))}}]
+     [:div {:dangerouslySetInnerHTML
+            {:__html (md->html (:note note))}}]
      [:hr]
      [:div
       [:button.button.is-small
@@ -252,6 +262,12 @@
       {:handler #(js/alert (format-goods-bads %))
        :error-handler #(js/alert (str "error: get " uri))})))
 
+(defn cnt [date]
+  (js/console.log date @date-count)
+  (-> (filter #(= date (:date %)) @date-count)
+      first
+      :count))
+
 (defn notes-component []
   (fn []
     [:div
@@ -264,7 +280,7 @@
                        (fetch-others! (:date note))
                        (swap! session assoc :page :others))}
           (str (:date note))]
-         note
+         (cnt (:date note))
          [:a {:href (str "/#/my/" (:id note))}
           (-> (:note note) str/split-lines first)]])]]))
 
@@ -375,7 +391,7 @@
 ;; Initialize app
 (defn ^:dev/after-load mount-components []
   (rdom/render [#'navbar] (.getElementById js/document "navbar"))
-  (rdom/render [#'page] (.getElementById js/document "app")))
+  (rdom/render [#'page]   (.getElementById js/document "app")))
 
 ;18
 ;(defn ^:dev/after-load mount-components []
@@ -388,4 +404,5 @@
   (ajax/load-interceptors!)
   (hook-browser-navigation!)
   (reset-notes!)
+  (reset-date-count!)
   (mount-components))

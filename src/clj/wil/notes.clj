@@ -18,6 +18,12 @@
   (log/debug "notes-login" login)
   (response/ok (db/notes-login {:login login})))
 
+(defn date-count [_]
+  (log/debug "date-count")
+  (response/ok (db/date-count)))
+
+; (date-count)
+
 ;; NO GOOD.
 (defn notes-all
   [_params]
