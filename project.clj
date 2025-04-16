@@ -11,7 +11,7 @@
    [com.cognitect/transit-clj "1.0.333"]
    [com.cognitect/transit-cljs "0.8.280"]
    [com.google.javascript/closure-compiler-unshaded "v20240317"];v20250407
-   [com.hyperfiddle/rcf "20220926-202227"]
+   ; [com.hyperfiddle/rcf "20220926-202227"]
    [conman "0.9.6"]
    [cprop "0.1.20"]
    [expound "0.9.0"]
@@ -27,7 +27,7 @@
    [metosin/ring-http-response "0.9.5"]
    [mount "0.1.21"]
    [nrepl "1.3.1"]
-   [org.clojure/clojure "1.12.0"] ; 1.12.0
+   [org.clojure/clojure "1.12.0"]
    [org.clojure/clojurescript "1.11.132" :scope "provided"]
    [org.clojure/core.async "1.8.741"]
    [org.clojure/tools.cli "1.1.230"]
