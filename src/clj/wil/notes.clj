@@ -22,8 +22,6 @@
   (log/debug "date-count")
   (response/ok (db/date-count)))
 
-; (date-count)
-
 ;; NO GOOD.
 (defn notes-all
   [_params]

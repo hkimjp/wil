@@ -31,13 +31,10 @@
 (defonce others  (r/atom nil)) ;; 必要か？
 (defonce note    (r/atom ""))
 (defonce md      (r/atom "preview"))
-
 (defonce notes   (r/atom nil))
 (defonce date-count  (r/atom "boke")) ;; r/atom の必要ない。
 
-;; async
-;; (defonce ans (r/atom nil))
-;; (defonce goods-bads (r/atom ""))
+(reset! date-count "aho")
 
 ;; Warning: Reactive deref not supported in lazy seq,
 ;; it should be wrapped in doall
@@ -51,7 +48,7 @@
 (defn reset-date-count!
   []
   (GET "/api/date-count"
-    {:hadler #(reset! date-count %)
+    {:handler #(reset! date-count %)
      :error-hadler (fn [^js/Event e] (js/alert (.getMessage e)))}))
 
 ;;-------------------------
@@ -263,7 +260,6 @@
        :error-handler #(js/alert (str "error: get " uri))})))
 
 (defn cnt [date]
-  (js/console.log date @date-count)
   (-> (filter #(= date (:date %)) @date-count)
       first
       :count))
@@ -272,17 +268,19 @@
   (fn []
     [:div
      [:ol
-      (for [[i note] (reverse (map-indexed vector @notes))]
-        [:p
-         {:key i}
-         [:button.button.is-warning.is-small
-          {:on-click (fn [_]
-                       (fetch-others! (:date note))
-                       (swap! session assoc :page :others))}
-          (str (:date note))]
-         (cnt (:date note))
-         [:a {:href (str "/#/my/" (:id note))}
-          (-> (:note note) str/split-lines first)]])]]))
+      (doall (for [[i note] (reverse (map-indexed vector @notes))]
+               [:p
+                {:key i}
+                [:button.button.is-warning.is-small
+                 {:on-click (fn [_]
+                              (fetch-others! (:date note))
+                              (swap! session assoc :page :others))}
+                 (str (:date note))]
+                " ("
+                (cnt (:date note))
+                ") "
+                [:a {:href (str "/#/my/" (:id note))}
+                 (-> (:note note) str/split-lines first)]]))]]))
 
 (defn done-todays?
   []
