@@ -6,8 +6,13 @@ What you learned In this Lecture?
 - weeks テーブルの目的は？
 - 送信失敗の理由。
 - remove useless, doubled logs.
+- already refers
 
-## v2.13.0-SNAPSHOT / 2025-04-16
+    WARNING: parse-double already refers to: #'clojure.core/parse-double in namespace: cuerdas.core, being replaced by: #'cuerdas.core/parse-double
+    WARNING: parse-long already refers to: #'clojure.core/parse-long in namespace: cuerdas.core, being replaced by: #'cuerdas.core/parse-long
+
+
+## v2.13.0 / 2025-04-16
 
     app.js:1297 TypeError: module$node_modules$react_dom$index.render is not a function
     at Object.wil$core$mount_components [as mount_components] (core.cljs:376:4)
