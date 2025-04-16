@@ -14,7 +14,7 @@ What you learned In this Lecture?
 
 
 
-## v2.13.1-SNAPSHOT
+## 2.13.1 / 2025-04-16
 
 * enbug - does not show wil contents. returned to react "^17.0.2", [reagent "1.2.0"].
 
