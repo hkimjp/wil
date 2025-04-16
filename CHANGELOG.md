@@ -12,13 +12,13 @@ What you learned In this Lecture?
     WARNING: parse-long already refers to: #'clojure.core/parse-long in namespace: cuerdas.core, being replaced by: #'cuerdas.core/parse-long
 
 
-## 2.13.2-SNAPSHOT
+## v2.23.2 / 2025-04-17
 
 * display counts about today's wils.
 * (for ...) -> (doall (for ...))
 * fixed typo - handler for hadler.
 
-## 2.13.1 / 2025-04-16
+## v2.13.1 / 2025-04-16
 
 * enbug - does not show wil contents. returned to react "^17.0.2", [reagent "1.2.0"].
 
