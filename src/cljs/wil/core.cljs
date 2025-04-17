@@ -16,8 +16,8 @@
    [wil.ajax :as ajax])
   (:import goog.History))
 
-(def ^:private version "v2.23.3-SNAPSHOT")
-(def ^:private updated "2025-04-17 03:31:34")
+(def ^:private version "v2.23.4-SNAPSHOT")
+(def ^:private updated "2025-04-17 11:10:10")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7) ; was 40 is for re-re-exam.
@@ -160,7 +160,7 @@
   (let [goods (-> (filter #(pos? (:kind %)) coll) count)
         soso  (-> (filter #(zero? (:kind %)) coll) count)
         bads  (-> (filter #(neg? (:kind %)) coll) count)]
-    (str "you have 👍 " goods " 😐 " soso " 👎 " bads ".")))
+    (str "you have 👍 " goods ", 😐 " soso ", 👎 " bads ".")))
 
 (defn my-note
   "r/atom notes から id を拾って表示。good/bad は js/alert で。"
@@ -184,8 +184,7 @@
              #(js/alert (good-bad %))
              :error-handler
              (fn [^js/Event e] (js/alert (.getMessage e)))}))}
-       "received: 👍 😐 👎"]
-      " "]]))
+       "received"]]]))
 
 (defn send-good-bad!
   [stat mark id]
@@ -304,14 +303,14 @@
      [:ul
       ; for re-re-exam
       [:li [:button.button.is-primary.is-small "本日分を追加"]
-       "は、授業当日だけ現れ、送信は一度限り。"]
+       " は、授業当日だけ現れ、送信は一度限り。"]
       [:li [:button.button.is-warning.is-small "yyyy-mm-dd"]
-       "は同日の他人ノートをランダムに表示する。"
-       "積極的に👍😐👎つけよう。情けは人の為ならず。"]
+       "は同日の他人ノートをランダムに表示する。
+       積極的に👍(いいね）、😐（まあまあ）、👎（悪いね）つけよう。
+       情けは人の為ならず。"]
       [:li "右側の" [:span.blue "青いテキスト"] "は自分ノートの1行目。"
-       "クリックで当日自分ノートを表示する。"
-       "自分についた 👍😐👎 はそのページから見える。"]
-      [:li "自分の送信数は" [:span.blue "青いテキスト"] "をクリック後、"
+       "クリックで当日自分ノートを表示する。そのページ下部の received を押すと自分ノートの人気がわかる。"]
+      [:li "自分がこれまでにつけた 👍、😐、👎 のトータルは "
        [:button.button.is-small
         {:on-click
          (fn [_]
@@ -321,8 +320,8 @@
               #(js/alert (good-bad %))
               :error-handler
               (fn [^js/Event e] (js/alert (.getMessage e)))}))}
-        "👍😐👎"]
-       "から。"]]
+        "ここ"] " から。"]
+      [:li "( ) 内は現在までに届いた WIL の数。カラの時は再読み込みでどうかな？"]]
      [:br]
      (when (or
             ; true ;; for debug

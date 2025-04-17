@@ -1,13 +1,16 @@
 DEST:="ubuntu@tiger.melt.kyutech.ac.jp"
 
-all:
-	@echo make build
-	@echo make uberjar
-	@echo make deploy
-	@echo make clean
-
 prep:
 	npm install
+
+watch:
+	npx shadow-cljs watch app
+
+dev:
+	lein repl
+
+run:
+	lein run
 
 uberjar: clean
 	lein uberjar
