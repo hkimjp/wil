@@ -11,6 +11,9 @@ What I Learned In today's Lecture?
     WARNING: parse-double already refers to: #'clojure.core/parse-double in namespace: cuerdas.core, being replaced by: #'cuerdas.core/parse-double
     WARNING: parse-long already refers to: #'clojure.core/parse-long in namespace: cuerdas.core, being replaced by: #'cuerdas.core/parse-long
 
+* jar、デカくね？
+
+
 ## v2.23.4-SNAPSHOT / 2025-04-17
 
 * fix annotation: 「クラス全体の送信状況は」 -> 「自分がこれまでにつけた 👍、😐、👎 のトータルは」
