@@ -1,17 +1,21 @@
 # WIL
 
-What you learned In this Lecture?
+What I Learned In today's Lecture?
 
-## Unreleased
+## Unrelease
+
 * weeks テーブルの目的は？
-* 送信失敗の理由。
 * remove useless, doubled logs.
 * already refers
 
     WARNING: parse-double already refers to: #'clojure.core/parse-double in namespace: cuerdas.core, being replaced by: #'cuerdas.core/parse-double
     WARNING: parse-long already refers to: #'clojure.core/parse-long in namespace: cuerdas.core, being replaced by: #'cuerdas.core/parse-long
 
-## v2.23.3-SNAPSHOT
+
+## v2.23.3 / 2025-04-17
+
+* improved Justfile
+*
 
 ## v2.23.2 / 2025-04-17
 
