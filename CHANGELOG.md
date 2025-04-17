@@ -14,7 +14,7 @@ What I Learned In today's Lecture?
 * jar、デカくね？
 
 
-## v2.23.4-SNAPSHOT
+## v2.23.4 / 2025-04-18
 
 * react 18.3.1-1
 * fix annotation: 「クラス全体の送信状況は」 -> 「自分がこれまでにつけた 👍、😐、👎 のトータルは」
