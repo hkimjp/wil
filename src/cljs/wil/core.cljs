@@ -279,7 +279,10 @@
                 (cnt (:date note))
                 ") "
                 [:a {:href (str "/#/my/" (:id note))}
-                 (-> (:note note) str/split-lines first)]]))]]))
+                 (-> (:note note)
+                     str/split-lines
+                     first
+                     (str " ..."))]]))]]))
 
 (defn done-todays?
   []
