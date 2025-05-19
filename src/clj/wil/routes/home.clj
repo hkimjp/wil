@@ -88,6 +88,6 @@
         %
         :access-control-allow-origin  [#".*\.melt\.kyutech\.ac\.jp.*"
                                        #".*localhost.*"]
-        :access-control-allow-methods [:get :post])]}
+        :access-control-allow-methods [:get])]}
     ["" {:get notes/last-note}]]])
 
