@@ -4,9 +4,11 @@
    [clojure.tools.logging :as log]
    [hato.client :as hc]
    [ring.util.http-response :as response]
+   [ring.middleware.cors :refer [wrap-cors]]
    [wil.config]
    [wil.layout :as layout]
-   [wil.middleware :as middleware]))
+   [wil.middleware :as middleware]
+   [wil.notes :as notes]))
 
 (defn home-page
   [request]
@@ -79,4 +81,13 @@
    ["/"        {:get home-page}]
    ["/login"   {:get login-page :post login-post!}]
    ["/logout"  {:get logout}]
-   ["/profile" {:get profile-page}]])
+   ["/profile" {:get profile-page}]
+   ["/last/:login"
+    {:middleware
+     [#(wrap-cors
+        %
+        :access-control-allow-origin  [#".*\.melt\.kyutech\.ac\.jp.*"
+                                       #".*localhost.*"]
+        :access-control-allow-methods [:get])]}
+    ["" {:get notes/last-note}]]])
+

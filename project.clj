@@ -1,4 +1,4 @@
-(defproject wil "v2.23.4"
+(defproject wil "v2.24.0"
   :description "for 2023 python classes"
   :url "https://wil.kyutech.ac.jp"
   :dependencies
@@ -45,7 +45,8 @@
    [thheller/shadow-cljs "2.28.23" :scope "provided"]
    ;;
    [com.andrewmcveigh/cljs-time "0.5.2"]
-   [hato/hato "1.0.0"]]
+   [hato/hato "1.0.0"]
+   [ring-cors "0.1.13"]]
 
   :min-lein-version "2.0.0"
   :source-paths ["src/clj" "src/cljs" "src/cljc"]

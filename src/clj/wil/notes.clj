@@ -2,8 +2,10 @@
   (:require
    [clojure.string :as str]
    [clojure.tools.logging :as log]
-   [wil.db.core :as db]
-   [ring.util.http-response :as response]))
+   [markdown.core :refer [md-to-html-string]]
+   [muuntaja.core :as m]
+   [ring.util.http-response :as response]
+   [wil.db.core :as db]))
 
 (defn create-note!
   [{params :params}]
@@ -52,3 +54,17 @@
 ;;      :body (str/join (for [{:keys [login note]} (db/list-notes {:date date})]
 ;;              (str "<p>" login "<br>" note "</p>")))}
 ;;     {:status 404}))
+
+;; konpy interface
+(defn last-note
+  [{{:keys [login]} :path-params}]
+  (log/debug "last-note")
+  (-> (db/last-note {:login login})
+      :note
+      md-to-html-string
+      response/ok
+      (response/header "content-type" "text/html")))
+
+  ; (-> (db/last-note {:login "hkimura"})
+  ;   :note
+  ;   md-to-html-string)
