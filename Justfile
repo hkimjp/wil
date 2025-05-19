@@ -23,7 +23,3 @@ deploy: uberjar
 clean:
 	rm -rf target
 
-# docker
-build:
-	docker build -t hkim0331/wil:${VER} .
-

@@ -1,4 +1,4 @@
-(defproject wil "v2.23.4"
+(defproject wil "v2.24.0"
   :description "for 2023 python classes"
   :url "https://wil.kyutech.ac.jp"
   :dependencies
@@ -25,7 +25,7 @@
    [metosin/muuntaja "0.6.11"]
    [metosin/reitit "0.8.0"]
    [metosin/ring-http-response "0.9.5"]
-   [mount "0.1.21"]
+   [mount "0.1.23"]
    [nrepl "1.3.1"]
    [org.clojure/clojure "1.12.0"]
    [org.clojure/clojurescript "1.11.132" :scope "provided"]
@@ -33,7 +33,7 @@
    [org.clojure/tools.cli "1.1.230"]
    [org.clojure/tools.logging "1.3.0"]
    [org.postgresql/postgresql "42.7.5"]
-   [org.webjars.npm/bulma "1.0.3"]
+   [org.webjars.npm/bulma "1.0.4"]
    [org.webjars.npm/material-icons "1.13.2"]
    [org.webjars/webjars-locator "0.52"]
    [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
@@ -45,7 +45,8 @@
    [thheller/shadow-cljs "2.28.23" :scope "provided"]
    ;;
    [com.andrewmcveigh/cljs-time "0.5.2"]
-   [hato/hato "1.0.0"]]
+   [hato/hato "1.0.0"]
+   [ring-cors "0.1.13"]]
 
   :min-lein-version "2.0.0"
   :source-paths ["src/clj" "src/cljs" "src/cljc"]
@@ -74,7 +75,7 @@
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.26.0"]
                                  [jonase/eastwood "1.4.3"]
-                                 [cider/cider-nrepl "0.55.1"]]
+                                 [cider/cider-nrepl "0.55.7"]]
                   :source-paths ["env/dev/clj"  "env/dev/cljs" "test/cljs"]
                   :resource-paths ["env/dev/resources"]
                   :repl-options {:init-ns user

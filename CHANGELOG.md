@@ -6,12 +6,29 @@ What I Learned In today's Lecture?
 
 * weeks テーブルの目的は？
 * remove useless, doubled logs.
-* already refers
-
-    WARNING: parse-double already refers to: #'clojure.core/parse-double in namespace: cuerdas.core, being replaced by: #'cuerdas.core/parse-double
-    WARNING: parse-long already refers to: #'clojure.core/parse-long in namespace: cuerdas.core, being replaced by: #'cuerdas.core/parse-long
-
 * jar、デカくね？
+
+
+## v2.24.0 / 2025-05-19
+
+- route /last/:login, returns {:note "string"}
+- notes/last-note
+- queries.sql, last-note
+- copied dev-config.edn from backup
+- libraries update
+
+  全部はアップデートしていない。マイナーバージョンが同じ cider, mount, bulma だけ。
+
+| :file       | :name                                           | :current  | :latest   |
+| ----------- | ----------------------------------------------- | --------- | ----------|
+| project.clj | cider/cider-nrepl                               | 0.55.1    | 0.55.7    |
+|             | com.google.javascript/closure-compiler-unshaded | v20240317 | v20250407 |
+|             | mount/mount                                     | 0.1.21    | 0.1.23    |
+|             | org.clojure/clojurescript                       | 1.11.132  | 1.12.42   |
+|             | org.webjars.npm/bulma                           | 1.0.3     | 1.0.4     |
+|             | reagent/reagent                                 | 1.2.0     | 1.3.0     |
+|             | ring/ring-mock                                  | 0.4.0     | 0.6.1     |
+|             | thheller/shadow-cljs                            | 2.28.23   | 3.1.1     |
 
 
 ## v2.23.4 / 2025-04-18
