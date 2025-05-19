@@ -6,7 +6,8 @@
    [ring.util.http-response :as response]
    [wil.config]
    [wil.layout :as layout]
-   [wil.middleware :as middleware]))
+   [wil.middleware :as middleware]
+   [wil.notes :as notes]))
 
 (defn home-page
   [request]
@@ -79,4 +80,5 @@
    ["/"        {:get home-page}]
    ["/login"   {:get login-page :post login-post!}]
    ["/logout"  {:get logout}]
-   ["/profile" {:get profile-page}]])
+   ["/profile" {:get profile-page}]
+   ["/last/:login" {:get notes/last-note}]])

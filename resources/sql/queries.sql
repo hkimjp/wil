@@ -1,25 +1,3 @@
--- -- :name create-user! :! :n
--- -- :doc creates a new user record
--- INSERT INTO users
--- (id, first_name, last_name, email, pass)
--- VALUES (:id, :first_name, :last_name, :email, :pass)
-
--- -- :name update-user! :! :n
--- -- :doc updates an existing user record
--- UPDATE users
--- SET first_name = :first_name, last_name = :last_name, email = :email
--- WHERE id = :id
-
--- -- :name get-user :? :1
--- -- :doc retrieves a user record given the id
--- SELECT * FROM users
--- WHERE id = :id
-
--- -- :name delete-user! :! :n
--- -- :doc deletes a user record given the id
--- DELETE FROM users
--- WHERE id = :id
-
 -- :name create-date! :! :n
 -- :doc seed date in weeks table
 INSERT INTO weeks
@@ -109,3 +87,10 @@ VALUES
 -- :name list-corona :? :*
 -- :doc  fetch all data from corona table
 SELECT * from corona
+
+-- :name last-note :? :1
+-- :doc  login's last note
+SELECT note FROM notes
+WHERE login=:login
+order by id desc
+limit 1
