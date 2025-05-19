@@ -4,6 +4,7 @@
    [clojure.tools.logging :as log]
    [hato.client :as hc]
    [ring.util.http-response :as response]
+   [ring.middleware.cors :refer [wrap-cors]]
    [wil.config]
    [wil.layout :as layout]
    [wil.middleware :as middleware]
@@ -81,4 +82,12 @@
    ["/login"   {:get login-page :post login-post!}]
    ["/logout"  {:get logout}]
    ["/profile" {:get profile-page}]
-   ["/last/:login" {:get notes/last-note}]])
+   ["/last/:login"
+    {:middleware
+     [#(wrap-cors
+        %
+        :access-control-allow-origin  [#".*\.melt\.kyutech\.ac\.jp.*"
+                                       #".*localhost.*"]
+        :access-control-allow-methods [:get :post])]}
+    ["" {:get notes/last-note}]]])
+
