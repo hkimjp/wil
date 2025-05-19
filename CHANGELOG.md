@@ -9,7 +9,7 @@ What I Learned In today's Lecture?
 * jar、デカくね？
 
 
-## 2.24.0-SNAPSHOT
+## v2.24.0 / 2025-05-19
 
 - route /last/:login, returns {:note "string"}
 - notes/last-note
