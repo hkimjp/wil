@@ -17,7 +17,7 @@
   (:import goog.History))
 
 (def ^:private version "v2.24.0")
-(def ^:private updated "2025-05-19 21:55:32")
+(def ^:private updated "2025-05-19 22:27:45")
 
 (def shortest-wil "これ以上短い行の WIL は受け付けない" 5)
 (def how-many-wil "ランダムに拾う WIL の数" 7) ; was 40 is for re-re-exam.
