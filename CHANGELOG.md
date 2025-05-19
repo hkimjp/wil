@@ -14,6 +14,24 @@ What I Learned In today's Lecture?
 * jar、デカくね？
 
 
+## 2.24.0-SNAPSHOT
+
+- libraries update
+
+  まず、マイナーバージョンが同じ cider, mount, bulma.
+
+| :file       | :name                                           | :current  | :latest   |
+| ----------- | ----------------------------------------------- | --------- | ----------|
+| project.clj | cider/cider-nrepl                               | 0.55.1    | 0.55.7    |
+|             | com.google.javascript/closure-compiler-unshaded | v20240317 | v20250407 |
+|             | mount/mount                                     | 0.1.21    | 0.1.23    |
+|             | org.clojure/clojurescript                       | 1.11.132  | 1.12.42   |
+|             | org.webjars.npm/bulma                           | 1.0.3     | 1.0.4     |
+|             | reagent/reagent                                 | 1.2.0     | 1.3.0     |
+|             | ring/ring-mock                                  | 0.4.0     | 0.6.1     |
+|             | thheller/shadow-cljs                            | 2.28.23   | 3.1.1     |
+
+
 ## v2.23.4 / 2025-04-18
 
 * react 18.3.1-1
