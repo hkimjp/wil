@@ -7,6 +7,7 @@ What I Learned In today's Lecture?
 * weeks テーブルの目的は？
 * remove useless, doubled logs.
 * jar、デカくね？
+* version tag
 
 ## v2.25.0 / 2025-05-20
 
