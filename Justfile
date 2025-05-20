@@ -6,6 +6,8 @@ prep:
 watch:
 	npx shadow-cljs watch app
 
+repl: dev
+
 dev:
 	lein repl
 

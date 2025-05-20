@@ -8,6 +8,12 @@ What I Learned In today's Lecture?
 * remove useless, doubled logs.
 * jar、デカくね？
 
+## v2.25.0-SNAPSHOT
+
+- wil.core
+
+  (def shortest-wil "これ以上短い行の WIL は受け付けない" 10)
+
 
 ## v2.24.0 / 2025-05-19
 
