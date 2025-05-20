@@ -8,7 +8,7 @@ What I Learned In today's Lecture?
 * remove useless, doubled logs.
 * jar、デカくね？
 
-## v2.25.0-SNAPSHOT
+## v2.25.0 / 2025-05-20
 
 - wil.core
 
