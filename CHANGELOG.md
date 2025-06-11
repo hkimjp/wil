@@ -9,6 +9,10 @@ What I Learned In today's Lecture?
 * jar、デカくね？
 * version tag
 
+## v2.26.0 / 2025-06-11
+
+- no ban-ip
+
 ## v2.25.0 / 2025-05-20
 
 - wil.core
