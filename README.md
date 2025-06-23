@@ -6,7 +6,6 @@ What you learned In this Lecture?
 
     https://l22.melt.kyutech.ac.jp/api/user/:login
 
-
 ## docker/lein-devcontainer
 
 Add git sudo, and `vscode` user to official colojre:clojure image.
@@ -17,6 +16,13 @@ see package.json.
     "xmlhttprequest": "^1.8.0"
 
 ## start
+
+### sublime
+
+    npm install
+    just watch
+    just repl
+    subl .
 
 ### VScode dev container
 
