@@ -84,8 +84,7 @@
     ;; log/info?
     ;; (log/info :ban-ip (env :ban-ip))
     (log/info "remote-ip" (remote-ip request))
-    (if (re-matches  (re-pattern (env :ban-ip))
-                     (remote-ip request))
+    (if (re-matches (re-pattern (env :ban-ip)) (remote-ip request))
       (error-page
        {:status 403
         :title (str "Access to " (:uri request) " is restricted.")})
