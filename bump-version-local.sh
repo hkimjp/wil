@@ -1,14 +1,5 @@
 #!/bin/sh
 #
-# origin: ${utils}/src/bump-version.sh
-#
-# bump-vesion script for clojure projects.
-# confused using macos's /usr/bin/sed. so gsed.
-#
-# CAUSION
-# The POSIX standard does not support back-references for
-# "extended" regular expressions,
-# this is a compatible extension to that standard.
 
 if [ -z "$1" ]; then
     echo "usage: $0 <version>"
@@ -32,8 +23,4 @@ now=`date '+%F %T'`
 ${SED} -e "s/(def \^:private version) .+/\1 \"$1\")/" \
        -e "s/(def \^:private updated) .+/\1 \"$now\")/" src/cljs/wil/core.cljs
 
-# CHANGELOG.md
-VER=$1
-TODAY=`date +%F`
-${SED} -i -e "/SNAPSHOT/c\
-## ${VER} / ${TODAY}" CHANGELOG.md
+

@@ -19,7 +19,7 @@ What I Learned In today's Lecture?
 |             | thheller/shadow-cljs                            | 2.28.23   | 3.2.0     |
 
 
-## 2.27.1-SNAPSHOT
+## 2.27.1 (2025-09-02)
 
 - add jvm-opts
 
