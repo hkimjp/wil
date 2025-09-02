@@ -19,7 +19,7 @@ What I Learned In today's Lecture?
 |             | thheller/shadow-cljs                            | 2.28.23   | 3.2.0     |
 
 
-## 2.7.1-SNAPSHOT
+## 2.27.1-SNAPSHOT
 
 - add jvm-opts
 
@@ -49,7 +49,7 @@ What I Learned In today's Lecture?
 |             | thheller/shadow-cljs                            | 2.28.23   | 3.2.0     |
 
 
-## 2.7 (2025-09-02)
+## 2.27 (2025-09-02)
 
 - start development for 2025 python-b.
 
