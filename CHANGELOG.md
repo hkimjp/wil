@@ -4,10 +4,13 @@ What I Learned In today's Lecture?
 
 ## Unrelease
 
-* weeks テーブルの目的は？
+* weeks テーブルの目的はなんだった？
 * remove useless, doubled logs.
-* jar、デカくね？
-* version tag
+* jar、デカくね？ dependencies が多すぎる。
+
+
+## 2.27-SNAPSHOT
+
 
 ## 2.26.1 / 2025-06-11
 
