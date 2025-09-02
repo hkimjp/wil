@@ -6,9 +6,7 @@ prep:
 watch:
 	npx shadow-cljs watch app
 
-repl: dev
-
-dev:
+nrepl:
 	lein repl
 
 run:
@@ -24,4 +22,4 @@ deploy: uberjar
 
 clean:
 	rm -rf target
-
+	rm -I bak --exec rm
