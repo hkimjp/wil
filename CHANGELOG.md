@@ -7,10 +7,51 @@ What I Learned In today's Lecture?
 * weeks テーブルの目的はなんだった？
 * remove useless, doubled logs.
 * jar、デカくね？ dependencies が多すぎる。
+* un-updated dependencies are:
+
+| :file       | :name                                           | :current  | :latest   |
+|-------------|-------------------------------------------------|-----------|-----------|
+| project.clj | com.google.javascript/closure-compiler-unshaded | v20240317 | v20250706 |
+|             | metosin/reitit                                  | 0.8.0     | 0.9.1     |
+|             | org.clojure/clojurescript                       | 1.11.132  | 1.12.42   |
+|             | reagent/reagent                                 | 1.2.0     | 1.3.0     |
+|             | ring/ring-mock                                  | 0.4.0     | 0.6.2     |
+|             | thheller/shadow-cljs                            | 2.28.23   | 3.2.0     |
 
 
-## 2.7 (2025-09-02)
+## 2.27.1 (2025-09-02)
 
+- add jvm-opts
+
+```
+  :jvm-opts ["-Dconf=dev-config.edn"
+             "--enable-native-access=ALL-UNNAMED"
+             "--sun-misc-unsafe-memory-access=allow"]
+```
+
+- updated dependencies
+
+| :file       | :name                                           | :current  | :latest   |
+|-------------|-------------------------------------------------|-----------|-----------|
+| project.clj | cider/cider-nrepl                               | 0.55.7    | 0.57.0    |
+|             | cider/piggieback                                | 0.6.0     | 0.6.1     |
+|             | com.google.javascript/closure-compiler-unshaded | v20240317 | v20250706 |
+|             | markdown-clj/markdown-clj                       | 1.12.3    | 1.12.4    |
+|             | metosin/reitit                                  | 0.8.0     | 0.9.1     |
+|             | org.clojure/clojure                             | 1.12.0    | 1.12.2    |
+|             | org.clojure/clojurescript                       | 1.11.132  | 1.12.42   |
+|             | org.postgresql/postgresql                       | 42.7.5    | 42.7.7    |
+|             | reagent/reagent                                 | 1.2.0     | 1.3.0     |
+|             | ring-webjars/ring-webjars                       | 0.3.0     | 0.3.1     |
+|             | ring/ring-core                                  | 1.14.1    | 1.14.2    |
+|             | ring/ring-devel                                 | 1.14.1    | 1.14.2    |
+|             | ring/ring-mock                                  | 0.4.0     | 0.6.2     |
+|             | thheller/shadow-cljs                            | 2.28.23   | 3.2.0     |
+
+
+## 2.27 (2025-09-02)
+
+- start development for 2025 python-b.
 
 ## 2.26.1 / 2025-06-11
 
