@@ -9,7 +9,7 @@ What I Learned In today's Lecture?
 * jar、デカくね？ dependencies が多すぎる。
 
 
-## 2.27-SNAPSHOT
+## 2.7 (2025-09-02)
 
 
 ## 2.26.1 / 2025-06-11
