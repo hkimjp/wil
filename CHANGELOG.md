@@ -4,7 +4,7 @@ What I Learned In today's Lecture?
 
 ## Unrelease
 
-## 2.28.0-SNAPSHOT
+## 2.28.0 (2025-09-27)
 
 - docker container
   clojure と postgres@16 のコンテナ。
