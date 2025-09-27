@@ -4,27 +4,71 @@ What I Learned In today's Lecture?
 
 ## Unrelease
 
-* weeks テーブルの目的は？
+* weeks テーブルの目的はなんだった？
 * remove useless, doubled logs.
-* jar、デカくね？
-* version tag
+* jar、デカくね？ dependencies が多すぎる。
+* un-updated dependencies are:
 
-## v2.26.1 / 2025-06-11
+| :file       | :name                                           | :current  | :latest   |
+|-------------|-------------------------------------------------|-----------|-----------|
+| project.clj | com.google.javascript/closure-compiler-unshaded | v20240317 | v20250706 |
+|             | metosin/reitit                                  | 0.8.0     | 0.9.1     |
+|             | org.clojure/clojurescript                       | 1.11.132  | 1.12.42   |
+|             | reagent/reagent                                 | 1.2.0     | 1.3.0     |
+|             | ring/ring-mock                                  | 0.4.0     | 0.6.2     |
+|             | thheller/shadow-cljs                            | 2.28.23   | 3.2.0     |
+
+
+## 2.27.1 (2025-09-02)
+
+- add jvm-opts
+
+```
+  :jvm-opts ["-Dconf=dev-config.edn"
+             "--enable-native-access=ALL-UNNAMED"
+             "--sun-misc-unsafe-memory-access=allow"]
+```
+
+- updated dependencies
+
+| :file       | :name                                           | :current  | :latest   |
+|-------------|-------------------------------------------------|-----------|-----------|
+| project.clj | cider/cider-nrepl                               | 0.55.7    | 0.57.0    |
+|             | cider/piggieback                                | 0.6.0     | 0.6.1     |
+|             | com.google.javascript/closure-compiler-unshaded | v20240317 | v20250706 |
+|             | markdown-clj/markdown-clj                       | 1.12.3    | 1.12.4    |
+|             | metosin/reitit                                  | 0.8.0     | 0.9.1     |
+|             | org.clojure/clojure                             | 1.12.0    | 1.12.2    |
+|             | org.clojure/clojurescript                       | 1.11.132  | 1.12.42   |
+|             | org.postgresql/postgresql                       | 42.7.5    | 42.7.7    |
+|             | reagent/reagent                                 | 1.2.0     | 1.3.0     |
+|             | ring-webjars/ring-webjars                       | 0.3.0     | 0.3.1     |
+|             | ring/ring-core                                  | 1.14.1    | 1.14.2    |
+|             | ring/ring-devel                                 | 1.14.1    | 1.14.2    |
+|             | ring/ring-mock                                  | 0.4.0     | 0.6.2     |
+|             | thheller/shadow-cljs                            | 2.28.23   | 3.2.0     |
+
+
+## 2.27 (2025-09-02)
+
+- start development for 2025 python-b.
+
+## 2.26.1 / 2025-06-11
 
 - version number?
 
-## v2.26.0 / 2025-06-11
+## 2.26.0 / 2025-06-11
 
 - no ban-ip
 
-## v2.25.0 / 2025-05-20
+## 2.25.0 / 2025-05-20
 
 - wil.core
 
   (def shortest-wil "これ以上短い行の WIL は受け付けない" 10)
 
 
-## v2.24.0 / 2025-05-19
+## 2.24.0 / 2025-05-19
 
 - route /last/:login, returns {:note "string"}
 - notes/last-note
@@ -46,28 +90,28 @@ What I Learned In today's Lecture?
 |             | thheller/shadow-cljs                            | 2.28.23   | 3.1.1     |
 
 
-## v2.23.4 / 2025-04-18
+## 2.23.4 / 2025-04-18
 
 * react 18.3.1-1
 * fix annotation: 「クラス全体の送信状況は」 -> 「自分がこれまでにつけた 👍、😐、👎 のトータルは」
 
-## v2.23.3 / 2025-04-17
+## 2.23.3 / 2025-04-17
 
 * improved Justfile
 *
 
-## v2.23.2 / 2025-04-17
+## 2.23.2 / 2025-04-17
 
 * display counts about today's wils.
 * (for ...) -> (doall (for ...))
 * fixed typo - handler for hadler.
 
-## v2.13.1 / 2025-04-16
+## 2.13.1 / 2025-04-16
 
 * enbug - does not show wil contents. returned to react "^17.0.2", [reagent "1.2.0"].
 
 
-## v2.13.0 / 2025-04-16
+## 2.13.0 / 2025-04-16
 
     app.js:1297 TypeError: module$node_modules$react_dom$index.render is not a function
     at Object.wil$core$mount_components [as mount_components] (core.cljs:376:4)
@@ -114,7 +158,7 @@ What I Learned In today's Lecture?
 |             | selmer/selmer                                   | 1.12.61   | 1.12.62   |
 |             | thheller/shadow-cljs                            | 2.28.20   | 2.28.23   |
 
-## v2.12.427 / 2025-01-09
+## 2.12.427 / 2025-01-09
 
 - updated libraries
 
@@ -135,15 +179,15 @@ What I Learned In today's Lecture?
 |             | thheller/shadow-cljs                | 2.28.16  | 2.28.20 |
 
 
-## v2.11.423 / 2025-01-07
+## 2.11.423 / 2025-01-07
 
 - キーカウント一時停止。flags.py をコピペで上げさせる。
 
-## v2.10.416 / 2024-10-03
+## 2.10.416 / 2024-10-03
 
 - SOLVED: thr/thu issue.
 
-## v2.10.411 / 2024-10-01
+## 2.10.411 / 2024-10-01
 
 - forgot to enable `wrap-ip`?
 - changed: log/info to log/debug in `wil/notes.clj`.
@@ -157,7 +201,7 @@ What I Learned In today's Lecture?
 |             | org.webjars.npm/bulma          | 1.0.1    | 1.0.2   |
 |             | thheller/shadow-cljs           | 2.28.12  | 2.28.16 |
 
-## v2.9.406 / 2024-08-31
+## 2.9.406 / 2024-08-31
 
 - include `remote-addr` in LOG.
 no, remote-addr is always 127.0.0.1 in reverse-proxy environment.
@@ -169,7 +213,7 @@ no, remote-addr is always 127.0.0.1 in reverse-proxy environment.
 - log/debug will not appear in production log. development only.
 
 
-## v2.8.397 / 2024-08-23
+## 2.8.397 / 2024-08-23
 - gitignored `/out`.
 - gitignored `/.cljs_node_repl`.
 - fixed: core.cljs/new-note-page, called md->html twice.
@@ -197,14 +241,14 @@ no, remote-addr is always 127.0.0.1 in reverse-proxy environment.
 |             | thheller/shadow-cljs           | 2.28.8   | 2.28.12    |
 
 
-## v2.7.392 / 2024-08-21
+## 2.7.392 / 2024-08-21
 - forgot to merge remote repository.
 ```
 [develop]% git fetch
 [develop]% git merge
 ```
 
-## v2.7.386 / 2024-08-21
+## 2.7.386 / 2024-08-21
 - unhide `login`.
 - list all today's WILs.
 ```
@@ -218,12 +262,12 @@ no, remote-addr is always 127.0.0.1 in reverse-proxy environment.
           ;;  (js/alert (str "コピペは受け付けない。"))
 ```
 
-## v2.6.379 / 2024-08-09
+## 2.6.379 / 2024-08-09
 for re-re exam.
 - allow VPN connection by undef BAN_IP in `wil/start.sh`.
 
 
-## v2.5
+## 2.5
 - bulma 1.0.1
 ```
 % clj -Tantq outdated
@@ -234,7 +278,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 All dependencies are up-to-date.
 ```
 
-## v2.5.368 / 2024-05-03
+## 2.5.368 / 2024-05-03
 - updated libraries except bulma 0.9.4.
 - logback-classic 1.5.6
 - metosin/reitit 0.7.0
@@ -242,10 +286,10 @@ All dependencies are up-to-date.
 - thheller/shadow-cljs 2.28.4
 - org/clojure 1.11.3
 
-## v2.4.358 / 2024-04-19
+## 2.4.358 / 2024-04-19
 - login 名を匿名に。
 
-## v2.3.352 / 2024-04-17
+## 2.3.352 / 2024-04-17
 post back reload to prevent plural posts.
 
 ## 2.3.346 / 2024-04-16
