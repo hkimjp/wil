@@ -6,10 +6,13 @@ prep:
 watch:
 	npx shadow-cljs watch app
 
-nrepl:
+repl:
+	lein repl
+
+dev:
 	just prep
 	just watch &
-	lein repl
+	just repl
 
 run:
 	lein run
