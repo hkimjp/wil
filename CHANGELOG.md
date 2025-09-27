@@ -15,6 +15,8 @@ What I Learned In today's Lecture?
 
   http://localhost:3020 で wil につながる。
 
+- just compile を母艦上から実行。nodejs とか、コンテナに入れるんかな？
+
 ## 2.27.x
 
 * weeks テーブルの目的はなんだった？

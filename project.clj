@@ -67,7 +67,8 @@
    :test    [:project/dev :project/test :profiles/test]
    :project/dev  {:jvm-opts ["-Dconf=dev-config.edn"
                              "--enable-native-access=ALL-UNNAMED"
-                             "--sun-misc-unsafe-memory-access=allow"]
+                             ;;"--sun-misc-unsafe-memory-access=allow"
+                             ]
                   :dependencies [[binaryage/devtools "1.0.7"]
                                  [cider/piggieback "0.6.1"]
                                  [org.clojure/tools.namespace "1.5.0"]
