@@ -9,6 +9,8 @@ watch:
 repl: dev
 
 dev:
+	just prep
+	just watch &
 	lein repl
 
 run:
