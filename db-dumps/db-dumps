@@ -1,0 +1,7 @@
+  /Users/hkim/workspace/wil/db-dumps:
+  drwxr-xr-x  7 hkim staff     224  9月 27 20:56 .
+  drwxr-xr-x 30 hkim staff     960  9月 27 20:55 ..
+  -rwxr-xr-x  1 hkim staff      68  5月 16 09:47 dump.sh
+  -rwxr-xr-x  1 hkim staff     157  5月 16 09:47 fetch.sh
+  -rwxr-xr-x  1 hkim staff     131  9月 27 20:56 restore.sh
+  -rw-r--r--  1 hkim staff 2662019  8月 11 11:21 wil-2025-08-11.sql

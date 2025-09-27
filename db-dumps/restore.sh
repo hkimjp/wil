@@ -1,10 +1,5 @@
 #!/bin/sh
-if [ -z "$1" ]; then
-    echo usage: $0 yyyy-mm-dd.dump
-    exit 1
-fi
-
-PSQL="psql -h db -U postgres"
+PSQL="psql -h db -U postgres --port=15432"
 ${PSQL} -c "drop database wil"
 ${PSQL} -c "create database wil owner wil"
 ${PSQL} wil < $1
