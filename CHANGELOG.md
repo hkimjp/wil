@@ -4,6 +4,19 @@ What I Learned In today's Lecture?
 
 ## Unrelease
 
+## 2.28.0 (2025-09-27)
+
+- docker container
+  clojure と postgres@16 のコンテナ。
+  docker compose up で postgres が 15432 で待つので、
+
+        $ cd db-dumps
+        $ ./restore.sh wil-2025-08-11.sql
+
+  http://localhost:3020 で wil につながる。
+
+## 2.27.x
+
 * weeks テーブルの目的はなんだった？
 * remove useless, doubled logs.
 * jar、デカくね？ dependencies が多すぎる。

@@ -9,12 +9,11 @@ services:
       - m2:/root/.m2
       - gitlibs:/root/.gitlibs
     working_dir: /usr/src/app
-    entrypoint:
-      - sleep
-      - infinity
+    entrypoint: >
+     sh -c "lein run"
 
   db:
-    image: postgres:17
+    image: postgres:16
     restart: unless-stopped
     environment:
       POSTGRES_DB: wil
@@ -23,6 +22,8 @@ services:
       TZ: Asia/Toky
     volumes:
       - data:/var/lib/postgresql/data
+    ports:
+      - "15432:5432"
 
 volumes:
   gitlibs:
@@ -31,3 +32,4 @@ volumes:
     external: true
   data:
     driver: local
+
