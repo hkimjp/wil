@@ -1,30 +1,34 @@
 DEST:="ubuntu@tiger.melt.kyutech.ac.jp"
 
 prep:
-	npm install
+  npm install
 
 watch:
-	npx shadow-cljs watch app
+  npx shadow-cljs watch app
+
+compile:
+  npx shadow-cljs compile app
 
 repl:
-	lein repl
+  lein repl
 
 dev:
-	just prep
-	just watch &
-	just repl
+  just prep
+  just watch &
+  just repl
 
 run:
-	lein run
+  just compile
+  lein run
 
 uberjar: clean
-	lein uberjar
+  lein uberjar
 
 deploy: uberjar
-	scp target/uberjar/wil.jar {{DEST}}:wil/wil.jar
-	ssh {{DEST}} 'sudo systemctl restart wil'
-	ssh {{DEST}} 'systemctl status wil'
+  scp target/uberjar/wil.jar {{DEST}}:wil/wil.jar
+  ssh {{DEST}} 'sudo systemctl restart wil'
+  ssh {{DEST}} 'systemctl status wil'
 
 clean:
-	rm -rf target
-	rm -I bak --exec rm
+  rm -rf target
+  fd -I bak --exec rm
